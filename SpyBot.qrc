@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>SpyBot.qss</file>
+        <file>desktop logo.png</file>
+        <file>logo.png</file>
+        <file>Acuell image.png</file>
+        <file>publication logo.png</file>
+        <file>user logo.png</file>
+        <file>sumission logo.png</file>
+        <file>evaluation logo.png</file>
+        <file>conference logo.png</file>
+        <file>laboratoire logo.png</file>
+    </qresource>
+</RCC>
