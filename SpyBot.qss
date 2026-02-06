@@ -65,42 +65,6 @@ QPushButton:disabled
     box-shadow: none;
 }
 
-/* Success Button */
-QPushButton[class="success"]
-{
-    background-color: #48bb78;
-    font-weight: 500;
-}
-
-QPushButton[class="success"]:hover
-{
-    background-color: #38a169;
-    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
-}
-
-QPushButton[class="success"]:pressed
-{
-    background-color: #2f855a;
-}
-
-/* Secondary Button */
-QPushButton[class="secondary"]
-{
-    background-color: #718096;
-    font-weight: 500;
-}
-
-QPushButton[class="secondary"]:hover
-{
-    background-color: #4a5568;
-    box-shadow: 0 4px 12px rgba(113, 128, 150, 0.4);
-}
-
-QPushButton[class="secondary"]:pressed
-{
-    background-color: #2d3748;
-}
-
 /*-----QLineEdit-----*/
 QLineEdit
 {
@@ -273,7 +237,6 @@ QCheckBox::indicator:checked
 {
     background-color: #667eea;
     border-color: #667eea;
-    image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOSIgdmlld0JveD0iMCAwIDEyIDkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xIDQuNUw0LjUgOEwxMSAxIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K);
 }
 
 QCheckBox::indicator:hover
@@ -311,11 +274,6 @@ QComboBox::drop-down
     width: 20px;
 }
 
-QComboBox::down-arrow
-{
-    image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xIDFMNiA2TDExIDEiIHN0cm9rZT0iIzJkMzc0OCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==);
-}
-
 QComboBox QAbstractItemView
 {
     background-color: white;
@@ -324,4 +282,318 @@ QComboBox QAbstractItemView
     selection-background-color: rgba(102, 126, 234, 0.1);
     selection-color: #667eea;
     padding: 4px;
+}
+
+/* ===== PUBLICATIONS PAGE STYLES ===== */
+
+/* Publications Page Background */
+QWidget#publicationsPage
+{
+    background-color: #F5F7FA;
+}
+
+/* Toolbar */
+QWidget#publicationsToolbar
+{
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+/* Search Bar */
+QWidget#publicationsSearchBar
+{
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+/* Content Area */
+QWidget#publicationsContent
+{
+    background-color: #F5F7FA;
+}
+
+/* Add Button - Green */
+QToolButton#addButton
+{
+    background-color: transparent;
+    color: #10B981;
+    border: 2px solid #10B981;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 16px;
+}
+
+QToolButton#addButton:hover
+{
+    background-color: #10B981;
+    color: white;
+    border-color: #10B981;
+}
+
+QToolButton#addButton:pressed
+{
+    background-color: #059669;
+    border-color: #059669;
+}
+
+/* Search Button - Blue */
+QToolButton#searchButton
+{
+    background-color: transparent;
+    color: #3B82F6;
+    border: 2px solid #3B82F6;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 12px;
+}
+
+QToolButton#searchButton:hover
+{
+    background-color: #3B82F6;
+    color: white;
+    border-color: #3B82F6;
+}
+
+QToolButton#searchButton:pressed
+{
+    background-color: #2563EB;
+    border-color: #2563EB;
+}
+
+/* Sort Button - Purple */
+QToolButton#sortButton
+{
+    background-color: transparent;
+    color: #8B5CF6;
+    border: 2px solid #8B5CF6;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 12px;
+}
+
+QToolButton#sortButton:hover
+{
+    background-color: #8B5CF6;
+    color: white;
+    border-color: #8B5CF6;
+}
+
+QToolButton#sortButton:pressed
+{
+    background-color: #7C3AED;
+    border-color: #7C3AED;
+}
+
+/* Export Button - Orange */
+QToolButton#exportButton
+{
+    background-color: transparent;
+    color: #F59E0B;
+    border: 2px solid #F59E0B;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 12px;
+}
+
+QToolButton#exportButton:hover
+{
+    background-color: #F59E0B;
+    color: white;
+    border-color: #F59E0B;
+}
+
+QToolButton#exportButton:pressed
+{
+    background-color: #D97706;
+    border-color: #D97706;
+}
+
+/* Statistics Button - Teal */
+QToolButton#statsButton
+{
+    background-color: transparent;
+    color: #14B8A6;
+    border: 2px solid #14B8A6;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 12px;
+}
+
+QToolButton#statsButton:hover
+{
+    background-color: #14B8A6;
+    color: white;
+    border-color: #14B8A6;
+}
+
+QToolButton#statsButton:pressed
+{
+    background-color: #0D9488;
+    border-color: #0D9488;
+}
+
+/* Search Input */
+QLineEdit#searchInput
+{
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 8px 16px;
+    background: #FFFFFF;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: #475569;
+}
+
+QLineEdit#searchInput:hover
+{
+    border-color: #C7D2FE;
+}
+
+QLineEdit#searchInput:focus
+{
+    border-color: #6366F1;
+    background-color: #FAFBFF;
+}
+
+/* Search Type Combo */
+QComboBox#searchTypeCombo
+{
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: #FFFFFF;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: #475569;
+}
+
+QComboBox#searchTypeCombo:hover
+{
+    border-color: #C7D2FE;
+}
+
+QComboBox#searchTypeCombo:focus
+{
+    border-color: #6366F1;
+    background-color: #FAFBFF;
+}
+
+/* Clear Button */
+QToolButton#clearButton
+{
+    background-color: #FEF2F2;
+    color: #EF4444;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+QToolButton#clearButton:hover
+{
+    background-color: #EF4444;
+    color: white;
+}
+
+/* Publications Table */
+QTableWidget#publicationsTable
+{
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 12px;
+    gridline-color: #F1F5F9;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+QTableWidget#publicationsTable::item
+{
+    padding: 14px;
+    border-bottom: 1px solid #F1F5F9;
+    color: #475569;
+    font-size: 13px;
+}
+
+QTableWidget#publicationsTable::item:selected
+{
+    background-color: #F1F5F9;
+    color: #1E293B;
+}
+
+QTableWidget#publicationsTable QHeaderView::section
+{
+    background-color: #F8FAFC;
+    color: #64748B;
+    padding: 16px;
+    border: none;
+    border-bottom: 2px solid #E2E8F0;
+    border-right: 1px solid #F1F5F9;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    letter-spacing: 0.8px;
+}
+
+/* Action Buttons in Table */
+QToolButton#editButton
+{
+    background-color: #6366F1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+QToolButton#editButton:hover
+{
+    background-color: #4F46E5;
+}
+
+QToolButton#deleteButton
+{
+    background-color: #EF4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+QToolButton#deleteButton:hover
+{
+    background-color: #DC2626;
+}
+
+/* Menu Styles */
+QMenu
+{
+    background-color: white;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+QMenu::item
+{
+    padding: 10px 24px;
+    font-size: 13px;
+    color: #475569;
+    border-radius: 6px;
+}
+
+QMenu::item:selected
+{
+    background-color: #F1F5F9;
+    color: #1E293B;
 }

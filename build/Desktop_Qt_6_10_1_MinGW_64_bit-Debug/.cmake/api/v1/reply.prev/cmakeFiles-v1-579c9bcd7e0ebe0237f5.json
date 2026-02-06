@@ -1283,9 +1283,6 @@
 		},
 		{
 			"path" : "SpyBot.qrc"
-		},
-		{
-			"path" : "resources.qrc"
 		}
 	],
 	"kind" : "cmakeFiles",
