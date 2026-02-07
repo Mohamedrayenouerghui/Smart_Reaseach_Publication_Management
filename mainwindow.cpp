@@ -7,6 +7,8 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QToolButton>
+#include <QFileDialog>
+#include <QTabWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -316,9 +318,9 @@ void MainWindow::setupPublicationsPage()
     
     // ===== CONNECT BUTTON SIGNALS =====
     
-    // Add button
-    connect(publicationsUi.addButton, &QToolButton::clicked, this, [this]() {
-        QMessageBox::information(this, "Ajouter Publication", "Formulaire d'ajout de publication à implémenter");
+    // Add button - switches to the "Ajouter" tab
+    connect(publicationsUi.addButton, &QToolButton::clicked, this, [publicationsUi]() {
+        publicationsUi.publicationsTabWidget->setCurrentIndex(1);
     });
     
     // Statistics button
@@ -337,5 +339,62 @@ void MainWindow::setupPublicationsPage()
     // Export menu actions
     connect(exportMenu, &QMenu::triggered, this, [this](QAction *action) {
         QMessageBox::information(this, "Exporter", action->text());
+    });
+    
+    // ===== CONNECT FORM BUTTONS =====
+    
+    // Upload PDF button
+    connect(publicationsUi.uploadButton, &QPushButton::clicked, this, [this, publicationsUi]() {
+        QString fileName = QFileDialog::getOpenFileName(this, 
+            "Sélectionner un fichier PDF", 
+            "", 
+            "PDF Files (*.pdf)");
+        
+        if (!fileName.isEmpty()) {
+            QFileInfo fileInfo(fileName);
+        }
+    });
+    
+    // Cancel button - clears form and switches back to list tab
+    connect(publicationsUi.cancelButton, &QPushButton::clicked, this, [publicationsUi]() {
+        publicationsUi.titreInput->clear();
+        publicationsUi.domaineCombo->setCurrentIndex(0);
+        publicationsUi.publicationsTabWidget->setCurrentIndex(0);
+    });
+    
+    // Submit button - validates and submits the form
+    connect(publicationsUi.submitButton, &QPushButton::clicked, this, [this, publicationsUi]() {
+        QString titre = publicationsUi.titreInput->text().trimmed();
+        QString domaine = publicationsUi.domaineCombo->currentText();
+        QString fileName = publicationsUi.fileNameLabel->text();
+        
+        // Validation
+        if (titre.isEmpty()) {
+            QMessageBox::warning(this, "Erreur", "Veuillez entrer un titre pour l'article.");
+            return;
+        }
+        
+        if (domaine == "Sélectionnez un domaine...") {
+            QMessageBox::warning(this, "Erreur", "Veuillez sélectionner un domaine.");
+            return;
+        }
+        
+        if (fileName == "Aucun fichier sélectionné") {
+            QMessageBox::warning(this, "Erreur", "Veuillez sélectionner un fichier PDF.");
+            return;
+        }
+        
+        // Success message
+        QMessageBox::information(this, "Succès", 
+            "Article ajouté avec succès!\n\n"
+            "Titre: " + titre + "\n"
+            "Domaine: " + domaine + "\n"
+            "Fichier: " + fileName);
+        
+        // Clear form and switch back to list
+        publicationsUi.titreInput->clear();
+        publicationsUi.domaineCombo->setCurrentIndex(0);
+        publicationsUi.fileNameLabel->setText("Aucun fichier sélectionné");
+        publicationsUi.publicationsTabWidget->setCurrentIndex(0);
     });
 }
