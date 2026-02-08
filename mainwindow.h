@@ -9,6 +9,8 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
+class PublicationsPage;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -29,6 +31,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    PublicationsPage *publicationsPage;
+    
     void loadStyleSheet();
     void setupConnections();
     void setupIcons();

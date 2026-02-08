@@ -15,9 +15,11 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
+        publicationspage.cpp
         users.cpp
         login.cpp
         mainwindow.h
+        publicationspage.h
         users.h
         login.h
         mainwindow.ui
