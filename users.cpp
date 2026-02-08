@@ -2,6 +2,8 @@
 #include "ui_users.h"
 #include <QMenu>
 #include <QMessageBox>
+#include <QToolButton>
+
 
 Users::Users(QWidget *parent) :
     QWidget(parent),
@@ -44,8 +46,8 @@ void Users::setupMenus() {
     });
 
     QMenu *sortMenu = new QMenu(this);
-    sortMenu->addAction("Par Expertise");
     sortMenu->addAction("Par Role");
+    sortMenu->addAction("Par Date d'inscription");
     ui->sortButtonUser->setMenu(sortMenu);
 
     // Sort menu actions
@@ -69,28 +71,3 @@ void Users::setupConnections() {
 
 
 }
-// ===== CONNECT BUTTON SIGNALS =====
-/*
-// Add button
-connect(usersUi.addButtonUser, &QToolButton::clicked, this, [this]() {
-    QMessageBox::information(this, "Ajouter Utilisateur", "Formulaire d'ajout d'utilisateur à implémenter");
-});
-
-// Statistics button
-connect(usersUi.statsButtonUser, &QToolButton::clicked, this, [this]() {
-    QMessageBox::information(this, "Statistiques", "Affichage des statistiques à implémenter");
-});
-
-// Clear button - clears the search input
-connect(usersUi.clearButtonUser, &QToolButton::clicked, usersUi.searchInputUser, &QLineEdit::clear);
-
-// Sort menu actions
-connect(sortMenu, &QMenu::triggered, this, [this](QAction *action) {
-    QMessageBox::information(this, "Trier", "Tri par: " + action->text() + " à implémenter");
-});
-
-// Export menu actions
-connect(exportMenu, &QMenu::triggered, this, [this](QAction *action) {
-    QMessageBox::information(this, "Exporter", action->text() + " à implémenter");
-});
-*/
