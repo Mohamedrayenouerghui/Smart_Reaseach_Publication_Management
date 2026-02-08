@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QIcon>
 #include <QPixmap>
+#include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
