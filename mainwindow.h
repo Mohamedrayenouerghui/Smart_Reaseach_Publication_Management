@@ -32,6 +32,7 @@ private:
     void setupConnections();
     void setupIcons();
     void setupPublicationsPage();
+    void setupUsersPage();
     void updateTitleUnderline(const QString &color);
 };
 

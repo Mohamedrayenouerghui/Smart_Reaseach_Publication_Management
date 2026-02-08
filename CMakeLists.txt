@@ -18,6 +18,7 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
         publicationspage.ui
+        userspage.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

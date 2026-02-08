@@ -75,12 +75,6 @@
        </property>
        <item>
         <widget class="QLabel" name="appTitle">
-         <property name="text">
-          <string> Management System</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
          <property name="styleSheet">
           <string notr="true">QLabel {
     color: #2d3748;
@@ -90,6 +84,12 @@
     text-align: center;
     background-color: transparent;
 }</string>
+         </property>
+         <property name="text">
+          <string> Management System</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -253,7 +253,7 @@
        <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -318,9 +318,6 @@ border-bottom: 1px solid #e2e8f0;</string>
           </property>
           <item>
            <widget class="QLabel" name="titleLabel">
-            <property name="text">
-             <string>Accueil</string>
-            </property>
             <property name="styleSheet">
              <string notr="true">font-size: 28px;
 font-weight: 600;
@@ -329,12 +326,15 @@ background-color: transparent;
 border-bottom: 3px solid #2d3748;
 padding-bottom: 5px;</string>
             </property>
+            <property name="text">
+             <string>Accueil</string>
+            </property>
            </widget>
           </item>
           <item>
            <spacer name="horizontalSpacer">
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Orientation::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -358,16 +358,16 @@ padding-bottom: 5px;</string>
               <height>140</height>
              </size>
             </property>
-            <property name="text">
-             <string>LOGO</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
             <property name="styleSheet">
              <string notr="true">background-color: transparent;
 border: none;
 padding: 5px;</string>
+            </property>
+            <property name="text">
+             <string>LOGO</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -429,33 +429,24 @@ stop:0 #667eea, stop:1 #764ba2);</string>
                   <height>400</height>
                  </size>
                 </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
                 <property name="styleSheet">
                  <string notr="true">background-color: transparent;
 border: none;
 padding: 0px;</string>
                 </property>
+                <property name="text">
+                 <string/>
+                </property>
                 <property name="scaledContents">
                  <bool>false</bool>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QLabel" name="welcomeText">
-                <property name="text">
-                 <string>Système de Gestion des Publications de Recherche</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
                 <property name="styleSheet">
                  <string notr="true">font-size: 22px;
 font-weight: 300;
@@ -465,16 +456,19 @@ background-color: transparent;
 margin-top: 20px;
 letter-spacing: 1px;</string>
                 </property>
+                <property name="text">
+                 <string>Système de Gestion des Publications de Recherche</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
               <item>
                <widget class="QLabel" name="versionText">
-                <property name="text">
-                 <string>RaMeGaNe</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
                 <property name="styleSheet">
                  <string notr="true">font-size: 14px;
 font-weight: 300;
@@ -482,6 +476,12 @@ color: rgba(255,255,255,0.7);
 text-align: center;
 background-color: transparent;
 margin-top: 10px;</string>
+                </property>
+                <property name="text">
+                 <string>RaMeGaNe</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -536,4 +536,3 @@ stop:0 #fff5f5, stop:1 #f7fafc);</string>
  <resources/>
  <connections/>
 </ui>
-

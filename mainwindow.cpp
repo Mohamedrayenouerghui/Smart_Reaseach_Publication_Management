@@ -1,14 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ui_publicationspage.h"
+#include "ui_userspage.h"
 #include <QFile>
 #include <QIcon>
 #include <QPixmap>
 #include <QMenu>
 #include <QMessageBox>
 #include <QToolButton>
-#include <QFileDialog>
-#include <QTabWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     setupConnections();
     setupIcons();
     setupPublicationsPage();
+    setupUsersPage();
+
 }
 
 MainWindow::~MainWindow()
@@ -318,9 +319,9 @@ void MainWindow::setupPublicationsPage()
     
     // ===== CONNECT BUTTON SIGNALS =====
     
-    // Add button - switches to the "Ajouter" tab
-    connect(publicationsUi.addButton, &QToolButton::clicked, this, [publicationsUi]() {
-        publicationsUi.publicationsTabWidget->setCurrentIndex(1);
+    // Add button
+    connect(publicationsUi.addButton, &QToolButton::clicked, this, [this]() {
+        QMessageBox::information(this, "Ajouter Publication", "Formulaire d'ajout de publication à implémenter");
     });
     
     // Statistics button
@@ -340,61 +341,111 @@ void MainWindow::setupPublicationsPage()
     connect(exportMenu, &QMenu::triggered, this, [this](QAction *action) {
         QMessageBox::information(this, "Exporter", action->text());
     });
-    
-    // ===== CONNECT FORM BUTTONS =====
-    
-    // Upload PDF button
-    connect(publicationsUi.uploadButton, &QPushButton::clicked, this, [this, publicationsUi]() {
-        QString fileName = QFileDialog::getOpenFileName(this, 
-            "Sélectionner un fichier PDF", 
-            "", 
-            "PDF Files (*.pdf)");
-        
-        if (!fileName.isEmpty()) {
-            QFileInfo fileInfo(fileName);
+}
+
+void MainWindow::setupUsersPage()
+{
+    // Load the Users UI file
+    Ui::UsersPage usersUi;
+    QWidget *usersPage = ui->stackedWidget->widget(2);
+
+    // Clear any existing layout
+    if (usersPage->layout()) {
+        QLayoutItem *item;
+        while ((item = usersPage->layout()->takeAt(0)) != nullptr) {
+            delete item->widget();
+            delete item;
         }
+        delete usersPage->layout();
+    }
+
+    // Setup UI from the .ui file
+    usersUi.setupUi(usersPage);
+
+    // Set column widths for the table
+    usersUi.usersTable->setColumnWidth(0, 150);
+    usersUi.usersTable->setColumnWidth(1, 150);
+    usersUi.usersTable->setColumnWidth(2, 150);
+    usersUi.usersTable->setColumnWidth(3, 200);
+    usersUi.usersTable->setColumnWidth(4, 150);
+    usersUi.usersTable->setColumnWidth(5, 150);
+    usersUi.usersTable->setColumnWidth(5, 150);
+
+    // Set row height
+    usersUi.usersTable->verticalHeader()->setDefaultSectionSize(60);
+
+    // ===== ADD MENUS TO BUTTONS =====
+
+    // Sort button menu
+    QMenu *sortMenu = new QMenu(usersUi.sortButtonUser);
+    sortMenu->setStyleSheet(
+        "QMenu { "
+        "    background-color: white; "
+        "    border: 1.5px solid #E2E8F0; "
+        "    border-radius: 8px; "
+        "    padding: 8px; "
+        "} "
+        "QMenu::item { "
+        "    padding: 10px 24px; "
+        "    font-size: 13px; "
+        "    color: #475569; "
+        "    border-radius: 6px; "
+        "} "
+        "QMenu::item:selected { "
+        "    background-color: #F3E8FF; "
+        "    color: #8B5CF6; "
+        "}"
+        );
+    sortMenu->addAction("Par Expertise");
+    sortMenu->addAction("Par Role");
+    usersUi.sortButtonUser->setMenu(sortMenu);
+
+    // Export button menu
+    QMenu *exportMenu = new QMenu(usersUi.exportButtonUser);
+    exportMenu->setStyleSheet(
+        "QMenu { "
+        "    background-color: white; "
+        "    border: 1.5px solid #E2E8F0; "
+        "    border-radius: 8px; "
+        "    padding: 8px; "
+        "} "
+        "QMenu::item { "
+        "    padding: 10px 24px; "
+        "    font-size: 13px; "
+        "    color: #475569; "
+        "    border-radius: 6px; "
+        "} "
+        "QMenu::item:selected { "
+        "    background-color: #FEF3C7; "
+        "    color: #F59E0B; "
+        "}"
+        );
+    exportMenu->addAction("Exporter en PDF");
+    exportMenu->addAction("Exporter en Exel");
+    usersUi.exportButtonUser->setMenu(exportMenu);
+
+    // ===== CONNECT BUTTON SIGNALS =====
+
+    // Add button
+    connect(usersUi.addButtonUser, &QToolButton::clicked, this, [this]() {
+        QMessageBox::information(this, "Ajouter Utilisateur", "Formulaire d'ajout d'utilisateur à implémenter");
     });
-    
-    // Cancel button - clears form and switches back to list tab
-    connect(publicationsUi.cancelButton, &QPushButton::clicked, this, [publicationsUi]() {
-        publicationsUi.titreInput->clear();
-        publicationsUi.domaineCombo->setCurrentIndex(0);
-        publicationsUi.publicationsTabWidget->setCurrentIndex(0);
+
+    // Statistics button
+    connect(usersUi.statsButtonUser, &QToolButton::clicked, this, [this]() {
+        QMessageBox::information(this, "Statistiques", "Affichage des statistiques à implémenter");
     });
-    
-    // Submit button - validates and submits the form
-    connect(publicationsUi.submitButton, &QPushButton::clicked, this, [this, publicationsUi]() {
-        QString titre = publicationsUi.titreInput->text().trimmed();
-        QString domaine = publicationsUi.domaineCombo->currentText();
-        QString fileName = publicationsUi.fileNameLabel->text();
-        
-        // Validation
-        if (titre.isEmpty()) {
-            QMessageBox::warning(this, "Erreur", "Veuillez entrer un titre pour l'article.");
-            return;
-        }
-        
-        if (domaine == "Sélectionnez un domaine...") {
-            QMessageBox::warning(this, "Erreur", "Veuillez sélectionner un domaine.");
-            return;
-        }
-        
-        if (fileName == "Aucun fichier sélectionné") {
-            QMessageBox::warning(this, "Erreur", "Veuillez sélectionner un fichier PDF.");
-            return;
-        }
-        
-        // Success message
-        QMessageBox::information(this, "Succès", 
-            "Article ajouté avec succès!\n\n"
-            "Titre: " + titre + "\n"
-            "Domaine: " + domaine + "\n"
-            "Fichier: " + fileName);
-        
-        // Clear form and switch back to list
-        publicationsUi.titreInput->clear();
-        publicationsUi.domaineCombo->setCurrentIndex(0);
-        publicationsUi.fileNameLabel->setText("Aucun fichier sélectionné");
-        publicationsUi.publicationsTabWidget->setCurrentIndex(0);
+
+    // Clear button - clears the search input
+    connect(usersUi.clearButtonUser, &QToolButton::clicked, usersUi.searchInputUser, &QLineEdit::clear);
+
+    // Sort menu actions
+    connect(sortMenu, &QMenu::triggered, this, [this](QAction *action) {
+        QMessageBox::information(this, "Trier", "Tri par: " + action->text() + " à implémenter");
+    });
+
+    // Export menu actions
+    connect(exportMenu, &QMenu::triggered, this, [this](QAction *action) {
+        QMessageBox::information(this, "Exporter", action->text() + " à implémenter");
     });
 }
