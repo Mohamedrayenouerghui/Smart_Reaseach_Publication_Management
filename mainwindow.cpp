@@ -8,6 +8,7 @@
 #include <QPixmap>
 #include <QVBoxLayout>
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -19,11 +20,27 @@ MainWindow::MainWindow(QWidget *parent)
     setupConnections();
     setupIcons();
     setupPublicationsPage();
+
 }
+
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::initUserPage() {
+    // 1. Create the instance
+    Users *usersPageWidget = new Users(this);
+
+    // 2. Swap the placeholder widget (Index 2) with your real Users class
+    // This ensures that when you click the "Users" button, it shows your new UI
+    QWidget *oldWidget = ui->stackedWidget->widget(2);
+    ui->stackedWidget->removeWidget(oldWidget);
+    ui->stackedWidget->insertWidget(2, usersPageWidget);
+
+    if(oldWidget) oldWidget->deleteLater();
+
 }
 
 void MainWindow::loadStyleSheet()
@@ -259,4 +276,94 @@ void MainWindow::setupPublicationsPage()
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(publicationsPage);
     pageWidget->setLayout(layout);
+    // Setup UI from the .ui file
+    publicationsUi.setupUi(publicationsPage);
+    
+    // Set column widths for the table
+    publicationsUi.publicationsTable->setColumnWidth(0, 60);
+    publicationsUi.publicationsTable->setColumnWidth(1, 400);
+    publicationsUi.publicationsTable->setColumnWidth(2, 120);
+    publicationsUi.publicationsTable->setColumnWidth(3, 120);
+    publicationsUi.publicationsTable->setColumnWidth(4, 130);
+    publicationsUi.publicationsTable->setColumnWidth(5, 150);
+    
+    // Set row height
+    publicationsUi.publicationsTable->verticalHeader()->setDefaultSectionSize(60);
+    
+    // ===== ADD MENUS TO BUTTONS =====
+    
+    // Sort button menu
+    QMenu *sortMenu = new QMenu(publicationsUi.sortButton);
+    sortMenu->setStyleSheet(
+        "QMenu { "
+        "    background-color: white; "
+        "    border: 1.5px solid #E2E8F0; "
+        "    border-radius: 8px; "
+        "    padding: 8px; "
+        "} "
+        "QMenu::item { "
+        "    padding: 10px 24px; "
+        "    font-size: 13px; "
+        "    color: #475569; "
+        "    border-radius: 6px; "
+        "} "
+        "QMenu::item:selected { "
+        "    background-color: #F3E8FF; "
+        "    color: #8B5CF6; "
+        "}"
+    );
+    sortMenu->addAction("Par Date");
+    sortMenu->addAction("Par Titre");
+    publicationsUi.sortButton->setMenu(sortMenu);
+    
+    // Export button menu
+    QMenu *exportMenu = new QMenu(publicationsUi.exportButton);
+    exportMenu->setStyleSheet(
+        "QMenu { "
+        "    background-color: white; "
+        "    border: 1.5px solid #E2E8F0; "
+        "    border-radius: 8px; "
+        "    padding: 8px; "
+        "} "
+        "QMenu::item { "
+        "    padding: 10px 24px; "
+        "    font-size: 13px; "
+        "    color: #475569; "
+        "    border-radius: 6px; "
+        "} "
+        "QMenu::item:selected { "
+        "    background-color: #FEF3C7; "
+        "    color: #F59E0B; "
+        "}"
+    );
+    exportMenu->addAction("Exporter en PDF");
+    exportMenu->addAction("Exporter en Word");
+    publicationsUi.exportButton->setMenu(exportMenu);
+    
+    // ===== CONNECT BUTTON SIGNALS =====
+    
+    // Add button
+    connect(publicationsUi.addButton, &QToolButton::clicked, this, [this]() {
+        QMessageBox::information(this, "Ajouter Publication", "Formulaire d'ajout de publication à implémenter");
+    });
+    
+    // Statistics button
+    connect(publicationsUi.statsButton, &QToolButton::clicked, this, [this]() {
+        QMessageBox::information(this, "Statistiques", "Affichage des statistiques à implémenter");
+    });
+    
+    // Clear button - clears the search input
+    connect(publicationsUi.clearButton, &QToolButton::clicked, publicationsUi.searchInput, &QLineEdit::clear);
+    
+    // Sort menu actions
+    connect(sortMenu, &QMenu::triggered, this, [this](QAction *action) {
+        QMessageBox::information(this, "Trier", "Tri par: " + action->text());
+    });
+    
+    // Export menu actions
+    connect(exportMenu, &QMenu::triggered, this, [this](QAction *action) {
+        QMessageBox::information(this, "Exporter", action->text());
+    });
 }
+
+
