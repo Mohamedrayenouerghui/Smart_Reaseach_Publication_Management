@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'userspage.ui'
+** Form generated from reading UI file 'users.ui'
 **
 ** Created by: Qt User Interface Compiler version 6.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_USERSPAGE_H
-#define UI_USERSPAGE_H
+#ifndef UI_USERS_H
+#define UI_USERS_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -24,7 +24,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_UsersPage
+class Ui_Users
 {
 public:
     QVBoxLayout *mainLayout;
@@ -46,18 +46,18 @@ public:
     QVBoxLayout *contentLayout;
     QTableWidget *usersTable;
 
-    void setupUi(QWidget *UsersPage)
+    void setupUi(QWidget *Users)
     {
-        if (UsersPage->objectName().isEmpty())
-            UsersPage->setObjectName("UsersPage");
-        UsersPage->resize(920, 660);
-        UsersPage->setStyleSheet(QString::fromUtf8("\n"
+        if (Users->objectName().isEmpty())
+            Users->setObjectName("Users");
+        Users->resize(920, 660);
+        Users->setStyleSheet(QString::fromUtf8("\n"
 "}"));
-        mainLayout = new QVBoxLayout(UsersPage);
+        mainLayout = new QVBoxLayout(Users);
         mainLayout->setSpacing(0);
         mainLayout->setObjectName("mainLayout");
         mainLayout->setContentsMargins(0, 0, 0, 0);
-        toolbar = new QWidget(UsersPage);
+        toolbar = new QWidget(Users);
         toolbar->setObjectName("toolbar");
         toolbar->setMinimumSize(QSize(0, 70));
         toolbar->setMaximumSize(QSize(16777215, 70));
@@ -213,7 +213,7 @@ public:
 
         mainLayout->addWidget(toolbar);
 
-        searchBar = new QWidget(UsersPage);
+        searchBar = new QWidget(Users);
         searchBar->setObjectName("searchBar");
         searchBar->setMinimumSize(QSize(0, 65));
         searchBar->setMaximumSize(QSize(16777215, 65));
@@ -306,7 +306,7 @@ public:
 
         mainLayout->addWidget(searchBar);
 
-        contentArea = new QWidget(UsersPage);
+        contentArea = new QWidget(Users);
         contentArea->setObjectName("contentArea");
         contentArea->setStyleSheet(QString::fromUtf8("QWidget#contentArea {\n"
 "    background-color: #F5F7FA;\n"
@@ -376,48 +376,48 @@ public:
         mainLayout->addWidget(contentArea);
 
 
-        retranslateUi(UsersPage);
+        retranslateUi(Users);
 
-        QMetaObject::connectSlotsByName(UsersPage);
+        QMetaObject::connectSlotsByName(Users);
     } // setupUi
 
-    void retranslateUi(QWidget *UsersPage)
+    void retranslateUi(QWidget *Users)
     {
-        UsersPage->setWindowTitle(QCoreApplication::translate("UsersPage", "Users", nullptr));
-        addButtonUser->setText(QCoreApplication::translate("UsersPage", "+ Ajouter", nullptr));
-        searchButtonUser->setText(QCoreApplication::translate("UsersPage", "Rechercher", nullptr));
-        sortButtonUser->setText(QCoreApplication::translate("UsersPage", "Trier", nullptr));
-        exportButtonUser->setText(QCoreApplication::translate("UsersPage", "Exporter", nullptr));
-        statsButtonUser->setText(QCoreApplication::translate("UsersPage", "Statistiques", nullptr));
-        searchIconUser->setText(QCoreApplication::translate("UsersPage", "\360\237\224\215", nullptr));
-        searchTypeComboUser->setItemText(0, QCoreApplication::translate("UsersPage", "Par Nom", nullptr));
-        searchTypeComboUser->setItemText(1, QCoreApplication::translate("UsersPage", "Par Email", nullptr));
-        searchTypeComboUser->setItemText(2, QCoreApplication::translate("UsersPage", "Par Role", nullptr));
+        Users->setWindowTitle(QCoreApplication::translate("Users", "Users", nullptr));
+        addButtonUser->setText(QCoreApplication::translate("Users", "+ Ajouter", nullptr));
+        searchButtonUser->setText(QCoreApplication::translate("Users", "Rechercher", nullptr));
+        sortButtonUser->setText(QCoreApplication::translate("Users", "Trier", nullptr));
+        exportButtonUser->setText(QCoreApplication::translate("Users", "Exporter", nullptr));
+        statsButtonUser->setText(QCoreApplication::translate("Users", "Statistiques", nullptr));
+        searchIconUser->setText(QCoreApplication::translate("Users", "\360\237\224\215", nullptr));
+        searchTypeComboUser->setItemText(0, QCoreApplication::translate("Users", "Par Nom", nullptr));
+        searchTypeComboUser->setItemText(1, QCoreApplication::translate("Users", "Par Email", nullptr));
+        searchTypeComboUser->setItemText(2, QCoreApplication::translate("Users", "Par Role", nullptr));
 
-        searchInputUser->setPlaceholderText(QCoreApplication::translate("UsersPage", "Entrez votre recherche...", nullptr));
-        clearButtonUser->setText(QCoreApplication::translate("UsersPage", "\342\234\225", nullptr));
+        searchInputUser->setPlaceholderText(QCoreApplication::translate("Users", "Entrez votre recherche...", nullptr));
+        clearButtonUser->setText(QCoreApplication::translate("Users", "\342\234\225", nullptr));
         QTableWidgetItem *___qtablewidgetitem = usersTable->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QCoreApplication::translate("UsersPage", "ID_User", nullptr));
+        ___qtablewidgetitem->setText(QCoreApplication::translate("Users", "ID_User", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = usersTable->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QCoreApplication::translate("UsersPage", "Nom", nullptr));
+        ___qtablewidgetitem1->setText(QCoreApplication::translate("Users", "Nom", nullptr));
         QTableWidgetItem *___qtablewidgetitem2 = usersTable->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QCoreApplication::translate("UsersPage", "Prenom", nullptr));
+        ___qtablewidgetitem2->setText(QCoreApplication::translate("Users", "Prenom", nullptr));
         QTableWidgetItem *___qtablewidgetitem3 = usersTable->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QCoreApplication::translate("UsersPage", "Email", nullptr));
+        ___qtablewidgetitem3->setText(QCoreApplication::translate("Users", "Email", nullptr));
         QTableWidgetItem *___qtablewidgetitem4 = usersTable->horizontalHeaderItem(4);
-        ___qtablewidgetitem4->setText(QCoreApplication::translate("UsersPage", "Mdp", nullptr));
+        ___qtablewidgetitem4->setText(QCoreApplication::translate("Users", "Mdp", nullptr));
         QTableWidgetItem *___qtablewidgetitem5 = usersTable->horizontalHeaderItem(5);
-        ___qtablewidgetitem5->setText(QCoreApplication::translate("UsersPage", "Role", nullptr));
+        ___qtablewidgetitem5->setText(QCoreApplication::translate("Users", "Role", nullptr));
         QTableWidgetItem *___qtablewidgetitem6 = usersTable->horizontalHeaderItem(6);
-        ___qtablewidgetitem6->setText(QCoreApplication::translate("UsersPage", "Photo", nullptr));
+        ___qtablewidgetitem6->setText(QCoreApplication::translate("Users", "Photo", nullptr));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class UsersPage: public Ui_UsersPage {};
+    class Users: public Ui_Users {};
 } // namespace Ui
 
 QT_END_NAMESPACE
 
-#endif // UI_USERSPAGE_H
+#endif // UI_USERS_H

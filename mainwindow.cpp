@@ -1,7 +1,7 @@
 #include "mainwindow.h"
+#include "users.h"
 #include "ui_mainwindow.h"
 #include "ui_publicationspage.h"
-#include "ui_userspage.h"
 #include <QFile>
 #include <QIcon>
 #include <QPixmap>
@@ -14,17 +14,33 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    initUserPage();
     loadStyleSheet();
     setupConnections();
     setupIcons();
     setupPublicationsPage();
-    setupUsersPage();
+    //setupUsersPage();
 
 }
+
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::initUserPage() {
+    // 1. Create the instance
+    Users *usersPageWidget = new Users(this);
+
+    // 2. Swap the placeholder widget (Index 2) with your real Users class
+    // This ensures that when you click the "Users" button, it shows your new UI
+    QWidget *oldWidget = ui->stackedWidget->widget(2);
+    ui->stackedWidget->removeWidget(oldWidget);
+    ui->stackedWidget->insertWidget(2, usersPageWidget);
+
+    if(oldWidget) oldWidget->deleteLater();
+
 }
 
 void MainWindow::loadStyleSheet()
@@ -343,109 +359,4 @@ void MainWindow::setupPublicationsPage()
     });
 }
 
-void MainWindow::setupUsersPage()
-{
-    // Load the Users UI file
-    Ui::UsersPage usersUi;
-    QWidget *usersPage = ui->stackedWidget->widget(2);
 
-    // Clear any existing layout
-    if (usersPage->layout()) {
-        QLayoutItem *item;
-        while ((item = usersPage->layout()->takeAt(0)) != nullptr) {
-            delete item->widget();
-            delete item;
-        }
-        delete usersPage->layout();
-    }
-
-    // Setup UI from the .ui file
-    usersUi.setupUi(usersPage);
-
-    // Set column widths for the table
-    usersUi.usersTable->setColumnWidth(0, 150);
-    usersUi.usersTable->setColumnWidth(1, 150);
-    usersUi.usersTable->setColumnWidth(2, 150);
-    usersUi.usersTable->setColumnWidth(3, 200);
-    usersUi.usersTable->setColumnWidth(4, 150);
-    usersUi.usersTable->setColumnWidth(5, 150);
-    usersUi.usersTable->setColumnWidth(5, 150);
-
-    // Set row height
-    usersUi.usersTable->verticalHeader()->setDefaultSectionSize(60);
-
-    // ===== ADD MENUS TO BUTTONS =====
-
-    // Sort button menu
-    QMenu *sortMenu = new QMenu(usersUi.sortButtonUser);
-    sortMenu->setStyleSheet(
-        "QMenu { "
-        "    background-color: white; "
-        "    border: 1.5px solid #E2E8F0; "
-        "    border-radius: 8px; "
-        "    padding: 8px; "
-        "} "
-        "QMenu::item { "
-        "    padding: 10px 24px; "
-        "    font-size: 13px; "
-        "    color: #475569; "
-        "    border-radius: 6px; "
-        "} "
-        "QMenu::item:selected { "
-        "    background-color: #F3E8FF; "
-        "    color: #8B5CF6; "
-        "}"
-        );
-    sortMenu->addAction("Par Expertise");
-    sortMenu->addAction("Par Role");
-    usersUi.sortButtonUser->setMenu(sortMenu);
-
-    // Export button menu
-    QMenu *exportMenu = new QMenu(usersUi.exportButtonUser);
-    exportMenu->setStyleSheet(
-        "QMenu { "
-        "    background-color: white; "
-        "    border: 1.5px solid #E2E8F0; "
-        "    border-radius: 8px; "
-        "    padding: 8px; "
-        "} "
-        "QMenu::item { "
-        "    padding: 10px 24px; "
-        "    font-size: 13px; "
-        "    color: #475569; "
-        "    border-radius: 6px; "
-        "} "
-        "QMenu::item:selected { "
-        "    background-color: #FEF3C7; "
-        "    color: #F59E0B; "
-        "}"
-        );
-    exportMenu->addAction("Exporter en PDF");
-    exportMenu->addAction("Exporter en Exel");
-    usersUi.exportButtonUser->setMenu(exportMenu);
-
-    // ===== CONNECT BUTTON SIGNALS =====
-
-    // Add button
-    connect(usersUi.addButtonUser, &QToolButton::clicked, this, [this]() {
-        QMessageBox::information(this, "Ajouter Utilisateur", "Formulaire d'ajout d'utilisateur à implémenter");
-    });
-
-    // Statistics button
-    connect(usersUi.statsButtonUser, &QToolButton::clicked, this, [this]() {
-        QMessageBox::information(this, "Statistiques", "Affichage des statistiques à implémenter");
-    });
-
-    // Clear button - clears the search input
-    connect(usersUi.clearButtonUser, &QToolButton::clicked, usersUi.searchInputUser, &QLineEdit::clear);
-
-    // Sort menu actions
-    connect(sortMenu, &QMenu::triggered, this, [this](QAction *action) {
-        QMessageBox::information(this, "Trier", "Tri par: " + action->text() + " à implémenter");
-    });
-
-    // Export menu actions
-    connect(exportMenu, &QMenu::triggered, this, [this](QAction *action) {
-        QMessageBox::information(this, "Exporter", action->text() + " à implémenter");
-    });
-}

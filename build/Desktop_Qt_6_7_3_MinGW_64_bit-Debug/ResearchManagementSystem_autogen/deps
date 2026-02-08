@@ -142,6 +142,7 @@ ResearchManagementSystem_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/include/QtGui/qwindowdefs.h \
 	C:/Qt/6.7.3/mingw_64/include/QtGui/qwindowdefs_win.h \
 	C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMainWindow \
+	C:/Qt/6.7.3/mingw_64/include/QtWidgets/QWidget \
 	C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmainwindow.h \
 	C:/Qt/6.7.3/mingw_64/include/QtWidgets/qsizepolicy.h \
 	C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
@@ -558,7 +559,9 @@ ResearchManagementSystem_autogen/timestamp: \
 	C:/Users/Azzabi\ Alaedinne/Smart_Reaseach_Publication_Management/main.cpp \
 	C:/Users/Azzabi\ Alaedinne/Smart_Reaseach_Publication_Management/mainwindow.cpp \
 	C:/Users/Azzabi\ Alaedinne/Smart_Reaseach_Publication_Management/mainwindow.h \
+	C:/Users/Azzabi\ Alaedinne/Smart_Reaseach_Publication_Management/users.cpp \
+	C:/Users/Azzabi\ Alaedinne/Smart_Reaseach_Publication_Management/users.h \
 	C:/Users/Azzabi\ Alaedinne/Smart_Reaseach_Publication_Management/mainwindow.ui \
 	C:/Users/Azzabi\ Alaedinne/Smart_Reaseach_Publication_Management/publicationspage.ui \
-	C:/Users/Azzabi\ Alaedinne/Smart_Reaseach_Publication_Management/userspage.ui \
+	C:/Users/Azzabi\ Alaedinne/Smart_Reaseach_Publication_Management/users.ui \
 	C:/Qt/Tools/CMake_64/bin/cmake.exe

@@ -315,6 +315,12 @@
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
 			null
+		],
+		[
+			"C:/Users/Azzabi Alaedinne/Smart_Reaseach_Publication_Management/users.h",
+			"MU",
+			"EWIEGA46WW/moc_users.cpp",
+			null
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
@@ -395,6 +401,11 @@
 		],
 		[
 			"C:/Users/Azzabi Alaedinne/Smart_Reaseach_Publication_Management/mainwindow.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Azzabi Alaedinne/Smart_Reaseach_Publication_Management/users.cpp",
 			"MU",
 			null
 		]
