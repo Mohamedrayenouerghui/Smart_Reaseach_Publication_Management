@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "users.h"
+#include "login.h"
 #include "ui_mainwindow.h"
 #include "ui_publicationspage.h"
 #include <QFile>
@@ -19,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
     setupConnections();
     setupIcons();
     setupPublicationsPage();
-    //setupUsersPage();
 
 }
 

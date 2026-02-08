@@ -311,6 +311,12 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/Users/Azzabi Alaedinne/Smart_Reaseach_Publication_Management/login.h",
+			"MU",
+			"EWIEGA46WW/moc_login.cpp",
+			null
+		],
+		[
 			"C:/Users/Azzabi Alaedinne/Smart_Reaseach_Publication_Management/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
@@ -394,6 +400,11 @@
 	"SETTINGS_FILE" : "C:/Users/Azzabi Alaedinne/Smart_Reaseach_Publication_Management/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/ResearchManagementSystem_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[
+			"C:/Users/Azzabi Alaedinne/Smart_Reaseach_Publication_Management/login.cpp",
+			"MU",
+			null
+		],
 		[
 			"C:/Users/Azzabi Alaedinne/Smart_Reaseach_Publication_Management/main.cpp",
 			"MU",
