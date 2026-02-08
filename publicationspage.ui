@@ -544,7 +544,7 @@ QTabBar::tab:hover:!selected {
 }</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="listTab">
          <attribute name="title">
@@ -907,7 +907,7 @@ QPushButton:pressed {
                    <string>Aucun fichier sélectionné</string>
                   </property>
                   <property name="alignment">
-                   <set>Qt::AlignCenter</set>
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
                   </property>
                  </widget>
                 </item>

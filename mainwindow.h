@@ -18,6 +18,7 @@ public:
     ~MainWindow();
 
 private slots:
+    void initUserPage();
     void onAccueilClicked();
     void onPublicationsClicked();
     void onUtilisateursClicked();
