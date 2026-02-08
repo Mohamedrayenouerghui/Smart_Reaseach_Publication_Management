@@ -3,6 +3,8 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QToolButton>
+#include <QPushButton>
+#include <QMessageBox>
 
 
 Users::Users(QWidget *parent) :
@@ -13,6 +15,7 @@ Users::Users(QWidget *parent) :
     setupTable();
     setupMenus();
     setupConnections();
+    setupPrototypeUser();
 }
 
 Users::~Users() {
@@ -28,10 +31,10 @@ void Users::setupTable() {
     ui->usersTable->setColumnWidth(3, 200);
     ui->usersTable->setColumnWidth(4, 150);
     ui->usersTable->setColumnWidth(5, 150);
-    ui->usersTable->setColumnWidth(5, 150);
+    //ui->usersTable->setColumnWidth(6, 150);
 
     // Set row height
-    ui->usersTable->verticalHeader()->setDefaultSectionSize(60);
+    ui->usersTable->verticalHeader()->setDefaultSectionSize(100);
 }
 
 void Users::setupMenus() {
@@ -70,4 +73,52 @@ void Users::setupConnections() {
     connect(ui->clearButtonUser, &QToolButton::clicked, ui->searchInputUser, &QLineEdit::clear);
 
 
+}
+
+void Users::setupPrototypeUser() {
+    int row = ui->usersTable->rowCount();
+    ui->usersTable->insertRow(row);
+
+    // Populate standard data
+    ui->usersTable->setItem(row, 0, new QTableWidgetItem("1"));
+    ui->usersTable->setItem(row, 1, new QTableWidgetItem("Azzabi"));
+    ui->usersTable->setItem(row, 2, new QTableWidgetItem("Alaedinne"));
+    ui->usersTable->setItem(row, 3, new QTableWidgetItem("Ala@example.com"));
+    ui->usersTable->setItem(row, 4, new QTableWidgetItem("****"));
+    ui->usersTable->setItem(row, 5, new QTableWidgetItem("Admin"));
+
+    // 1. Photo Section (Placeholder)
+    ui->usersTable->setItem(row, 6, new QTableWidgetItem("photo.png"));
+
+    // Action Buttons Section (Column 7)
+    QWidget* actionWidget = new QWidget();
+    QHBoxLayout* layout = new QHBoxLayout(actionWidget);
+
+    QPushButton *modifyBtn = new QPushButton("Modify");
+    QPushButton *deleteBtn = new QPushButton("Delete");
+
+    // Styling
+    modifyBtn->setStyleSheet("background-color: #3B82F6; color: white; border-radius: 4px; padding: 5px;");
+    deleteBtn->setStyleSheet("background-color: #EF4444; color: white; border-radius: 4px; padding: 5px;");
+
+    // Connections
+    connect(modifyBtn, &QPushButton::clicked, this, [this]() {
+        QMessageBox::information(this, "Modifier", "Fonctionnalité de modification à implémenter");
+    });
+
+    connect(deleteBtn, &QPushButton::clicked, this, [this, row]() {
+        // Example: remove the row when delete is clicked
+        //ui->usersTable->removeRow(row);
+        QMessageBox::critical(this, "Supprimer", "Utilisateur supprimé");
+    });
+
+    layout->addWidget(modifyBtn);
+    layout->addWidget(deleteBtn);
+
+    layout->setContentsMargins(5, 2, 5, 2);
+    layout->setSpacing(10);
+    actionWidget->setLayout(layout);
+
+    // Apply to the "Actions" column
+    ui->usersTable->setCellWidget(row, 7, actionWidget);
 }
