@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Laboratoire</class>
+ <widget class="QWidget" name="Laboratoire">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>920</width>
+    <height>660</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Laboratoires</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QWidget" name="toolbar" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>70</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>70</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget#toolbar {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E0E0E0;
+}</string>
+     </property>
+     <layout class="QHBoxLayout" name="toolbarLayout">
+      <property name="spacing">
+       <number>12</number>
+      </property>
+      <property name="leftMargin">
+       <number>24</number>
+      </property>
+      <property name="topMargin">
+       <number>16</number>
+      </property>
+      <property name="rightMargin">
+       <number>24</number>
+      </property>
+      <property name="bottomMargin">
+       <number>16</number>
+      </property>
+      <item>
+       <widget class="QToolButton" name="addButtonLab">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>38</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>120</width>
+          <height>38</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+    background-color: transparent;
+    color: #10B981;
+    border: 2px solid #10B981;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 16px;
+}
+QToolButton:hover {
+    background-color: #10B981;
+    color: white;
+    border-color: #10B981;
+}
+QToolButton:pressed {
+    background-color: #059669;
+    border-color: #059669;
+}</string>
+        </property>
+        <property name="text">
+         <string>+ Ajouter</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QToolButton" name="searchButtonLab">
+        <property name="minimumSize">
+         <size>
+          <width>110</width>
+          <height>38</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>110</width>
+          <height>38</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+    background-color: transparent;
+    color: #3B82F6;
+    border: 2px solid #3B82F6;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 12px;
+}
+QToolButton:hover {
+    background-color: #3B82F6;
+    color: white;
+    border-color: #3B82F6;
+}
+QToolButton:pressed {
+    background-color: #2563EB;
+    border-color: #2563EB;
+}</string>
+        </property>
+        <property name="text">
+         <string>Rechercher</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="sortButtonLab">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>38</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>38</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+    background-color: transparent;
+    color: #8B5CF6;
+    border: 2px solid #8B5CF6;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 12px;
+}
+QToolButton:hover {
+    background-color: #8B5CF6;
+    color: white;
+    border-color: #8B5CF6;
+}
+QToolButton:pressed {
+    background-color: #7C3AED;
+    border-color: #7C3AED;
+}</string>
+        </property>
+        <property name="text">
+         <string>Trier</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="exportButtonLab">
+        <property name="minimumSize">
+         <size>
+          <width>110</width>
+          <height>38</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>110</width>
+          <height>38</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+    background-color: transparent;
+    color: #D97706;
+    border: 2px solid #D97706;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 12px;
+}
+QToolButton:hover {
+    background-color: #D97706;
+    color: white;
+    border-color: #D97706;
+}
+QToolButton:pressed {
+    background-color: #B45309;
+    border-color: #B45309;
+}</string>
+        </property>
+        <property name="text">
+         <string>Exporter</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="statsButtonLab">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>38</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>120</width>
+          <height>38</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+    background-color: transparent;
+    color: #EC4899;
+    border: 2px solid #EC4899;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 16px;
+}
+QToolButton:hover {
+    background-color: #EC4899;
+    color: white;
+    border-color: #EC4899;
+}
+QToolButton:pressed {
+    background-color: #DB2777;
+    border-color: #DB2777;
+}</string>
+        </property>
+        <property name="text">
+         <string>Statistiques</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="searchBar" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>65</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>65</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget#searchBar {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E0E0E0;
+}</string>
+     </property>
+     <layout class="QHBoxLayout" name="searchBarLayout">
+      <property name="spacing">
+       <number>12</number>
+      </property>
+      <property name="leftMargin">
+       <number>24</number>
+      </property>
+      <property name="topMargin">
+       <number>12</number>
+      </property>
+      <property name="rightMargin">
+       <number>24</number>
+      </property>
+      <property name="bottomMargin">
+       <number>12</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="searchIconLab">
+        <property name="minimumSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size: 18px; background: transparent; color: #64748B;</string>
+        </property>
+        <property name="text">
+         <string>🔍</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="searchTypeComboLab">
+        <property name="minimumSize">
+         <size>
+          <width>140</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>140</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QComboBox {
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: #FFFFFF;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+    color: #475569;
+}
+QComboBox:hover {
+    border-color: #C7D2FE;
+}
+QComboBox:focus {
+    border-color: #6366F1;
+    background-color: #FAFBFF;
+}</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Par Nom</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Par Domaine</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Par Localisation</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="searchInputLab">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLineEdit {
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 8px 16px;
+    background: #FFFFFF;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: #475569;
+}
+QLineEdit:hover {
+    border-color: #C7D2FE;
+}
+QLineEdit:focus {
+    border-color: #6366F1;
+    background-color: #FAFBFF;
+}</string>
+        </property>
+        <property name="placeholderText">
+         <string>Entrez votre recherche...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="clearButtonLab">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+    background-color: #FEF2F2;
+    color: #EF4444;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+}
+QToolButton:hover {
+    background-color: #EF4444;
+    color: white;
+}</string>
+        </property>
+        <property name="text">
+         <string>✕</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="contentArea" native="true">
+     <property name="styleSheet">
+      <string notr="true">QWidget#contentArea {
+    background-color: #F5F7FA;
+}</string>
+     </property>
+     <layout class="QVBoxLayout" name="contentLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>16</number>
+      </property>
+      <property name="topMargin">
+       <number>16</number>
+      </property>
+      <property name="rightMargin">
+       <number>16</number>
+      </property>
+      <property name="bottomMargin">
+       <number>16</number>
+      </property>
+      <item>
+       <widget class="QTableWidget" name="laboratoireTable">
+        <property name="styleSheet">
+         <string notr="true">QTableWidget {
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 12px;
+    gridline-color: #F1F5F9;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+QTableWidget::item {
+    padding: 14px;
+    border-bottom: 1px solid #F1F5F9;
+    color: #475569;
+    font-size: 13px;
+}
+QTableWidget::item:selected {
+    background-color: #F1F5F9;
+    color: #1E293B;
+}
+QHeaderView::section {
+    background-color: #F8FAFC;
+    color: #64748B;
+    padding: 16px;
+    border: none;
+    border-bottom: 2px solid #E2E8F0;
+    border-right: 1px solid #F1F5F9;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    letter-spacing: 0.8px;
+}</string>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+        </property>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>ID</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Nom</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Budget</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Date</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Budget/Domaine</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Lieu</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>nb_employe</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Actions</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+
