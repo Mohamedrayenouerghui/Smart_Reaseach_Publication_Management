@@ -10,6 +10,7 @@ namespace Ui {
 QT_END_NAMESPACE
 
 class PublicationsPage;
+class Submission;
 
 class MainWindow : public QMainWindow
 {
@@ -32,11 +33,13 @@ private slots:
 private:
     Ui::MainWindow *ui;
     PublicationsPage *publicationsPage;
+    Submission *submissionPage;
     
     void loadStyleSheet();
     void setupConnections();
     void setupIcons();
     void setupPublicationsPage();
+    void setupSubmissionPage();
     void updateTitleUnderline(const QString &color);
 };
 

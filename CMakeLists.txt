@@ -15,14 +15,17 @@ set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         publicationspage.cpp
+        submission.cpp
         users.cpp
         login.cpp
         mainwindow.h
         publicationspage.h
+        submission.h
         users.h
         login.h
         mainwindow.ui
         publicationspage.ui
+        submission.ui
         users.ui
         login.ui
 )

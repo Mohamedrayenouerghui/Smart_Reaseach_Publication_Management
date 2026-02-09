@@ -87,7 +87,6 @@ public:
         sidebarLayout->setContentsMargins(20, 30, 20, 30);
         appTitle = new QLabel(sidebar);
         appTitle->setObjectName("appTitle");
-        appTitle->setAlignment(Qt::AlignCenter);
         appTitle->setStyleSheet(QString::fromUtf8("QLabel {\n"
 "    color: #2d3748;\n"
 "    font-size: 20px;\n"
@@ -96,6 +95,7 @@ public:
 "    text-align: center;\n"
 "    background-color: transparent;\n"
 "}"));
+        appTitle->setAlignment(Qt::AlignmentFlag::AlignCenter);
 
         sidebarLayout->addWidget(appTitle);
 
@@ -198,10 +198,10 @@ public:
         logoLabel->setObjectName("logoLabel");
         logoLabel->setMinimumSize(QSize(140, 140));
         logoLabel->setMaximumSize(QSize(140, 140));
-        logoLabel->setAlignment(Qt::AlignCenter);
         logoLabel->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "border: none;\n"
 "padding: 5px;"));
+        logoLabel->setAlignment(Qt::AlignmentFlag::AlignCenter);
 
         headerLayout->addWidget(logoLabel);
 
@@ -228,18 +228,16 @@ public:
         hugeLogo = new QLabel(centerContainer);
         hugeLogo->setObjectName("hugeLogo");
         hugeLogo->setMinimumSize(QSize(600, 400));
-        hugeLogo->setAlignment(Qt::AlignCenter);
         hugeLogo->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "border: none;\n"
 "padding: 0px;"));
         hugeLogo->setScaledContents(false);
+        hugeLogo->setAlignment(Qt::AlignmentFlag::AlignCenter);
 
         centerLayout->addWidget(hugeLogo);
 
         welcomeText = new QLabel(centerContainer);
         welcomeText->setObjectName("welcomeText");
-        welcomeText->setAlignment(Qt::AlignCenter);
-        welcomeText->setWordWrap(true);
         welcomeText->setStyleSheet(QString::fromUtf8("font-size: 22px;\n"
 "font-weight: 300;\n"
 "color: rgba(255,255,255,0.95);\n"
@@ -247,18 +245,20 @@ public:
 "background-color: transparent;\n"
 "margin-top: 20px;\n"
 "letter-spacing: 1px;"));
+        welcomeText->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        welcomeText->setWordWrap(true);
 
         centerLayout->addWidget(welcomeText);
 
         versionText = new QLabel(centerContainer);
         versionText->setObjectName("versionText");
-        versionText->setAlignment(Qt::AlignCenter);
         versionText->setStyleSheet(QString::fromUtf8("font-size: 14px;\n"
 "font-weight: 300;\n"
 "color: rgba(255,255,255,0.7);\n"
 "text-align: center;\n"
 "background-color: transparent;\n"
 "margin-top: 10px;"));
+        versionText->setAlignment(Qt::AlignmentFlag::AlignCenter);
 
         centerLayout->addWidget(versionText);
 

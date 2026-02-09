@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "publicationspage.h"
+#include "submission.h"
 #include "users.h"
 #include "login.h"
 #include "ui_mainwindow.h"
@@ -12,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , publicationsPage(nullptr)
+    , submissionPage(nullptr)
 {
     ui->setupUi(this);
     initUserPage();
@@ -19,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupConnections();
     setupIcons();
     setupPublicationsPage();
+    setupSubmissionPage();
 }
 
 MainWindow::~MainWindow()
@@ -275,3 +278,28 @@ void MainWindow::setupPublicationsPage()
     pageWidget->setLayout(layout);
 }
 
+
+void MainWindow::setupSubmissionPage()
+{
+    // Create the Submission instance
+    submissionPage = new Submission(this);
+    
+    // Get the submission page widget from stacked widget (index 3)
+    QWidget *pageWidget = ui->stackedWidget->widget(3);
+    
+    // Clear any existing layout
+    if (pageWidget->layout()) {
+        QLayoutItem *item;
+        while ((item = pageWidget->layout()->takeAt(0)) != nullptr) {
+            delete item->widget();
+            delete item;
+        }
+        delete pageWidget->layout();
+    }
+    
+    // Create a new layout and add the submission page
+    QVBoxLayout *layout = new QVBoxLayout(pageWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(submissionPage);
+    pageWidget->setLayout(layout);
+}

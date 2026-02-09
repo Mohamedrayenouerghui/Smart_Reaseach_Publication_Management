@@ -153,6 +153,7 @@ ResearchManagementSystem_autogen/timestamp: \
 	C:/Qt/6.10.1/mingw_64/include/QtGui/qwindowdefs.h \
 	C:/Qt/6.10.1/mingw_64/include/QtGui/qwindowdefs_win.h \
 	C:/Qt/6.10.1/mingw_64/include/QtWidgets/QMainWindow \
+	C:/Qt/6.10.1/mingw_64/include/QtWidgets/QWidget \
 	C:/Qt/6.10.1/mingw_64/include/QtWidgets/qmainwindow.h \
 	C:/Qt/6.10.1/mingw_64/include/QtWidgets/qsizepolicy.h \
 	C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtabwidget.h \
@@ -559,9 +560,20 @@ ResearchManagementSystem_autogen/timestamp: \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/moc_predefs.h \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/login.cpp \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/login.h \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/main.cpp \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/mainwindow.cpp \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/mainwindow.h \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/publicationspage.cpp \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/publicationspage.h \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/submission.cpp \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/submission.h \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/users.cpp \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/users.h \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/login.ui \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/mainwindow.ui \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/publicationspage.ui \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/submission.ui \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/users.ui \
 	C:/Qt/Tools/CMake_64/bin/cmake.exe

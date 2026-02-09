@@ -317,9 +317,33 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/login.h",
+			"MU",
+			"EWIEGA46WW/moc_login.cpp",
+			null
+		],
+		[
 			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
+			null
+		],
+		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/publicationspage.h",
+			"MU",
+			"EWIEGA46WW/moc_publicationspage.cpp",
+			null
+		],
+		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/submission.h",
+			"MU",
+			"EWIEGA46WW/moc_submission.cpp",
+			null
+		],
+		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/users.h",
+			"MU",
+			"EWIEGA46WW/moc_users.cpp",
 			null
 		]
 	],
@@ -395,12 +419,32 @@
 	"SOURCES" : 
 	[
 		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/login.cpp",
+			"MU",
+			null
+		],
+		[
 			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/main.cpp",
 			"MU",
 			null
 		],
 		[
 			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/mainwindow.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/publicationspage.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/submission.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/users.cpp",
 			"MU",
 			null
 		]
