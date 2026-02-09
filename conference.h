@@ -21,6 +21,8 @@ private slots:
     void onClearButtonClicked();
     void onSortMenuTriggered(QAction *action);
     void onExportMenuTriggered(QAction *action);
+    void onSubmitButtonClicked();
+    void onCancelButtonClicked();
 
 private:
     Ui::Conference *ui;

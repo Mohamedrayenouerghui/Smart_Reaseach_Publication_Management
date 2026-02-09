@@ -5,6 +5,7 @@
 #include <QToolButton>
 #include <QPushButton>
 #include <QHBoxLayout>
+#include <QDate>
 
 Conference::Conference(QWidget *parent)
     : QWidget(parent)
@@ -60,10 +61,12 @@ void Conference::setupConnections() {
     connect(ui->addButtonConference, &QToolButton::clicked, this, &Conference::onAddButtonClicked);
     connect(ui->statsButtonConference, &QToolButton::clicked, this, &Conference::onStatsButtonClicked);
     connect(ui->clearButtonConference, &QToolButton::clicked, ui->searchInputConference, &QLineEdit::clear);
+    connect(ui->submitButton, &QPushButton::clicked, this, &Conference::onSubmitButtonClicked);
+    connect(ui->cancelButton, &QPushButton::clicked, this, &Conference::onCancelButtonClicked);
 }
 
 void Conference::onAddButtonClicked() {
-    QMessageBox::information(this, "Ajouter Conférence", "Fonctionnalité d'ajout de conférence à implémenter");
+    ui->conferenceTabWidget->setCurrentIndex(1);
 }
 
 void Conference::onStatsButtonClicked() {
@@ -80,4 +83,29 @@ void Conference::onSortMenuTriggered(QAction *action) {
 
 void Conference::onExportMenuTriggered(QAction *action) {
     QMessageBox::information(this, "Exporter", action->text() + " à implémenter");
+}
+
+void Conference::onSubmitButtonClicked() {
+    QString nom = ui->nomInput->text();
+    QString lieu = ui->lieuInput->text();
+    QString theme = ui->themeInput->text();
+    
+    if (nom.isEmpty() || lieu.isEmpty() || theme.isEmpty()) {
+        QMessageBox::warning(this, "Validation", "Veuillez remplir tous les champs obligatoires");
+        return;
+    }
+    
+    QMessageBox::information(this, "Succès", "Conférence ajoutée avec succès!");
+    onCancelButtonClicked();
+}
+
+void Conference::onCancelButtonClicked() {
+    ui->nomInput->clear();
+    ui->lieuInput->clear();
+    ui->themeInput->clear();
+    ui->fraisInput->setValue(0);
+    ui->etatCombo->setCurrentIndex(0);
+    ui->dateDebutInput->setDate(QDate::currentDate());
+    ui->dateFinInput->setDate(QDate::currentDate());
+    ui->conferenceTabWidget->setCurrentIndex(0);
 }
