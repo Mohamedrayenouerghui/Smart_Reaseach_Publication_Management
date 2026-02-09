@@ -30,17 +30,17 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::initUserPage() {
-    // 1. Create the instance
+    // Create and initialize the Users page
     Users *usersPageWidget = new Users(this);
 
-    // 2. Swap the placeholder widget (Index 2) with your real Users class
-    // This ensures that when you click the "Users" button, it shows your new UI
+    // Replace the placeholder widget at index 2 with the Users page
     QWidget *oldWidget = ui->stackedWidget->widget(2);
     ui->stackedWidget->removeWidget(oldWidget);
     ui->stackedWidget->insertWidget(2, usersPageWidget);
 
-    if(oldWidget) oldWidget->deleteLater();
-
+    if(oldWidget) {
+        oldWidget->deleteLater();
+    }
 }
 
 void MainWindow::loadStyleSheet()
