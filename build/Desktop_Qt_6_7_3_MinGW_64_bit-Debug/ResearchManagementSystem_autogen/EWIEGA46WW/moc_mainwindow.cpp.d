@@ -1,5 +1,5 @@
-C:/Users/safab/Downloads/Smart_Reaseach_Publication_Management-main/Smart_Reaseach_Publication_Management-main/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/safab/Downloads/Smart_Reaseach_Publication_Management-main/Smart_Reaseach_Publication_Management-main/mainwindow.h \
-  C:/Users/safab/Downloads/Smart_Reaseach_Publication_Management-main/Smart_Reaseach_Publication_Management-main/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/moc_predefs.h \
+C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/mainwindow.h \
+  C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/moc_predefs.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20type_traits.h \

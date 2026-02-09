@@ -512,12 +512,66 @@ QToolButton:hover {
        <number>16</number>
       </property>
       <item>
-       <widget class="QTableWidget" name="publicationsTable">
+       <widget class="QTabWidget" name="publicationsTabWidget">
         <property name="styleSheet">
-         <string notr="true">QTableWidget {
-    background-color: #FFFFFF;
+         <string notr="true">QTabWidget::pane {
     border: 1.5px solid #E2E8F0;
     border-radius: 12px;
+    background-color: #FFFFFF;
+    top: -1px;
+}
+QTabBar::tab {
+    background-color: #F8FAFC;
+    color: #64748B;
+    padding: 12px 24px;
+    border: 1.5px solid #E2E8F0;
+    border-bottom: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 4px;
+}
+QTabBar::tab:selected {
+    background-color: #FFFFFF;
+    color: #667eea;
+    border-bottom: 2px solid #667eea;
+}
+QTabBar::tab:hover:!selected {
+    background-color: #EEF2FF;
+    color: #667eea;
+}</string>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="listTab">
+         <attribute name="title">
+          <string>Liste des Publications</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="listTabLayout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QTableWidget" name="publicationsTable">
+            <property name="styleSheet">
+             <string notr="true">QTableWidget {
+    background-color: #FFFFFF;
+    border: none;
     gridline-color: #F1F5F9;
     font-family: 'Segoe UI', 'Roboto', sans-serif;
 }
@@ -544,55 +598,435 @@ QHeaderView::section {
     font-family: 'Segoe UI', 'Roboto', sans-serif;
     letter-spacing: 0.8px;
 }</string>
-        </property>
-        <property name="editTriggers">
-         <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
-        </property>
-        <property name="alternatingRowColors">
-         <bool>true</bool>
-        </property>
-        <property name="selectionMode">
-         <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
-        </property>
-        <property name="selectionBehavior">
-         <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
-        </property>
-        <attribute name="horizontalHeaderStretchLastSection">
-         <bool>true</bool>
-        </attribute>
-        <attribute name="verticalHeaderVisible">
-         <bool>false</bool>
-        </attribute>
-        <column>
-         <property name="text">
-          <string>ID</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Titre</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Domaine</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>État</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Date Création</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Actions</string>
-         </property>
-        </column>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+            </property>
+            <property name="alternatingRowColors">
+             <bool>true</bool>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+            </property>
+            <attribute name="horizontalHeaderStretchLastSection">
+             <bool>true</bool>
+            </attribute>
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <column>
+             <property name="text">
+              <string>ID</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Titre</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Domaine</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>État</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Date Création</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Actions</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="addTab">
+         <attribute name="title">
+          <string>Ajouter un Nouvel Article</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="addTabLayout">
+          <property name="spacing">
+           <number>12</number>
+          </property>
+          <property name="leftMargin">
+           <number>30</number>
+          </property>
+          <property name="topMargin">
+           <number>20</number>
+          </property>
+          <property name="rightMargin">
+           <number>30</number>
+          </property>
+          <property name="bottomMargin">
+           <number>20</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="formTitleLabel">
+            <property name="styleSheet">
+             <string notr="true">font-size: 18px; font-weight: 600; color: #1E293B; background: transparent;</string>
+            </property>
+            <property name="text">
+             <string>Ajouter un Nouvel Article</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="formWidget" native="true">
+            <property name="styleSheet">
+             <string notr="true">QWidget#formWidget {
+    background-color: transparent;
+}</string>
+            </property>
+            <layout class="QVBoxLayout" name="formLayout">
+             <property name="spacing">
+              <number>12</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="titreLabel">
+               <property name="styleSheet">
+                <string notr="true">font-size: 13px; font-weight: 600; color: #475569; background: transparent;</string>
+               </property>
+               <property name="text">
+                <string>Titre de l'Article</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="titreInput">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>38</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    background: #FFFFFF;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: #475569;
+}
+QLineEdit:hover {
+    border-color: #C7D2FE;
+}
+QLineEdit:focus {
+    border-color: #667eea;
+    background-color: #FAFBFF;
+}</string>
+               </property>
+               <property name="placeholderText">
+                <string>Entrez le titre de l'article...</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="domaineLabel">
+               <property name="styleSheet">
+                <string notr="true">font-size: 13px; font-weight: 600; color: #475569; background: transparent;</string>
+               </property>
+               <property name="text">
+                <string>Domaine</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="domaineCombo">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>38</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QComboBox {
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    background: #FFFFFF;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: #475569;
+}
+QComboBox:hover {
+    border-color: #C7D2FE;
+}
+QComboBox:focus {
+    border-color: #667eea;
+    background-color: #FAFBFF;
+}
+QComboBox::drop-down {
+    border: none;
+    padding-right: 10px;
+}
+QComboBox::down-arrow {
+    image: none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #64748B;
+    margin-right: 8px;
+}</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Sélectionnez un domaine...</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Intelligence Artificielle</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Réseaux et Sécurité</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Génie Logiciel</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Systèmes Distribués</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Base de Données</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Autre</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="contenuLabel">
+               <property name="styleSheet">
+                <string notr="true">font-size: 13px; font-weight: 600; color: #475569; background: transparent;</string>
+               </property>
+               <property name="text">
+                <string>Contenu (PDF)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="uploadWidget" native="true">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QWidget#uploadWidget {
+    border: 2px dashed #C7D2FE;
+    border-radius: 12px;
+    background-color: #F8FAFC;
+}</string>
+               </property>
+               <layout class="QVBoxLayout" name="uploadLayout">
+                <property name="spacing">
+                 <number>8</number>
+                </property>
+                <item alignment="Qt::AlignmentFlag::AlignHCenter">
+                 <widget class="QPushButton" name="uploadButton">
+                  <property name="minimumSize">
+                   <size>
+                    <width>160</width>
+                    <height>36</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>160</width>
+                    <height>36</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+    background-color: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+}
+QPushButton:hover {
+    background-color: #5568d3;
+}
+QPushButton:pressed {
+    background-color: #4c51bf;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Choisir un fichier PDF</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="fileNameLabel">
+                  <property name="styleSheet">
+                   <string notr="true">font-size: 12px; color: #64748B; background: transparent;</string>
+                  </property>
+                  <property name="text">
+                   <string>Aucun fichier sélectionné</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="buttonWidget" native="true">
+               <property name="styleSheet">
+                <string notr="true">QWidget#buttonWidget {
+    background-color: transparent;
+}</string>
+               </property>
+               <layout class="QHBoxLayout" name="buttonLayout">
+                <property name="spacing">
+                 <number>16</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <spacer name="horizontalSpacer_2">
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="cancelButton">
+                  <property name="minimumSize">
+                   <size>
+                    <width>100</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+    background-color: transparent;
+    color: #64748B;
+    border: 2px solid #E2E8F0;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 20px;
+}
+QPushButton:hover {
+    background-color: #F8FAFC;
+    border-color: #CBD5E1;
+}
+QPushButton:pressed {
+    background-color: #F1F5F9;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Annuler</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="submitButton">
+                  <property name="minimumSize">
+                   <size>
+                    <width>140</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+    background-color: #10B981;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 20px;
+}
+QPushButton:hover {
+    background-color: #059669;
+}
+QPushButton:pressed {
+    background-color: #047857;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Soumettre l'Article</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </widget>
       </item>
      </layout>

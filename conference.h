@@ -1,22 +1,33 @@
 #ifndef CONFERENCE_H
 #define CONFERENCE_H
 
-#include <QMainWindow>
+#include <QWidget>
 
 namespace Ui {
-class conference;
+class Conference;
 }
 
-class conference : public QMainWindow
+class Conference : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit conference(QWidget *parent = nullptr);
-    ~conference();
+    explicit Conference(QWidget *parent = nullptr);
+    ~Conference();
+
+private slots:
+    void onAddButtonClicked();
+    void onStatsButtonClicked();
+    void onClearButtonClicked();
+    void onSortMenuTriggered(QAction *action);
+    void onExportMenuTriggered(QAction *action);
 
 private:
-    Ui::conference *ui;
+    Ui::Conference *ui;
+    
+    void setupConnections();
+    void setupMenus();
+    void setupTable();
 };
 
 #endif // CONFERENCE_H

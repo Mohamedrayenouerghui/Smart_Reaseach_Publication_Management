@@ -1,5 +1,5 @@
-C:/Users/safab/Downloads/Smart_Reaseach_Publication_Management-main/Smart_Reaseach_Publication_Management-main/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/EWIEGA46WW/moc_conference.cpp: C:/Users/safab/Downloads/Smart_Reaseach_Publication_Management-main/Smart_Reaseach_Publication_Management-main/conference.h \
-  C:/Users/safab/Downloads/Smart_Reaseach_Publication_Management-main/Smart_Reaseach_Publication_Management-main/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/moc_predefs.h \
+C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/EWIEGA46WW/moc_conference.cpp: C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/conference.h \
+  C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/moc_predefs.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20type_traits.h \
@@ -142,10 +142,8 @@ C:/Users/safab/Downloads/Smart_Reaseach_Publication_Management-main/Smart_Reasea
   C:/Qt/6.7.3/mingw_64/include/QtGui/qtransform.h \
   C:/Qt/6.7.3/mingw_64/include/QtGui/qwindowdefs.h \
   C:/Qt/6.7.3/mingw_64/include/QtGui/qwindowdefs_win.h \
-  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMainWindow \
-  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmainwindow.h \
+  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QWidget \
   C:/Qt/6.7.3/mingw_64/include/QtWidgets/qsizepolicy.h \
-  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
   C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
   C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
   C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
