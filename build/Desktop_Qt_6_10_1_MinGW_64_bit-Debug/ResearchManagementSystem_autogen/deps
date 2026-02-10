@@ -560,6 +560,10 @@ ResearchManagementSystem_autogen/timestamp: \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/moc_predefs.h \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/conference.cpp \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/conference.h \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/laboratoire.cpp \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/laboratoire.h \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/login.cpp \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/login.h \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/main.cpp \
@@ -571,6 +575,8 @@ ResearchManagementSystem_autogen/timestamp: \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/submission.h \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/users.cpp \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/users.h \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/conference.ui \
+	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/laboratoire.ui \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/login.ui \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/mainwindow.ui \
 	C:/Users/rayen/Desktop/projet\ c++/SmartReseachManagement/SmartResearchManagement/publicationspage.ui \

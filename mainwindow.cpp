@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "publicationspage.h"
 #include "submission.h"
+#include "conference.h"
+#include "laboratoire.h"
 #include "users.h"
 #include "login.h"
 #include "ui_mainwindow.h"
@@ -14,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
     , publicationsPage(nullptr)
     , submissionPage(nullptr)
+    , conferencePage(nullptr)
+    , laboratoirePage(nullptr)
 {
     ui->setupUi(this);
     initUserPage();
@@ -22,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
     setupIcons();
     setupPublicationsPage();
     setupSubmissionPage();
+    setupConferencePage();
+    setupLaboratoirePage();
 }
 
 MainWindow::~MainWindow()
@@ -301,5 +307,55 @@ void MainWindow::setupSubmissionPage()
     QVBoxLayout *layout = new QVBoxLayout(pageWidget);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(submissionPage);
+    pageWidget->setLayout(layout);
+}
+
+void MainWindow::setupConferencePage()
+{
+    // Create the Conference instance
+    conferencePage = new Conference(this);
+    
+    // Get the conference page widget from stacked widget (index 5)
+    QWidget *pageWidget = ui->stackedWidget->widget(5);
+    
+    // Clear any existing layout
+    if (pageWidget->layout()) {
+        QLayoutItem *item;
+        while ((item = pageWidget->layout()->takeAt(0)) != nullptr) {
+            delete item->widget();
+            delete item;
+        }
+        delete pageWidget->layout();
+    }
+    
+    // Create a new layout and add the conference page
+    QVBoxLayout *layout = new QVBoxLayout(pageWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(conferencePage);
+    pageWidget->setLayout(layout);
+}
+
+void MainWindow::setupLaboratoirePage()
+{
+    // Create the Laboratoire instance
+    laboratoirePage = new Laboratoire(this);
+    
+    // Get the laboratoire page widget from stacked widget (index 6)
+    QWidget *pageWidget = ui->stackedWidget->widget(6);
+    
+    // Clear any existing layout
+    if (pageWidget->layout()) {
+        QLayoutItem *item;
+        while ((item = pageWidget->layout()->takeAt(0)) != nullptr) {
+            delete item->widget();
+            delete item;
+        }
+        delete pageWidget->layout();
+    }
+    
+    // Create a new layout and add the laboratoire page
+    QVBoxLayout *layout = new QVBoxLayout(pageWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(laboratoirePage);
     pageWidget->setLayout(layout);
 }

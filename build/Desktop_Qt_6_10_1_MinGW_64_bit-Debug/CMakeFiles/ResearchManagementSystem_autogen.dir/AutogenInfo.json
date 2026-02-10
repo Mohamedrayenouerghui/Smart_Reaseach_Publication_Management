@@ -317,6 +317,18 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/conference.h",
+			"MU",
+			"EWIEGA46WW/moc_conference.cpp",
+			null
+		],
+		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/laboratoire.h",
+			"MU",
+			"EWIEGA46WW/moc_laboratoire.cpp",
+			null
+		],
+		[
 			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/login.h",
 			"MU",
 			"EWIEGA46WW/moc_login.cpp",
@@ -418,6 +430,16 @@
 	"SETTINGS_FILE" : "C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/ResearchManagementSystem_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/conference.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/laboratoire.cpp",
+			"MU",
+			null
+		],
 		[
 			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/login.cpp",
 			"MU",

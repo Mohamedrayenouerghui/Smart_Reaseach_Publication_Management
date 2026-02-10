@@ -16,16 +16,22 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         publicationspage.cpp
         submission.cpp
+        conference.cpp
+        laboratoire.cpp
         users.cpp
         login.cpp
         mainwindow.h
         publicationspage.h
         submission.h
+        conference.h
+        laboratoire.h
         users.h
         login.h
         mainwindow.ui
         publicationspage.ui
         submission.ui
+        conference.ui
+        laboratoire.ui
         users.ui
         login.ui
 )
