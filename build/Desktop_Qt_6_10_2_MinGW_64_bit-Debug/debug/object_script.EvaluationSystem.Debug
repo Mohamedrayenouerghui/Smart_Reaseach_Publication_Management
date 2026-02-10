@@ -1,0 +1,15 @@
+debug/main.o
+debug/mainwindow.o
+debug/evaluationlistwindow.o
+debug/evaluationformdialog.o
+debug/reviewerwindow.o
+debug/statisticswindow.o
+debug/database.o
+debug/evaluation.o
+debug/reviewer.o
+debug/qrc_resources.o
+debug/moc_mainwindow.o
+debug/moc_evaluationlistwindow.o
+debug/moc_evaluationformdialog.o
+debug/moc_reviewerwindow.o
+debug/moc_statisticswindow.o

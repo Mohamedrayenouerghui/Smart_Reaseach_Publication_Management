@@ -1,0 +1,15 @@
+release/main.o
+release/mainwindow.o
+release/evaluationlistwindow.o
+release/evaluationformdialog.o
+release/reviewerwindow.o
+release/statisticswindow.o
+release/database.o
+release/evaluation.o
+release/reviewer.o
+release/qrc_resources.o
+release/moc_mainwindow.o
+release/moc_evaluationlistwindow.o
+release/moc_evaluationformdialog.o
+release/moc_reviewerwindow.o
+release/moc_statisticswindow.o
