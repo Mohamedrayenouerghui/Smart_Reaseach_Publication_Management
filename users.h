@@ -20,6 +20,7 @@ private:
     void setupTable();
     void setupMenus();
     void setupConnections();
+    void setupPrototypeUser();
 };
 
 #endif // USERSPAGE_H

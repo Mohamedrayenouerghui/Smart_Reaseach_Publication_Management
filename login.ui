@@ -362,34 +362,6 @@ QPushButton:pressed {
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="signupBtn">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-    background-color: transparent;
-    color: #667eea;
-    border: 2px solid #667eea;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-}
-QPushButton:hover {
-    background-color: rgba(102, 126, 234, 0.1);
-    border: 2px solid #764ba2;
-    color: #764ba2;
-}</string>
-          </property>
-          <property name="text">
-           <string>Créer un nouveau compte</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QLabel" name="orLabel">
           <property name="styleSheet">
            <string notr="true">font-size: 16px;

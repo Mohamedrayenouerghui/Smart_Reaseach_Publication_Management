@@ -30,8 +30,9 @@ void Users::setupTable() {
     ui->usersTable->setColumnWidth(2, 150);
     ui->usersTable->setColumnWidth(3, 200);
     ui->usersTable->setColumnWidth(4, 150);
-    ui->usersTable->setColumnWidth(5, 150);
-    //ui->usersTable->setColumnWidth(6, 150);
+    ui->usersTable->setColumnWidth(5, 125);
+    ui->usersTable->setColumnWidth(6, 125);
+    ui->usersTable->setColumnWidth(7, 160);
 
     // Set row height
     ui->usersTable->verticalHeader()->setDefaultSectionSize(100);
@@ -62,15 +63,24 @@ void Users::setupMenus() {
 
 }
 
+
+
 void Users::setupConnections() {
     connect(ui->addButtonUser, &QToolButton::clicked, this, [this]() {
-        QMessageBox::information(this, "Utilisateur", "Ajouter un utilisateur");
+        QMessageBox::information(this, "Utilisateur", "Ajouter un utilisateur à implémenter");
     });
     // Statistics button
     connect(ui->statsButtonUser, &QToolButton::clicked, this, [this]() {
         QMessageBox::information(this, "Statistiques", "Affichage des statistiques à implémenter");
     });
     connect(ui->clearButtonUser, &QToolButton::clicked, ui->searchInputUser, &QLineEdit::clear);
+    //upload user photo
+    connect(ui->uploadPhotoButton, &QToolButton::clicked, this, [this]() {
+        QMessageBox::information(this, "Photo Utilisateur", "Ajouter une photo d'utilisateur à implémenter");
+    });
+    connect(ui->submitButtonUser, &QToolButton::clicked, this, [this]() {
+        QMessageBox::information(this, "Utilisateur", "Ajouter un utilisateur à implémenter");
+    });
 
 
 }

@@ -33,10 +33,7 @@ void Login::setupConnections()
     connect(ui->forgotPasswordBtn, &QToolButton::clicked, this, [this]() {
         QMessageBox::information(this, "Forgotten password", "Mot de passe oublié à implémenter");
     });
-    //Connect Sign Up
-    connect(ui->signupBtn, &QToolButton::clicked, this, [this]() {
-        QMessageBox::information(this, "Sign Up", "Creation d'un nouveau compte à implémenter");
-    });
+
 }
 void Login::on_loginBtn_clicked()
 {
