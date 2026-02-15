@@ -522,7 +522,7 @@ QToolButton:hover {
    QTabBar::tab:hover:!selected { background-color: #EEF2FF; color: #667eea; }</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="listTab">
          <attribute name="title">
@@ -690,12 +690,32 @@ QToolButton:hover {
                </item>
                <item>
                 <property name="text">
-                 <string>Publicateur</string>
+                 <string>Enseignant</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>Chercheur</string>
+                 <string>Responsable RH</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Chef de Service Recherche</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Expert Evaluateur</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Directeur de Conference</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Directeur de Laboratoire</string>
                 </property>
                </item>
               </widget>
