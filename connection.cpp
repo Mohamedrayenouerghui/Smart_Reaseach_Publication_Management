@@ -12,10 +12,15 @@ bool Connection::createConnection()
     // Créer la connexion ODBC
     db = QSqlDatabase::addDatabase("QODBC");
     
-    // Configuration de la base de données
-    db.setDatabaseName("SmartResearch_DB"); // Nom de la source de données ODBC
-    db.setUserName("admin");                 // Nom d'utilisateur
-    db.setPassword("admin123");              // Mot de passe
+    // Configuration avec connection string complète
+    QString connectionString = "DRIVER={Oracle in XE};"
+                               "SERVER=localhost;"
+                               "PORT=1521;"
+                               "SID=XE;"
+                               "UID=rayen;"
+                               "PWD=rayen123;";
+    
+    db.setDatabaseName(connectionString);
     
     // Tentative d'ouverture de la connexion
     if (db.open()) {

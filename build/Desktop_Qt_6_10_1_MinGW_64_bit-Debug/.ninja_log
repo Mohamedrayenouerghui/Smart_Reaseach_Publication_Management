@@ -1,15 +1,15 @@
 # ninja log v6
 10	726	7920023239897700	SmartResearchManagement_autogen/timestamp	7b502c92fbb32d2e
-240	3423	7924230158573523	CMakeFiles/ResearchManagementSystem.dir/login.cpp.obj	a282c691f6c1637
+683	7734	7924232106819755	CMakeFiles/ResearchManagementSystem.dir/login.cpp.obj	a282c691f6c1637
 10	726	7920023239897700	SmartResearchManagement_autogen/mocs_compilation.cpp	7b502c92fbb32d2e
 10	726	7920023239897700	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/SmartResearchManagement_autogen/timestamp	7b502c92fbb32d2e
 10	726	7920023239897700	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/SmartResearchManagement_autogen/mocs_compilation.cpp	7b502c92fbb32d2e
-727	4375	7920023240882850	CMakeFiles/SmartResearchManagement.dir/SmartResearchManagement_autogen/mocs_compilation.cpp.obj	a9b16bcff3931c6b
 877	992	7920028232205865	ResearchManagementSystem_autogen/EWIEGA46WW/qrc_resources.cpp	61c836523a113846
-185	247	7919992087375161	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/SmartResearchManagement_autogen/EWIEGA46WW/qrc_SpyBot.cpp	13601186b4b9deb6
+727	4375	7920023240882850	CMakeFiles/SmartResearchManagement.dir/SmartResearchManagement_autogen/mocs_compilation.cpp.obj	a9b16bcff3931c6b
 738	4831	7920023240993811	CMakeFiles/SmartResearchManagement.dir/mainwindow.cpp.obj	5f2e02cad3168790
+185	247	7919992087375161	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/SmartResearchManagement_autogen/EWIEGA46WW/qrc_SpyBot.cpp	13601186b4b9deb6
 732	4481	7920023240939917	CMakeFiles/SmartResearchManagement.dir/main.cpp.obj	ec7e12573bfcfb67
-4352	4812	7924230199693467	ResearchManagementSystem.exe	f2bbf9fa579dfd77
+9216	9737	7924232192145978	ResearchManagementSystem.exe	486b705ab91cb0c5
 4831	5118	7920023281928055	SmartResearchManagement.exe	a0bbde7a60c6a459
 635	680	7924227531665743	ResearchManagementSystem_autogen/EWIEGA46WW/qrc_SpyBot.cpp	8927001fe6182fef
 185	247	7919992087375161	SmartResearchManagement_autogen/EWIEGA46WW/qrc_SpyBot.cpp	13601186b4b9deb6
@@ -17,31 +17,61 @@
 191	263	7919992087543356	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/SmartResearchManagement_autogen/EWIEGA46WW/qrc_resources.cpp	fcfc9bf861155eb1
 267	330	7919992087699483	CMakeFiles/SmartResearchManagement.dir/SmartResearchManagement_autogen/EWIEGA46WW/qrc_resources.cpp.obj	ca858bae70b57ade
 263	332	7919992087662189	CMakeFiles/SmartResearchManagement.dir/SmartResearchManagement_autogen/EWIEGA46WW/qrc_SpyBot.cpp.obj	690cfbd60776187f
-9	224	7924230156266376	ResearchManagementSystem_autogen/timestamp	4316b150fb3580d2
-9	224	7924230156266376	ResearchManagementSystem_autogen/mocs_compilation.cpp	4316b150fb3580d2
-9	224	7924230156266376	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/timestamp	4316b150fb3580d2
-9	224	7924230156266376	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/mocs_compilation.cpp	4316b150fb3580d2
-225	3808	7924230158419026	CMakeFiles/ResearchManagementSystem.dir/mainwindow.cpp.obj	962acbd3809a4264
-635	680	7924227531665743	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/EWIEGA46WW/qrc_SpyBot.cpp	8927001fe6182fef
-877	992	7920028232205865	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/EWIEGA46WW/qrc_resources.cpp	61c836523a113846
-1011	1196	7920028232534793	CMakeFiles/ResearchManagementSystem.dir/ResearchManagementSystem_autogen/EWIEGA46WW/qrc_resources.cpp.obj	3f43109e85b592d8
-705	15510	7924227532359751	CMakeFiles/ResearchManagementSystem.dir/ResearchManagementSystem_autogen/EWIEGA46WW/qrc_SpyBot.cpp.obj	326535f04755a328
-683	6107	7924227532135605	CMakeFiles/ResearchManagementSystem.dir/main.cpp.obj	d4a24267b62ebe2e
-680	6110	7924227532105238	CMakeFiles/ResearchManagementSystem.dir/ResearchManagementSystem_autogen/mocs_compilation.cpp.obj	e12e1226d83683f5
-236	4012	7924230158528394	CMakeFiles/ResearchManagementSystem.dir/users.cpp.obj	6dd297113fc72cb
-229	4352	7924230158463117	CMakeFiles/ResearchManagementSystem.dir/publicationspage.cpp.obj	f51e81f8b785e413
-232	3910	7924230158493145	CMakeFiles/ResearchManagementSystem.dir/submission.cpp.obj	14ede25209786301
 31	652	7924232105789372	ResearchManagementSystem_autogen/timestamp	4316b150fb3580d2
 31	652	7924232105789372	ResearchManagementSystem_autogen/mocs_compilation.cpp	4316b150fb3580d2
 31	652	7924232105789372	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/timestamp	4316b150fb3580d2
 31	652	7924232105789372	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/mocs_compilation.cpp	4316b150fb3580d2
+661	8277	7924232106599873	CMakeFiles/ResearchManagementSystem.dir/mainwindow.cpp.obj	962acbd3809a4264
+635	680	7924227531665743	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/EWIEGA46WW/qrc_SpyBot.cpp	8927001fe6182fef
+877	992	7920028232205865	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/EWIEGA46WW/qrc_resources.cpp	61c836523a113846
+1011	1196	7920028232534793	CMakeFiles/ResearchManagementSystem.dir/ResearchManagementSystem_autogen/EWIEGA46WW/qrc_resources.cpp.obj	3f43109e85b592d8
+705	15510	7924227532359751	CMakeFiles/ResearchManagementSystem.dir/ResearchManagementSystem_autogen/EWIEGA46WW/qrc_SpyBot.cpp.obj	326535f04755a328
 656	6469	7924232106558156	CMakeFiles/ResearchManagementSystem.dir/main.cpp.obj	d4a24267b62ebe2e
 653	6949	7924232106520397	CMakeFiles/ResearchManagementSystem.dir/ResearchManagementSystem_autogen/mocs_compilation.cpp.obj	e12e1226d83683f5
-683	7734	7924232106819755	CMakeFiles/ResearchManagementSystem.dir/login.cpp.obj	a282c691f6c1637
-661	8277	7924232106599873	CMakeFiles/ResearchManagementSystem.dir/mainwindow.cpp.obj	962acbd3809a4264
 680	8282	7924232106789571	CMakeFiles/ResearchManagementSystem.dir/users.cpp.obj	6dd297113fc72cb
-668	8574	7924232106668163	CMakeFiles/ResearchManagementSystem.dir/submission.cpp.obj	14ede25209786301
 664	8633	7924232106632972	CMakeFiles/ResearchManagementSystem.dir/publicationspage.cpp.obj	f51e81f8b785e413
+668	8574	7924232106668163	CMakeFiles/ResearchManagementSystem.dir/submission.cpp.obj	14ede25209786301
 672	9170	7924232106712288	CMakeFiles/ResearchManagementSystem.dir/conference.cpp.obj	46e00c12d2e000d0
 676	9215	7924232106749618	CMakeFiles/ResearchManagementSystem.dir/laboratoire.cpp.obj	ed91096929aef063
-9216	9737	7924232192145978	ResearchManagementSystem.exe	486b705ab91cb0c5
+54	1883	7930253777219071	ResearchManagementSystem_autogen/timestamp	4316b150fb3580d2
+54	1883	7930253777219071	ResearchManagementSystem_autogen/mocs_compilation.cpp	4316b150fb3580d2
+54	1883	7930253777219071	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/timestamp	4316b150fb3580d2
+54	1883	7930253777219071	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/mocs_compilation.cpp	4316b150fb3580d2
+1914	11439	7930253778485377	CMakeFiles/ResearchManagementSystem.dir/connection.cpp.obj	b0596dbad2437481
+1888	12160	7930253778218477	CMakeFiles/ResearchManagementSystem.dir/main.cpp.obj	8c105f17cfb4834f
+1885	12767	7930253778182910	CMakeFiles/ResearchManagementSystem.dir/ResearchManagementSystem_autogen/mocs_compilation.cpp.obj	bdfa659ab999a391
+1924	12909	7930253778575081	CMakeFiles/ResearchManagementSystem.dir/login.cpp.obj	66dde9b234897043
+1891	13316	7930253778256633	CMakeFiles/ResearchManagementSystem.dir/mainwindow.cpp.obj	d7946180e1023530
+1905	14353	7930253778395680	CMakeFiles/ResearchManagementSystem.dir/conference.cpp.obj	8bd11f473ddbf09c
+1919	14695	7930253778525250	CMakeFiles/ResearchManagementSystem.dir/users.cpp.obj	f5115815c850c3d
+1901	14938	7930253778345110	CMakeFiles/ResearchManagementSystem.dir/submission.cpp.obj	105e20c1d785cb03
+1896	15535	7930253778302778	CMakeFiles/ResearchManagementSystem.dir/publicationspage.cpp.obj	1de7426c227f91dc
+1910	15572	7930253778435547	CMakeFiles/ResearchManagementSystem.dir/laboratoire.cpp.obj	67b30ea75e8249d3
+11439	29394	7930253873733322	CMakeFiles/ResearchManagementSystem.dir/ResearchManagementSystem_autogen/EWIEGA46WW/qrc_SpyBot.cpp.obj	8bbd450de8d27e45
+29394	30670	7930254053275436	ResearchManagementSystem.exe	ceaa5edb67b55f31
+10	287	7930271490169192	ResearchManagementSystem_autogen/timestamp	4316b150fb3580d2
+10	287	7930271490169192	ResearchManagementSystem_autogen/mocs_compilation.cpp	4316b150fb3580d2
+10	287	7930271490169192	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/timestamp	4316b150fb3580d2
+10	287	7930271490169192	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/mocs_compilation.cpp	4316b150fb3580d2
+357	4890	7930271493654944	CMakeFiles/ResearchManagementSystem.dir/connection.cpp.obj	b0596dbad2437481
+371	8138	7930271493804445	CMakeFiles/ResearchManagementSystem.dir/login.cpp.obj	66dde9b234897043
+288	8310	7930271492970214	CMakeFiles/ResearchManagementSystem.dir/mainwindow.cpp.obj	d7946180e1023530
+300	8323	7930271493085022	CMakeFiles/ResearchManagementSystem.dir/submission.cpp.obj	105e20c1d785cb03
+309	8386	7930271493175958	CMakeFiles/ResearchManagementSystem.dir/conference.cpp.obj	8bd11f473ddbf09c
+364	9007	7930271493724710	CMakeFiles/ResearchManagementSystem.dir/users.cpp.obj	f5115815c850c3d
+320	9263	7930271493577715	CMakeFiles/ResearchManagementSystem.dir/laboratoire.cpp.obj	67b30ea75e8249d3
+293	9463	7930271493012159	CMakeFiles/ResearchManagementSystem.dir/publicationspage.cpp.obj	1de7426c227f91dc
+9463	10250	7930271584722355	ResearchManagementSystem.exe	ceaa5edb67b55f31
+11	275	7930272703221218	ResearchManagementSystem_autogen/timestamp	4316b150fb3580d2
+11	275	7930272703221218	ResearchManagementSystem_autogen/mocs_compilation.cpp	4316b150fb3580d2
+11	275	7930272703221218	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/timestamp	4316b150fb3580d2
+11	275	7930272703221218	C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/ResearchManagementSystem_autogen/mocs_compilation.cpp	4316b150fb3580d2
+305	4635	7930272706175092	CMakeFiles/ResearchManagementSystem.dir/connection.cpp.obj	b0596dbad2437481
+316	6123	7930272706290136	CMakeFiles/ResearchManagementSystem.dir/login.cpp.obj	66dde9b234897043
+287	7035	7930272705994525	CMakeFiles/ResearchManagementSystem.dir/submission.cpp.obj	105e20c1d785cb03
+277	7459	7930272705893603	CMakeFiles/ResearchManagementSystem.dir/mainwindow.cpp.obj	d7946180e1023530
+310	7985	7930272706230739	CMakeFiles/ResearchManagementSystem.dir/users.cpp.obj	f5115815c850c3d
+292	8244	7930272706048888	CMakeFiles/ResearchManagementSystem.dir/conference.cpp.obj	8bd11f473ddbf09c
+299	8314	7930272706114685	CMakeFiles/ResearchManagementSystem.dir/laboratoire.cpp.obj	67b30ea75e8249d3
+281	8474	7930272705947723	CMakeFiles/ResearchManagementSystem.dir/publicationspage.cpp.obj	1de7426c227f91dc
+8474	9157	7930272787873185	ResearchManagementSystem.exe	ceaa5edb67b55f31
