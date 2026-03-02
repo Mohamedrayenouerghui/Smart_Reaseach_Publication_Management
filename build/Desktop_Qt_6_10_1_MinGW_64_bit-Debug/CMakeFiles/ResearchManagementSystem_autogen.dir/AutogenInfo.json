@@ -304,6 +304,61 @@
 		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets-relwithdebinfo.cmake",
 		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake",
 		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportConfigVersion.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportConfigVersionImpl.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportConfig.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportDependencies.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportTargets.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportTargets-relwithdebinfo.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportAdditionalTargetInfo.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportPlugins.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportVersionlessAliasTargets.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsConfigVersion.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsConfigVersionImpl.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsConfig.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsDependencies.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLConfigVersion.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLConfigVersionImpl.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLConfig.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLDependencies.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6/FindWrapVulkanHeaders.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindVulkan.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageMessage.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindVulkan.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageMessage.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageMessage.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6/FindWrapVulkanHeaders.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindVulkan.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageMessage.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindVulkan.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageMessage.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageMessage.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLTargets.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLTargets-relwithdebinfo.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLAdditionalTargetInfo.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLVersionlessAliasTargets.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsConfigVersion.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsConfigVersionImpl.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsConfig.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsDependencies.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsTargets.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsTargets-relwithdebinfo.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsAdditionalTargetInfo.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsVersionlessAliasTargets.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsTargets.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsTargets-relwithdebinfo.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsAdditionalTargetInfo.cmake",
+		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsVersionlessAliasTargets.cmake",
 		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6/Qt6ConfigVersion.cmake",
 		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6/Qt6ConfigVersionImpl.cmake",
 		"C:/Qt/6.10.1/mingw_64/lib/cmake/Qt6/Qt6Config.cmake",
@@ -357,6 +412,12 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/article.h",
+			"MU",
+			"EWIEGA46WW/moc_article.cpp",
+			null
+		],
+		[
 			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/conference.h",
 			"MU",
 			"EWIEGA46WW/moc_conference.cpp",
@@ -393,6 +454,12 @@
 			null
 		],
 		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/statisticspage.h",
+			"MU",
+			"EWIEGA46WW/moc_statisticspage.cpp",
+			null
+		],
+		[
 			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/submission.h",
 			"MU",
 			"EWIEGA46WW/moc_submission.cpp",
@@ -411,9 +478,13 @@
 	"MOC_DEFINITIONS" : 
 	[
 		"MINGW_HAS_SECURE_API=1",
+		"QT_CHARTS_LIB",
 		"QT_CORE_LIB",
 		"QT_GUI_LIB",
 		"QT_NEEDS_QMAIN",
+		"QT_OPENGLWIDGETS_LIB",
+		"QT_OPENGL_LIB",
+		"QT_PRINTSUPPORT_LIB",
 		"QT_SQL_LIB",
 		"QT_WIDGETS_LIB",
 		"UNICODE",
@@ -438,6 +509,10 @@
 		"C:/Qt/6.10.1/mingw_64/include/QtWidgets",
 		"C:/Qt/6.10.1/mingw_64/include/QtGui",
 		"C:/Qt/6.10.1/mingw_64/include/QtSql",
+		"C:/Qt/6.10.1/mingw_64/include/QtPrintSupport",
+		"C:/Qt/6.10.1/mingw_64/include/QtCharts",
+		"C:/Qt/6.10.1/mingw_64/include/QtOpenGL",
+		"C:/Qt/6.10.1/mingw_64/include/QtOpenGLWidgets",
 		"C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++",
 		"C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32",
 		"C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward",
@@ -479,6 +554,11 @@
 	"SOURCES" : 
 	[
 		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/article.cpp",
+			"MU",
+			null
+		],
+		[
 			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/conference.cpp",
 			"MU",
 			null
@@ -510,6 +590,11 @@
 		],
 		[
 			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/publicationspage.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/rayen/Desktop/projet c++/SmartReseachManagement/SmartResearchManagement/statisticspage.cpp",
 			"MU",
 			null
 		],

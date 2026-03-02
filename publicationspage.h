@@ -24,13 +24,22 @@ private slots:
     void onUploadButtonClicked();
     void onCancelButtonClicked();
     void onSubmitButtonClicked();
+    void onSpellCheckButtonClicked();
+    void onPlagiarismButtonClicked();
+    void onModifierButtonClicked();
+    void onSupprimerButtonClicked();
+    void onSearchTextChanged();
 
 private:
     Ui::PublicationsPage *ui;
+    int currentEditingArticleId;
+    QString currentSortOrder;
     
     void setupConnections();
     void setupMenus();
     void setupTable();
+    void loadArticlesFromDatabase();
+    void exportTableToPDF();
 };
 
 #endif // PUBLICATIONSPAGE_H

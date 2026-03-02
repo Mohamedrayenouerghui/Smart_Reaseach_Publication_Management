@@ -67,6 +67,8 @@ public:
     QWidget *buttonWidget;
     QHBoxLayout *buttonLayout;
     QSpacerItem *horizontalSpacer_2;
+    QPushButton *spellCheckButton;
+    QPushButton *plagiarismButton;
     QPushButton *cancelButton;
     QPushButton *submitButton;
 
@@ -589,6 +591,58 @@ public:
 
         buttonLayout->addItem(horizontalSpacer_2);
 
+        spellCheckButton = new QPushButton(buttonWidget);
+        spellCheckButton->setObjectName("spellCheckButton");
+        spellCheckButton->setMinimumSize(QSize(200, 40));
+        spellCheckButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        spellCheckButton->setStyleSheet(QString::fromUtf8("QPushButton {\n"
+"    background-color: transparent;\n"
+"    color: #EC4899;\n"
+"    border: 2px solid #EC4899;\n"
+"    border-radius: 8px;\n"
+"    font-family: 'Segoe UI', sans-serif;\n"
+"    font-size: 13px;\n"
+"    font-weight: 600;\n"
+"    padding: 8px 16px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: #EC4899;\n"
+"    color: white;\n"
+"    border-color: #EC4899;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"    background-color: #DB2777;\n"
+"    border-color: #DB2777;\n"
+"}"));
+
+        buttonLayout->addWidget(spellCheckButton);
+
+        plagiarismButton = new QPushButton(buttonWidget);
+        plagiarismButton->setObjectName("plagiarismButton");
+        plagiarismButton->setMinimumSize(QSize(160, 40));
+        plagiarismButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        plagiarismButton->setStyleSheet(QString::fromUtf8("QPushButton {\n"
+"    background-color: transparent;\n"
+"    color: #EF4444;\n"
+"    border: 2px solid #EF4444;\n"
+"    border-radius: 8px;\n"
+"    font-family: 'Segoe UI', sans-serif;\n"
+"    font-size: 13px;\n"
+"    font-weight: 600;\n"
+"    padding: 8px 16px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: #EF4444;\n"
+"    color: white;\n"
+"    border-color: #EF4444;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"    background-color: #DC2626;\n"
+"    border-color: #DC2626;\n"
+"}"));
+
+        buttonLayout->addWidget(plagiarismButton);
+
         cancelButton = new QPushButton(buttonWidget);
         cancelButton->setObjectName("cancelButton");
         cancelButton->setMinimumSize(QSize(100, 40));
@@ -700,6 +754,8 @@ public:
         contenuLabel->setText(QCoreApplication::translate("PublicationsPage", "Contenu (PDF)", nullptr));
         uploadButton->setText(QCoreApplication::translate("PublicationsPage", "Choisir un fichier PDF", nullptr));
         fileNameLabel->setText(QCoreApplication::translate("PublicationsPage", "Aucun fichier s\303\251lectionn\303\251", nullptr));
+        spellCheckButton->setText(QCoreApplication::translate("PublicationsPage", "\342\234\223 V\303\251rif. Orthographique", nullptr));
+        plagiarismButton->setText(QCoreApplication::translate("PublicationsPage", "\342\232\240 V\303\251rif. Plagiat", nullptr));
         cancelButton->setText(QCoreApplication::translate("PublicationsPage", "Annuler", nullptr));
         submitButton->setText(QCoreApplication::translate("PublicationsPage", "Soumettre l'Article", nullptr));
         publicationsTabWidget->setTabText(publicationsTabWidget->indexOf(addTab), QCoreApplication::translate("PublicationsPage", "Ajouter un Nouvel Article", nullptr));
