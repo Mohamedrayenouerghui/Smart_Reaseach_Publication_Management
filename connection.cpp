@@ -28,3 +28,7 @@ bool Connection::createConnection() {
     qDebug() << "Échec de la connexion :" << db.lastError().text();
     return false;
 }
+//is it neded if so correct it
+QSqlDatabase& Connection::getDb() {
+    return db;
+}

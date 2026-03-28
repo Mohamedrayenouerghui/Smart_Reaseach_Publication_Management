@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "users.h"
 #include "login.h"
+#include "connection.h"
 #include "ui_mainwindow.h"
 #include "ui_publicationspage.h"
 #include <QFile>
@@ -15,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    // Ouvrir la connexion une seule fois au démarrage
+    Connection::createInstance().createConnection();
     initUserPage();
     loadStyleSheet();
     setupConnections();
