@@ -1,21 +1,49 @@
-#ifndef CONNECTION_H
+/*#ifndef CONNECTION_H
 #define CONNECTION_H
 
 #include <QSqlDatabase>
 #include <QSqlError>
-#include <QDebug>
+#include <QSqlQuery>
 
-class Connection {
+class Connection
+{
 public:
-    static Connection& createInstance(); // Retourne l'instance unique
-    bool createConnection();// Configure et ouvre la DB
-    QSqlDatabase& getDb();          // ← Add this declaration
-
-
+    Connection();
+    bool createConnection();
+    QSqlDatabase getDatabase();
+    
 private:
-    Connection();                        // Constructeur privé
-    ~Connection();
     QSqlDatabase db;
 };
 
-#endif
+#endif // CONNECTION_H
+*/
+// connection.h
+#ifndef CONNECTION_H
+#define CONNECTION_H
+
+#include <QSqlDatabase>
+#include <QObject>
+
+class Connection : public QObject
+{
+    Q_OBJECT
+
+public:
+    static Connection& createInstance();   // Singleton access
+    bool createConnection();
+    QSqlDatabase& getDb();                 // Fixed: consistent naming
+
+private:
+    explicit Connection(QObject *parent = nullptr);
+    ~Connection() = default;
+
+    QSqlDatabase db;
+    static Connection* instance;
+
+    // Disable copy
+    Connection(const Connection&) = delete;
+    Connection& operator=(const Connection&) = delete;
+};
+
+#endif // CONNECTION_H

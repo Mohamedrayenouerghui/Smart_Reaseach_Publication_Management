@@ -9,23 +9,44 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql)
+# ====================== Find Qt Packages ======================
+# We need Widgets, Sql, PrintSupport (for publicationspage), and Charts (for statisticspage)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql PrintSupport Charts)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql PrintSupport Charts)
 
+# ====================== Source Files ======================
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        connection.cpp
-        users.cpp
-        login.cpp
-        mainwindow.h
-        connection.h
-        users.h
-        login.h
-        mainwindow.ui
-        publicationspage.ui
-        users.ui
-        login.ui
+    main.cpp
+    mainwindow.cpp
+    login.cpp
+    connection.cpp
+    users.cpp
+    statisticspage.cpp
+    publicationspage.cpp
+    submission.cpp
+    conference.cpp
+    laboratoire.cpp
+    article.cpp
+
+    mainwindow.h
+    login.h
+    connection.h
+    users.h
+    statisticspage.h
+    publicationspage.h
+    submission.h
+    conference.h
+    laboratoire.h
+    article.h
+
+    mainwindow.ui
+    login.ui
+    users.ui
+    statisticspage.ui
+    publicationspage.ui
+    submission.ui
+    conference.ui
+    laboratoire.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -34,36 +55,27 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         SpyBot.qrc
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET SmartResearchManagement APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(ResearchManagementSystem SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+        add_library(ResearchManagementSystem SHARED ${PROJECT_SOURCES})
     else()
-        add_executable(ResearchManagementSystem
-            ${PROJECT_SOURCES}
-        )
+        add_executable(ResearchManagementSystem ${PROJECT_SOURCES})
     endif()
 endif()
 
-target_link_libraries(ResearchManagementSystem
-    PRIVATE
-        Qt${QT_VERSION_MAJOR}::Widgets
-        Qt${QT_VERSION_MAJOR}::Sql
+# ====================== Link Libraries ======================
+target_link_libraries(ResearchManagementSystem PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Sql
+    Qt${QT_VERSION_MAJOR}::PrintSupport
+    Qt${QT_VERSION_MAJOR}::Charts          # ← This fixes the QChart / QPieSeries errors
 )
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
+# Bundle settings
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.research.ResearchManagementSystem)
+    set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.research.ResearchManagementSystem)
 endif()
+
 set_target_properties(ResearchManagementSystem PROPERTIES
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}

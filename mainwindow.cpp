@@ -1,19 +1,24 @@
 #include "mainwindow.h"
+#include "publicationspage.h"
+#include "submission.h"
+#include "conference.h"
+#include "laboratoire.h"
 #include "users.h"
 #include "login.h"
 #include "connection.h"
 #include "ui_mainwindow.h"
-#include "ui_publicationspage.h"
 #include <QFile>
 #include <QIcon>
 #include <QPixmap>
-#include <QMenu>
-#include <QMessageBox>
-#include <QToolButton>
+#include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , publicationsPage(nullptr)
+    , submissionPage(nullptr)
+    , conferencePage(nullptr)
+    , laboratoirePage(nullptr)
 {
     ui->setupUi(this);
     // Ouvrir la connexion une seule fois au démarrage
@@ -23,9 +28,10 @@ MainWindow::MainWindow(QWidget *parent)
     setupConnections();
     setupIcons();
     setupPublicationsPage();
-
+    setupSubmissionPage();
+    setupConferencePage();
+    setupLaboratoirePage();
 }
-
 
 MainWindow::~MainWindow()
 {
@@ -258,108 +264,101 @@ void MainWindow::onLaboratoiresClicked()
 
 void MainWindow::setupPublicationsPage()
 {
-    // Load the Publications UI file
-    Ui::PublicationsPage publicationsUi;
-    QWidget *publicationsPage = ui->stackedWidget->widget(1);
+    // Create the PublicationsPage instance
+    publicationsPage = new PublicationsPage(this);
+    
+    // Get the publications page widget from stacked widget
+    QWidget *pageWidget = ui->stackedWidget->widget(1);
     
     // Clear any existing layout
-    if (publicationsPage->layout()) {
+    if (pageWidget->layout()) {
         QLayoutItem *item;
-        while ((item = publicationsPage->layout()->takeAt(0)) != nullptr) {
+        while ((item = pageWidget->layout()->takeAt(0)) != nullptr) {
             delete item->widget();
             delete item;
         }
-        delete publicationsPage->layout();
+        delete pageWidget->layout();
     }
     
-    // Setup UI from the .ui file
-    publicationsUi.setupUi(publicationsPage);
-    
-    // Set column widths for the table
-    publicationsUi.publicationsTable->setColumnWidth(0, 60);
-    publicationsUi.publicationsTable->setColumnWidth(1, 400);
-    publicationsUi.publicationsTable->setColumnWidth(2, 120);
-    publicationsUi.publicationsTable->setColumnWidth(3, 120);
-    publicationsUi.publicationsTable->setColumnWidth(4, 130);
-    publicationsUi.publicationsTable->setColumnWidth(5, 150);
-    
-    // Set row height
-    publicationsUi.publicationsTable->verticalHeader()->setDefaultSectionSize(60);
-    
-    // ===== ADD MENUS TO BUTTONS =====
-    
-    // Sort button menu
-    QMenu *sortMenu = new QMenu(publicationsUi.sortButton);
-    sortMenu->setStyleSheet(
-        "QMenu { "
-        "    background-color: white; "
-        "    border: 1.5px solid #E2E8F0; "
-        "    border-radius: 8px; "
-        "    padding: 8px; "
-        "} "
-        "QMenu::item { "
-        "    padding: 10px 24px; "
-        "    font-size: 13px; "
-        "    color: #475569; "
-        "    border-radius: 6px; "
-        "} "
-        "QMenu::item:selected { "
-        "    background-color: #F3E8FF; "
-        "    color: #8B5CF6; "
-        "}"
-    );
-    sortMenu->addAction("Par Date");
-    sortMenu->addAction("Par Titre");
-    publicationsUi.sortButton->setMenu(sortMenu);
-    
-    // Export button menu
-    QMenu *exportMenu = new QMenu(publicationsUi.exportButton);
-    exportMenu->setStyleSheet(
-        "QMenu { "
-        "    background-color: white; "
-        "    border: 1.5px solid #E2E8F0; "
-        "    border-radius: 8px; "
-        "    padding: 8px; "
-        "} "
-        "QMenu::item { "
-        "    padding: 10px 24px; "
-        "    font-size: 13px; "
-        "    color: #475569; "
-        "    border-radius: 6px; "
-        "} "
-        "QMenu::item:selected { "
-        "    background-color: #FEF3C7; "
-        "    color: #F59E0B; "
-        "}"
-    );
-    exportMenu->addAction("Exporter en PDF");
-    exportMenu->addAction("Exporter en Word");
-    publicationsUi.exportButton->setMenu(exportMenu);
-    
-    // ===== CONNECT BUTTON SIGNALS =====
-    
-    // Add button
-    connect(publicationsUi.addButton, &QToolButton::clicked, this, [this]() {
-        QMessageBox::information(this, "Ajouter Publication", "Formulaire d'ajout de publication à implémenter");
-    });
-    
-    // Statistics button
-    connect(publicationsUi.statsButton, &QToolButton::clicked, this, [this]() {
-        QMessageBox::information(this, "Statistiques", "Affichage des statistiques à implémenter");
-    });
-    
-    // Clear button - clears the search input
-    connect(publicationsUi.clearButton, &QToolButton::clicked, publicationsUi.searchInput, &QLineEdit::clear);
-    
-    // Sort menu actions
-    connect(sortMenu, &QMenu::triggered, this, [this](QAction *action) {
-        QMessageBox::information(this, "Trier", "Tri par: " + action->text());
-    });
-    
-    // Export menu actions
-    connect(exportMenu, &QMenu::triggered, this, [this](QAction *action) {
-        QMessageBox::information(this, "Exporter", action->text());
-    });
+    // Create a new layout and add the publications page
+    QVBoxLayout *layout = new QVBoxLayout(pageWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(publicationsPage);
+    pageWidget->setLayout(layout);
 }
 
 
+void MainWindow::setupSubmissionPage()
+{
+    // Create the Submission instance
+    submissionPage = new Submission(this);
+    
+    // Get the submission page widget from stacked widget (index 3)
+    QWidget *pageWidget = ui->stackedWidget->widget(3);
+    
+    // Clear any existing layout
+    if (pageWidget->layout()) {
+        QLayoutItem *item;
+        while ((item = pageWidget->layout()->takeAt(0)) != nullptr) {
+            delete item->widget();
+            delete item;
+        }
+        delete pageWidget->layout();
+    }
+    
+    // Create a new layout and add the submission page
+    QVBoxLayout *layout = new QVBoxLayout(pageWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(submissionPage);
+    pageWidget->setLayout(layout);
+}
+
+void MainWindow::setupConferencePage()
+{
+    // Create the Conference instance
+    conferencePage = new Conference(this);
+    
+    // Get the conference page widget from stacked widget (index 5)
+    QWidget *pageWidget = ui->stackedWidget->widget(5);
+    
+    // Clear any existing layout
+    if (pageWidget->layout()) {
+        QLayoutItem *item;
+        while ((item = pageWidget->layout()->takeAt(0)) != nullptr) {
+            delete item->widget();
+            delete item;
+        }
+        delete pageWidget->layout();
+    }
+    
+    // Create a new layout and add the conference page
+    QVBoxLayout *layout = new QVBoxLayout(pageWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(conferencePage);
+    pageWidget->setLayout(layout);
+}
+
+void MainWindow::setupLaboratoirePage()
+{
+    // Create the Laboratoire instance
+    laboratoirePage = new Laboratoire(this);
+    
+    // Get the laboratoire page widget from stacked widget (index 6)
+    QWidget *pageWidget = ui->stackedWidget->widget(6);
+    
+    // Clear any existing layout
+    if (pageWidget->layout()) {
+        QLayoutItem *item;
+        while ((item = pageWidget->layout()->takeAt(0)) != nullptr) {
+            delete item->widget();
+            delete item;
+        }
+        delete pageWidget->layout();
+    }
+    
+    // Create a new layout and add the laboratoire page
+    QVBoxLayout *layout = new QVBoxLayout(pageWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(laboratoirePage);
+    pageWidget->setLayout(layout);
+}

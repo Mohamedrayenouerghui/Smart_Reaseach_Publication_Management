@@ -951,6 +951,80 @@ QPushButton:pressed {
                  </spacer>
                 </item>
                 <item>
+                 <widget class="QPushButton" name="spellCheckButton">
+                  <property name="minimumSize">
+                   <size>
+                    <width>200</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+    background-color: transparent;
+    color: #EC4899;
+    border: 2px solid #EC4899;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+}
+QPushButton:hover {
+    background-color: #EC4899;
+    color: white;
+    border-color: #EC4899;
+}
+QPushButton:pressed {
+    background-color: #DB2777;
+    border-color: #DB2777;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>✓ Vérif. Orthographique</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="plagiarismButton">
+                  <property name="minimumSize">
+                   <size>
+                    <width>160</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+    background-color: transparent;
+    color: #EF4444;
+    border: 2px solid #EF4444;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+}
+QPushButton:hover {
+    background-color: #EF4444;
+    color: white;
+    border-color: #EF4444;
+}
+QPushButton:pressed {
+    background-color: #DC2626;
+    border-color: #DC2626;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>⚠ Vérif. Plagiat</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QPushButton" name="cancelButton">
                   <property name="minimumSize">
                    <size>

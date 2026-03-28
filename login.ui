@@ -247,7 +247,7 @@ QLineEdit:focus {
 }</string>
           </property>
           <property name="placeholderText">
-           <string>Adresse email</string>
+           <string>ID</string>
           </property>
          </widget>
         </item>

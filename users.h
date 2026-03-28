@@ -60,6 +60,7 @@ private slots:
     void loadUserDataForEdit(int);
     void resetToAddMode();
 
+
 };
 
 #endif // USERS_H
