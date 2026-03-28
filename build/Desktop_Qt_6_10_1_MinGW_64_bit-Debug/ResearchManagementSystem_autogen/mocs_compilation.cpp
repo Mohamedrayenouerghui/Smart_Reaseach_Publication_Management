@@ -4,6 +4,5 @@
 #include "EWIEGA46WW/moc_login.cpp"
 #include "EWIEGA46WW/moc_mainwindow.cpp"
 #include "EWIEGA46WW/moc_publicationspage.cpp"
-#include "EWIEGA46WW/moc_statisticspage.cpp"
 #include "EWIEGA46WW/moc_submission.cpp"
 #include "EWIEGA46WW/moc_users.cpp"

@@ -2,7 +2,6 @@
 #include "ui_publicationspage.h"
 #include "connection.h"
 #include "article.h"
-#include "statisticspage.h"
 #include <QMenu>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -13,12 +12,32 @@
 #include <QPainter>
 #include <QTextDocument>
 #include <QDateTime>
+#include <QDialog>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QPieSlice>
+#include <QtCharts/QChart>
+#include <QtCharts/QChartView>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QUrlQuery>
+#include <QScrollArea>
+#include <QFile>
+#include <QTextStream>
+#include <QRegularExpression>
 
 PublicationsPage::PublicationsPage(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PublicationsPage)
     , currentEditingArticleId(-1)
     , currentSortOrder("Date_creation DESC")
+    , networkManager(new QNetworkAccessManager(this))
 {
     ui->setupUi(this);
     setupTable();
@@ -250,7 +269,126 @@ void PublicationsPage::onAddButtonClicked()
 
 void PublicationsPage::onStatsButtonClicked()
 {
-    StatisticsPage *statsDialog = new StatisticsPage(this);
+    // Créer le dialog directement ici
+    QDialog *statsDialog = new QDialog(this);
+    statsDialog->setWindowTitle("Statistiques des Publications");
+    statsDialog->resize(1200, 900);
+    statsDialog->setStyleSheet("QDialog { background-color: #F8FAFC; }");
+
+    QVBoxLayout *mainLayout = new QVBoxLayout(statsDialog);
+
+    // Titre
+    QLabel *titleLabel = new QLabel("Statistiques des Publications");
+    titleLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setStyleSheet("font-size: 24px; font-weight: bold; color: #8B5CF6; padding: 15px;");
+    mainLayout->addWidget(titleLabel);
+
+    // --- Graphique 1: Par Domaine ---
+    QLabel *label1 = new QLabel("Répartition par Domaine");
+    label1->setStyleSheet("font-size: 16px; font-weight: bold; color: #1E293B; padding: 5px;");
+    mainLayout->addWidget(label1);
+
+    {
+        QSqlQuery query;
+        query.prepare("SELECT domaine, COUNT(*) FROM ARTICLE GROUP BY domaine ORDER BY COUNT(*) DESC");
+        query.exec();
+
+        QPieSeries *series = new QPieSeries();
+        QStringList colors = {"#8B5CF6", "#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#EC4899", "#6366F1"};
+        int i = 0, total = 0;
+        QList<QPair<QString,int>> data;
+
+        while (query.next()) {
+            data.append(qMakePair(query.value(0).toString(), query.value(1).toInt()));
+            total += query.value(1).toInt();
+        }
+
+        for (auto &item : data) {
+            QPieSlice *slice = series->append(item.first, item.second);
+            slice->setLabelVisible(true);
+            slice->setLabel(QString("%1: %2 (%3%)")
+                .arg(item.first).arg(item.second)
+                .arg(total > 0 ? 100.0 * item.second / total : 0, 0, 'f', 1));
+            slice->setBrush(QColor(colors[i % colors.size()]));
+            slice->setExplodeDistanceFactor(0.05);
+            connect(slice, &QPieSlice::hovered, [slice](bool show){ slice->setExploded(show); });
+            i++;
+        }
+
+        QChart *chart = new QChart();
+        chart->addSeries(series);
+        chart->setTitle(QString("Par Domaine (%1 articles)").arg(total));
+        chart->setAnimationOptions(QChart::SeriesAnimations);
+        chart->legend()->setAlignment(Qt::AlignRight);
+        QFont f; f.setPixelSize(18); f.setBold(true);
+        chart->setTitleFont(f);
+        chart->setBackgroundBrush(QBrush(Qt::white));
+
+        QChartView *view = new QChartView(chart);
+        view->setRenderHint(QPainter::Antialiasing);
+        view->setMinimumHeight(350);
+        mainLayout->addWidget(view);
+    }
+
+    // --- Graphique 2: Par Date ---
+    QLabel *label2 = new QLabel("Répartition par Date de Création");
+    label2->setStyleSheet("font-size: 16px; font-weight: bold; color: #1E293B; padding: 5px;");
+    mainLayout->addWidget(label2);
+
+    {
+        QSqlQuery query;
+        query.prepare("SELECT Date_creation FROM ARTICLE ORDER BY Date_creation");
+        query.exec();
+
+        QMap<QString, int> periodCount;
+        while (query.next()) {
+            QDate date = query.value(0).toDate();
+            if (date.isValid())
+                periodCount[date.toString("MMM yyyy")]++;
+        }
+
+        QPieSeries *series = new QPieSeries();
+        QStringList colors = {"#8B5CF6", "#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#EC4899", "#14B8A6"};
+        int i = 0, total = 0;
+        for (auto v : periodCount) total += v;
+
+        for (auto it = periodCount.begin(); it != periodCount.end(); ++it) {
+            QPieSlice *slice = series->append(it.key(), it.value());
+            slice->setLabelVisible(true);
+            slice->setLabel(QString("%1: %2 (%3%)")
+                .arg(it.key()).arg(it.value())
+                .arg(total > 0 ? 100.0 * it.value() / total : 0, 0, 'f', 1));
+            slice->setBrush(QColor(colors[i % colors.size()]));
+            slice->setExplodeDistanceFactor(0.05);
+            connect(slice, &QPieSlice::hovered, [slice](bool show){ slice->setExploded(show); });
+            i++;
+        }
+
+        QChart *chart = new QChart();
+        chart->addSeries(series);
+        chart->setTitle(QString("Par Date de Création (%1 articles)").arg(total));
+        chart->setAnimationOptions(QChart::SeriesAnimations);
+        chart->legend()->setAlignment(Qt::AlignRight);
+        QFont f; f.setPixelSize(18); f.setBold(true);
+        chart->setTitleFont(f);
+        chart->setBackgroundBrush(QBrush(Qt::white));
+
+        QChartView *view = new QChartView(chart);
+        view->setRenderHint(QPainter::Antialiasing);
+        view->setMinimumHeight(350);
+        mainLayout->addWidget(view);
+    }
+
+    // Bouton Fermer
+    QPushButton *closeBtn = new QPushButton("Fermer");
+    closeBtn->setFixedHeight(40);
+    closeBtn->setStyleSheet(
+        "QPushButton { background-color: #8B5CF6; color: white; border: none;"
+        "border-radius: 6px; padding: 10px 30px; font-size: 14px; font-weight: bold; }"
+        "QPushButton:hover { background-color: #7C3AED; }");
+    connect(closeBtn, &QPushButton::clicked, statsDialog, &QDialog::accept);
+    mainLayout->addWidget(closeBtn, 0, Qt::AlignCenter);
+
     statsDialog->exec();
     delete statsDialog;
 }
@@ -284,13 +422,15 @@ void PublicationsPage::onExportMenuTriggered(QAction *action)
 void PublicationsPage::onUploadButtonClicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, 
-        "Sélectionner un fichier PDF", 
+        "Sélectionner un fichier article", 
         "", 
-        "PDF Files (*.pdf)");
+        "Fichiers texte (*.txt);;Tous les fichiers (*.*)");
     
     if (!fileName.isEmpty()) {
         QFileInfo fileInfo(fileName);
         ui->fileNameLabel->setText(fileInfo.fileName());
+        // Stocker le chemin complet pour la lecture
+        ui->fileNameLabel->setProperty("fullPath", fileName);
     }
 }
 
@@ -325,13 +465,27 @@ void PublicationsPage::onSubmitButtonClicked()
     }
     
     if (fileName == "Aucun fichier sélectionné") {
-        QMessageBox::warning(this, "Erreur", "Veuillez sélectionner un fichier PDF.");
+        QMessageBox::warning(this, "Erreur", "Veuillez sélectionner un fichier TXT.");
         return;
     }
     
     Article article;
     article.setTitre(titre);
-    article.setContenu("Contenu du fichier: " + fileName);
+    
+    // Lire le vrai contenu du fichier .txt pour le stocker en DB
+    QString fullPath = ui->fileNameLabel->property("fullPath").toString();
+    QString contenuToStore = fileName; // fallback: juste le nom
+    if (!fullPath.isEmpty()) {
+        QFile file(fullPath);
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream stream(&file);
+            stream.setEncoding(QStringConverter::Utf8);
+            contenuToStore = stream.readAll().trimmed();
+            file.close();
+        }
+    }
+    
+    article.setContenu(contenuToStore);
     article.setDomaine(domaine);
     article.setEtat("Publié");
     article.setDateCreation(QDate::currentDate());
@@ -380,16 +534,476 @@ void PublicationsPage::onSubmitButtonClicked()
 
 void PublicationsPage::onSpellCheckButtonClicked()
 {
-    QMessageBox::information(this, "Vérification Orthographique", 
-        "Vérification orthographique et typographique automatique\n\n"
-        "Cette fonctionnalité sera implémentée prochainement.");
+    QString titre = ui->titreInput->text().trimmed();
+    QString pdfFileName = ui->fileNameLabel->text();
+    bool hasFile = (pdfFileName != "Aucun fichier sélectionné" && !pdfFileName.isEmpty());
+
+    QString textToCheck = titre;
+
+    // Lire le fichier .txt directement avec QFile
+    if (hasFile) {
+        QString fullPath = ui->fileNameLabel->property("fullPath").toString();
+
+        if (fullPath.isEmpty()) {
+            QMessageBox::warning(this, "Erreur", "Chemin du fichier introuvable. Re-uploadez le fichier.");
+            return;
+        }
+
+        QFileInfo fileInfo(fullPath);
+        QString ext = fileInfo.suffix().toLower();
+
+        if (ext == "txt") {
+            QFile file(fullPath);
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                QMessageBox::warning(this, "Erreur", "Impossible d'ouvrir le fichier:\n" + fullPath);
+                return;
+            }
+            QTextStream stream(&file);
+            stream.setEncoding(QStringConverter::Utf8);
+            QString fileContent = stream.readAll().trimmed();
+            file.close();
+
+            if (!fileContent.isEmpty()) {
+                // Limiter à 5000 caractères (limite API gratuite)
+                if (fileContent.length() > 5000)
+                    fileContent = fileContent.left(5000);
+                // Combiner titre + contenu fichier
+                if (!titre.isEmpty())
+                    textToCheck = titre + "\n\n" + fileContent;
+                else
+                    textToCheck = fileContent;
+            }
+        } else {
+            QMessageBox::information(this, "Format non supporté",
+                "Seuls les fichiers .txt sont supportés.\n"
+                "La vérification continuera avec le titre uniquement.");
+        }
+    }
+
+    if (textToCheck.isEmpty()) {
+        QMessageBox::warning(this, "Erreur", "Aucun texte à vérifier. Entrez un titre ou uploadez un fichier .txt.");
+        return;
+    }
+
+    // Envoyer à LanguageTool API
+    ui->spellCheckButton->setEnabled(false);
+    ui->spellCheckButton->setText("Vérification...");
+
+    QUrl url("https://api.languagetool.org/v2/check");
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+    QUrlQuery params;
+    params.addQueryItem("text", textToCheck);
+    params.addQueryItem("language", "fr");
+    params.addQueryItem("enabledOnly", "false");
+
+    QByteArray postData = params.toString(QUrl::FullyEncoded).toUtf8();
+
+    QNetworkReply *reply = networkManager->post(request, postData);
+    reply->setProperty("originalText", textToCheck);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        onSpellCheckReplyFinished(reply);
+    });
+}
+
+void PublicationsPage::onSpellCheckReplyFinished(QNetworkReply *reply)
+{
+    // Réactiver le bouton
+    ui->spellCheckButton->setEnabled(true);
+    ui->spellCheckButton->setText("Vérif. Orthographe");
+    
+    if (reply->error() != QNetworkReply::NoError) {
+        QMessageBox::critical(this, "Erreur Réseau",
+            "Impossible de contacter l'API LanguageTool.\n"
+            "Vérifiez votre connexion internet.\n\n"
+            "Erreur: " + reply->errorString());
+        reply->deleteLater();
+        return;
+    }
+    
+    // Parser la réponse JSON
+    QByteArray responseData = reply->readAll();
+    QJsonDocument doc = QJsonDocument::fromJson(responseData);
+    QJsonObject root = doc.object();
+    QJsonArray matches = root["matches"].toArray();
+    
+    QString originalText = reply->property("originalText").toString();
+    reply->deleteLater();
+    
+    showSpellCheckResults(matches, originalText);
+}
+
+void PublicationsPage::showSpellCheckResults(const QJsonArray &matches, const QString &originalText)
+{
+    QDialog *d = new QDialog(this);
+    d->setWindowTitle("Vérification Orthographique");
+    d->resize(620, matches.isEmpty() ? 220 : 480);
+    d->setStyleSheet("QDialog { background-color: #FFFFFF; }");
+
+    QVBoxLayout *layout = new QVBoxLayout(d);
+    layout->setSpacing(10);
+    layout->setContentsMargins(24, 24, 24, 20);
+
+    // --- En-tête ---
+    QLabel *title = new QLabel("📝  Vérification Orthographique");
+    title->setStyleSheet("font-size: 17px; font-weight: bold; color: #1E293B;");
+    layout->addWidget(title);
+
+    // Texte analysé (tronqué si trop long)
+    QString preview = originalText.length() > 80
+        ? originalText.left(80) + "..." : originalText;
+    QLabel *sub = new QLabel("Texte analysé : " + preview);
+    sub->setStyleSheet("font-size: 11px; color: #94A3B8;");
+    sub->setWordWrap(true);
+    layout->addWidget(sub);
+
+    // Séparateur
+    QFrame *sep = new QFrame();
+    sep->setFrameShape(QFrame::HLine);
+    sep->setStyleSheet("background-color: #E2E8F0; border: none; max-height: 1px;");
+    layout->addWidget(sep);
+
+    if (matches.isEmpty()) {
+        // --- Aucune erreur ---
+        QLabel *ok = new QLabel("✅   Aucune erreur détectée — le texte est correct !");
+        ok->setAlignment(Qt::AlignCenter);
+        ok->setStyleSheet(
+            "font-size: 15px; font-weight: bold; color: #059669;"
+            "background: #ECFDF5; border-radius: 10px; padding: 20px;");
+        layout->addWidget(ok);
+
+    } else {
+        // --- Résumé badge ---
+        QLabel *badge = new QLabel(QString("  %1 erreur(s) trouvée(s)").arg(matches.size()));
+        badge->setStyleSheet(
+            "font-size: 13px; font-weight: bold; color: #B45309;"
+            "background: #FEF3C7; border-radius: 6px; padding: 6px 12px;");
+        layout->addWidget(badge);
+
+        // --- Zone scrollable ---
+        QScrollArea *scroll = new QScrollArea();
+        scroll->setWidgetResizable(true);
+        scroll->setFrameShape(QFrame::NoFrame);
+        scroll->setStyleSheet("background: transparent;");
+
+        QWidget *container = new QWidget();
+        container->setStyleSheet("background: transparent;");
+        QVBoxLayout *errLayout = new QVBoxLayout(container);
+        errLayout->setSpacing(8);
+        errLayout->setContentsMargins(0, 4, 0, 4);
+
+        for (int i = 0; i < matches.size(); i++) {
+            QJsonObject m = matches[i].toObject();
+            QString message  = m["message"].toString();
+            QString category = m["rule"].toObject()["category"].toObject()["name"].toString();
+            QString ctx      = m["context"].toObject()["text"].toString();
+            int offset       = m["context"].toObject()["offset"].toInt();
+            int length       = m["context"].toObject()["length"].toInt();
+
+            // Suggestions (max 3)
+            QStringList suggs;
+            for (auto r : m["replacements"].toArray()) {
+                if (suggs.size() >= 3) break;
+                suggs << r.toObject()["value"].toString();
+            }
+
+            // Carte erreur
+            QWidget *card = new QWidget();
+            card->setStyleSheet(
+                "background: #FFF7F7; border: 1px solid #FECACA;"
+                "border-left: 4px solid #EF4444; border-radius: 8px;");
+            QVBoxLayout *cl = new QVBoxLayout(card);
+            cl->setContentsMargins(12, 10, 12, 10);
+            cl->setSpacing(5);
+
+            // Ligne 1: numéro + catégorie
+            QLabel *hdr = new QLabel(QString("#%1  ·  %2").arg(i+1).arg(category));
+            hdr->setStyleSheet("font-size: 11px; font-weight: bold; color: #EF4444;");
+            cl->addWidget(hdr);
+
+            // Ligne 2: message
+            QLabel *msg = new QLabel(message);
+            msg->setStyleSheet("font-size: 13px; color: #1E293B;");
+            msg->setWordWrap(true);
+            cl->addWidget(msg);
+
+            // Ligne 3: contexte surligné
+            if (!ctx.isEmpty() && offset >= 0 && length > 0 && offset + length <= ctx.length()) {
+                QString highlighted = ctx.left(offset).toHtmlEscaped()
+                    + "<span style='background:#FEE2E2; color:#DC2626; font-weight:bold;'>"
+                    + ctx.mid(offset, length).toHtmlEscaped()
+                    + "</span>"
+                    + ctx.mid(offset + length).toHtmlEscaped();
+                QLabel *ctxLbl = new QLabel("…" + highlighted + "…");
+                ctxLbl->setTextFormat(Qt::RichText);
+                ctxLbl->setStyleSheet("font-size: 11px; color: #64748B;");
+                ctxLbl->setWordWrap(true);
+                cl->addWidget(ctxLbl);
+            }
+
+            // Ligne 4: suggestions
+            if (!suggs.isEmpty()) {
+                QLabel *sugLbl = new QLabel("💡 " + suggs.join("   ·   "));
+                sugLbl->setStyleSheet(
+                    "font-size: 12px; color: #065F46; font-weight: bold;"
+                    "background: #D1FAE5; border-radius: 4px; padding: 3px 8px;");
+                cl->addWidget(sugLbl);
+            }
+
+            errLayout->addWidget(card);
+        }
+
+        errLayout->addStretch();
+        scroll->setWidget(container);
+        layout->addWidget(scroll);
+    }
+
+    // --- Bouton Fermer ---
+    QPushButton *closeBtn = new QPushButton("Fermer");
+    closeBtn->setFixedSize(110, 36);
+    closeBtn->setStyleSheet(
+        "QPushButton { background: #8B5CF6; color: white; border: none;"
+        "border-radius: 8px; font-size: 13px; font-weight: bold; }"
+        "QPushButton:hover { background: #7C3AED; }");
+    connect(closeBtn, &QPushButton::clicked, d, &QDialog::accept);
+    layout->addWidget(closeBtn, 0, Qt::AlignCenter);
+
+    d->exec();
+    delete d;
+}
+
+// Build n-grams from text (sequences of n consecutive words)
+QSet<QString> PublicationsPage::buildNgrams(const QString &text, int n)
+{
+    QSet<QString> ngrams;
+    
+    // Nettoyer et tokeniser en mots
+    QString cleaned = text.toLower();
+    cleaned.remove(QRegularExpression("[^a-zàâäéèêëîïôùûüç\\s]"));
+    QStringList words = cleaned.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
+    
+    // Filtrer les mots vides (stop words français)
+    QSet<QString> stopWords = {"le","la","les","de","du","des","un","une","et","en",
+                                "à","au","aux","ce","se","sa","son","ses","je","tu",
+                                "il","elle","nous","vous","ils","elles","que","qui",
+                                "ne","pas","plus","par","sur","dans","avec","pour"};
+    QStringList filtered;
+    for (const QString &w : words)
+        if (!stopWords.contains(w) && w.length() > 2)
+            filtered << w;
+    
+    // Construire les n-grams
+    for (int i = 0; i <= filtered.size() - n; i++) {
+        QString ngram = filtered.mid(i, n).join(" ");
+        ngrams.insert(ngram);
+    }
+    return ngrams;
+}
+
+// Jaccard similarity sur les n-grams
+double PublicationsPage::ngramSimilarity(const QSet<QString> &a, const QSet<QString> &b)
+{
+    if (a.isEmpty() && b.isEmpty()) return 0.0;
+    QSet<QString> intersection = a & b;
+    QSet<QString> unionSet     = a | b;
+    return unionSet.isEmpty() ? 0.0 : (double)intersection.size() / unionSet.size();
 }
 
 void PublicationsPage::onPlagiarismButtonClicked()
 {
-    QMessageBox::information(this, "Vérification de Plagiat", 
-        "Vérification de similarité (plagiat)\n\n"
-        "Cette fonctionnalité sera implémentée prochainement.");
+    // 1. Récupérer le texte du fichier uploadé
+    QString fullPath = ui->fileNameLabel->property("fullPath").toString();
+    QString newText;
+
+    if (fullPath.isEmpty() || ui->fileNameLabel->text() == "Aucun fichier sélectionné") {
+        // Utiliser le titre si pas de fichier
+        newText = ui->titreInput->text().trimmed();
+        if (newText.isEmpty()) {
+            QMessageBox::warning(this, "Erreur",
+                "Veuillez uploader un fichier .txt ou entrer un titre avant de vérifier.");
+            return;
+        }
+    } else {
+        QFile file(fullPath);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QMessageBox::warning(this, "Erreur", "Impossible de lire le fichier.");
+            return;
+        }
+        QTextStream stream(&file);
+        stream.setEncoding(QStringConverter::Utf8);
+        newText = stream.readAll().trimmed();
+        file.close();
+    }
+
+    if (newText.length() < 30) {
+        QMessageBox::warning(this, "Texte trop court",
+            "Le texte doit contenir au moins 30 caractères pour une analyse fiable.");
+        return;
+    }
+
+    // 2. Construire bigrams ET trigrams du nouveau texte (combinaison plus précise)
+    QSet<QString> newBigrams  = buildNgrams(newText, 2);
+    QSet<QString> newTrigrams = buildNgrams(newText, 3);
+    QSet<QString> newNgrams   = newBigrams + newTrigrams;
+
+    // 3. Comparer avec tous les articles de la DB
+    QSqlDatabase db = QSqlDatabase::database();
+    if (!db.isOpen()) {
+        QMessageBox::warning(this, "Erreur", "Connexion base de données non établie.");
+        return;
+    }
+
+    QSqlQuery query(db);
+    query.prepare("SELECT ID_article, titre, contenu FROM ARTICLE ORDER BY ID_article");
+    if (!query.exec()) {
+        QMessageBox::warning(this, "Erreur", "Erreur lors de la lecture des articles.");
+        return;
+    }
+
+    // Stocker les résultats
+    struct Result { int id; QString titre; double score; };
+    QList<Result> results;
+
+    while (query.next()) {
+        int    id      = query.value(0).toInt();
+        QString titre  = query.value(1).toString();
+        QString contenu = query.value(2).toString();
+
+        // Combiner titre + contenu pour la comparaison
+        QString dbText = titre + " " + contenu;
+        QSet<QString> dbNgrams = buildNgrams(dbText, 2) + buildNgrams(dbText, 3);
+
+        double score = ngramSimilarity(newNgrams, dbNgrams) * 100.0;
+        if (score > 0.5) // Ignorer les similarités négligeables
+            results.append({id, titre, score});
+    }
+
+    // Trier par score décroissant
+    std::sort(results.begin(), results.end(),
+              [](const Result &a, const Result &b){ return a.score > b.score; });
+
+    // 4. Afficher les résultats
+    QDialog *d = new QDialog(this);
+    d->setWindowTitle("Vérification de Similarité (Plagiat)");
+    d->resize(620, results.isEmpty() ? 220 : 500);
+    d->setStyleSheet("QDialog { background: #FFFFFF; }");
+
+    QVBoxLayout *layout = new QVBoxLayout(d);
+    layout->setContentsMargins(24, 24, 24, 20);
+    layout->setSpacing(10);
+
+    // En-tête
+    QLabel *title = new QLabel("🔍  Vérification de Similarité");
+    title->setStyleSheet("font-size: 17px; font-weight: bold; color: #1E293B;");
+    layout->addWidget(title);
+
+    QString preview = newText.length() > 80 ? newText.left(80) + "..." : newText;
+    QLabel *sub = new QLabel("Article analysé : " + preview);
+    sub->setStyleSheet("font-size: 11px; color: #94A3B8;");
+    sub->setWordWrap(true);
+    layout->addWidget(sub);
+
+    QFrame *sep = new QFrame();
+    sep->setFrameShape(QFrame::HLine);
+    sep->setStyleSheet("background: #E2E8F0; border: none; max-height: 1px;");
+    layout->addWidget(sep);
+
+    // Score global (max similarity trouvée)
+    double maxScore = results.isEmpty() ? 0.0 : results.first().score;
+    QString verdict;
+    QString verdictColor;
+    QString verdictBg;
+
+    if (maxScore < 30.0) {
+        verdict = "✅  Original — Aucune similarité significative détectée";
+        verdictColor = "#065F46"; verdictBg = "#ECFDF5";
+    } else if (maxScore < 50.0) {
+        verdict = "⚠️  Similarité Faible — Quelques passages similaires";
+        verdictColor = "#92400E"; verdictBg = "#FEF3C7";
+    } else if (maxScore < 70.0) {
+        verdict = "🔶  Similarité Modérée — Vérification recommandée";
+        verdictColor = "#9A3412"; verdictBg = "#FFF7ED";
+    } else {
+        verdict = "🚨  Plagiat Probable — Forte similarité détectée!";
+        verdictColor = "#7F1D1D"; verdictBg = "#FEF2F2";
+    }
+
+    QLabel *verdictLbl = new QLabel(verdict);
+    verdictLbl->setAlignment(Qt::AlignCenter);
+    verdictLbl->setStyleSheet(QString(
+        "font-size: 14px; font-weight: bold; color: %1;"
+        "background: %2; border-radius: 8px; padding: 12px;")
+        .arg(verdictColor, verdictBg));
+    layout->addWidget(verdictLbl);
+
+    if (!results.isEmpty()) {
+        QLabel *listTitle = new QLabel(
+            QString("Articles similaires trouvés (%1):").arg(results.size()));
+        listTitle->setStyleSheet("font-size: 12px; font-weight: bold; color: #475569;");
+        layout->addWidget(listTitle);
+
+        QScrollArea *scroll = new QScrollArea();
+        scroll->setWidgetResizable(true);
+        scroll->setFrameShape(QFrame::NoFrame);
+
+        QWidget *container = new QWidget();
+        QVBoxLayout *cl = new QVBoxLayout(container);
+        cl->setSpacing(6);
+        cl->setContentsMargins(0, 0, 0, 0);
+
+        for (const Result &r : results) {
+            // Couleur de la barre selon le score
+            QString barColor = r.score < 20 ? "#10B981"
+                             : r.score < 40 ? "#F59E0B"
+                             : r.score < 65 ? "#F97316" : "#EF4444";
+
+            QWidget *card = new QWidget();
+            card->setStyleSheet(
+                "background: #F8FAFC; border: 1px solid #E2E8F0;"
+                "border-left: 4px solid " + barColor + "; border-radius: 6px;");
+
+            QHBoxLayout *hl = new QHBoxLayout(card);
+            hl->setContentsMargins(12, 10, 12, 10);
+
+            // Titre de l'article
+            QLabel *artTitle = new QLabel(
+                QString("ID %1  —  %2").arg(r.id).arg(r.titre));
+            artTitle->setStyleSheet("font-size: 13px; color: #1E293B;");
+            artTitle->setWordWrap(true);
+            hl->addWidget(artTitle, 1);
+
+            // Score badge
+            QLabel *scoreLbl = new QLabel(
+                QString("%1%").arg(r.score, 0, 'f', 1));
+            scoreLbl->setFixedWidth(55);
+            scoreLbl->setAlignment(Qt::AlignCenter);
+            scoreLbl->setStyleSheet(QString(
+                "font-size: 14px; font-weight: bold; color: %1;"
+                "background: white; border: 2px solid %1;"
+                "border-radius: 6px; padding: 4px;").arg(barColor));
+            hl->addWidget(scoreLbl);
+
+            cl->addWidget(card);
+        }
+
+        cl->addStretch();
+        scroll->setWidget(container);
+        layout->addWidget(scroll);
+    }
+
+    // Bouton Fermer
+    QPushButton *closeBtn = new QPushButton("Fermer");
+    closeBtn->setFixedSize(110, 36);
+    closeBtn->setStyleSheet(
+        "QPushButton { background: #8B5CF6; color: white; border: none;"
+        "border-radius: 8px; font-size: 13px; font-weight: bold; }"
+        "QPushButton:hover { background: #7C3AED; }");
+    connect(closeBtn, &QPushButton::clicked, d, &QDialog::accept);
+    layout->addWidget(closeBtn, 0, Qt::AlignCenter);
+
+    d->exec();
+    delete d;
 }
 
 void PublicationsPage::onModifierButtonClicked()
@@ -425,13 +1039,8 @@ void PublicationsPage::onModifierButtonClicked()
         ui->domaineCombo->setCurrentIndex(index);
     }
     
-    // Afficher le nom du fichier (contenu)
-    QString contenu = query.value(1).toString();
-    if (contenu.startsWith("Contenu du fichier: ")) {
-        ui->fileNameLabel->setText(contenu.mid(20)); // Extraire le nom du fichier
-    } else {
-        ui->fileNameLabel->setText("article_" + QString::number(articleId) + ".pdf");
-    }
+    // Afficher le nom du fichier
+    ui->fileNameLabel->setText("article_" + QString::number(articleId) + ".txt");
     
     // Stocker l'ID de l'article en cours de modification
     currentEditingArticleId = articleId;

@@ -2,6 +2,10 @@
 #define PUBLICATIONSPAGE_H
 
 #include <QWidget>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QSet>
+#include <QJsonArray>
 
 namespace Ui {
 class PublicationsPage;
@@ -25,6 +29,7 @@ private slots:
     void onCancelButtonClicked();
     void onSubmitButtonClicked();
     void onSpellCheckButtonClicked();
+    void onSpellCheckReplyFinished(QNetworkReply *reply);
     void onPlagiarismButtonClicked();
     void onModifierButtonClicked();
     void onSupprimerButtonClicked();
@@ -34,12 +39,18 @@ private:
     Ui::PublicationsPage *ui;
     int currentEditingArticleId;
     QString currentSortOrder;
+    QNetworkAccessManager *networkManager;
     
     void setupConnections();
     void setupMenus();
     void setupTable();
     void loadArticlesFromDatabase();
     void exportTableToPDF();
+    void showSpellCheckResults(const QJsonArray &matches, const QString &originalText);
+    
+    // Plagiarism helpers
+    QSet<QString> buildNgrams(const QString &text, int n = 3);
+    double ngramSimilarity(const QSet<QString> &a, const QSet<QString> &b);
 };
 
 #endif // PUBLICATIONSPAGE_H

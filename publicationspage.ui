@@ -544,7 +544,7 @@ QTabBar::tab:hover:!selected {
 }</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="listTab">
          <attribute name="title">
@@ -722,6 +722,12 @@ QHeaderView::section {
                  <height>38</height>
                 </size>
                </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>49</height>
+                </size>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QLineEdit {
     border: 1.5px solid #E2E8F0;
@@ -835,7 +841,7 @@ QComboBox::down-arrow {
                 <string notr="true">font-size: 13px; font-weight: 600; color: #475569; background: transparent;</string>
                </property>
                <property name="text">
-                <string>Contenu (PDF)</string>
+                <string>Contenu (TXT)</string>
                </property>
               </widget>
              </item>
@@ -894,7 +900,7 @@ QPushButton:pressed {
 }</string>
                   </property>
                   <property name="text">
-                   <string>Choisir un fichier PDF</string>
+                   <string>Choisir un fichier TXT</string>
                   </property>
                  </widget>
                 </item>

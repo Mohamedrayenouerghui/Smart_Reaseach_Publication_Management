@@ -462,6 +462,7 @@ public:
         titreInput = new QLineEdit(formWidget);
         titreInput->setObjectName("titreInput");
         titreInput->setMinimumSize(QSize(0, 38));
+        titreInput->setMaximumSize(QSize(16777215, 49));
         titreInput->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "    border: 1.5px solid #E2E8F0;\n"
 "    border-radius: 8px;\n"
@@ -706,7 +707,7 @@ public:
 
         retranslateUi(PublicationsPage);
 
-        publicationsTabWidget->setCurrentIndex(0);
+        publicationsTabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(PublicationsPage);
@@ -751,8 +752,8 @@ public:
         domaineCombo->setItemText(5, QCoreApplication::translate("PublicationsPage", "Base de Donn\303\251es", nullptr));
         domaineCombo->setItemText(6, QCoreApplication::translate("PublicationsPage", "Autre", nullptr));
 
-        contenuLabel->setText(QCoreApplication::translate("PublicationsPage", "Contenu (PDF)", nullptr));
-        uploadButton->setText(QCoreApplication::translate("PublicationsPage", "Choisir un fichier PDF", nullptr));
+        contenuLabel->setText(QCoreApplication::translate("PublicationsPage", "Contenu (TXT)", nullptr));
+        uploadButton->setText(QCoreApplication::translate("PublicationsPage", "Choisir un fichier TXT", nullptr));
         fileNameLabel->setText(QCoreApplication::translate("PublicationsPage", "Aucun fichier s\303\251lectionn\303\251", nullptr));
         spellCheckButton->setText(QCoreApplication::translate("PublicationsPage", "\342\234\223 V\303\251rif. Orthographique", nullptr));
         plagiarismButton->setText(QCoreApplication::translate("PublicationsPage", "\342\232\240 V\303\251rif. Plagiat", nullptr));

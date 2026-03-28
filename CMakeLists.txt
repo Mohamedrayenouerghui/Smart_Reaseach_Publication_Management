@@ -9,8 +9,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql PrintSupport Charts)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql PrintSupport Charts)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql PrintSupport Charts Network)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql PrintSupport Charts Network)
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
@@ -22,7 +22,6 @@ set(PROJECT_SOURCES
         article.cpp
         users.cpp
         login.cpp
-        statisticspage.cpp
         mainwindow.h
         publicationspage.h
         submission.h
@@ -32,7 +31,6 @@ set(PROJECT_SOURCES
         article.h
         users.h
         login.h
-        statisticspage.h
         mainwindow.ui
         publicationspage.ui
         submission.ui
@@ -40,7 +38,6 @@ set(PROJECT_SOURCES
         laboratoire.ui
         users.ui
         login.ui
-        statisticspage.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -67,7 +64,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(ResearchManagementSystem PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::Charts)
+target_link_libraries(ResearchManagementSystem PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::Charts Qt${QT_VERSION_MAJOR}::Network)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
