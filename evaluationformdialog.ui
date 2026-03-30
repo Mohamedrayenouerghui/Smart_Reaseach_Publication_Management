@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EvaluationFormDialog</class>
+ <widget class="QDialog" name="EvaluationFormDialog">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>520</width><height>580</height></rect>
+  </property>
+  <property name="windowTitle"><string>Formulaire d'Evaluation</string></property>
+  <property name="styleSheet">
+   <string notr="true">
+QDialog { background-color: #F8FAFC; }
+QGroupBox {
+    font-weight: 700; font-size: 13px; color: #374151;
+    border: 1.5px solid #E2E8F0; border-radius: 10px;
+    margin-top: 12px; padding: 16px;
+    background-color: white;
+}
+QGroupBox::title {
+    subcontrol-origin: margin; left: 12px; top: -6px;
+    background-color: white; padding: 0 6px; color: #8B5CF6;
+}
+QLabel { color: #374151; font-size: 13px; font-weight: 600; background: transparent; }
+QComboBox, QSpinBox, QDateEdit {
+    border: 1.5px solid #E2E8F0; border-radius: 8px;
+    padding: 8px 12px; background: white; color: #1E293B;
+    font-size: 13px; min-height: 20px;
+}
+QComboBox:focus, QSpinBox:focus, QDateEdit:focus { border-color: #8B5CF6; }
+QTextEdit {
+    border: 1.5px solid #E2E8F0; border-radius: 8px;
+    padding: 8px; background: white; color: #1E293B; font-size: 13px;
+}
+QTextEdit:focus { border-color: #8B5CF6; }
+QRadioButton { font-size: 13px; color: #374151; }
+QPushButton#btnSave {
+    background-color: #8B5CF6; color: white; border: none;
+    border-radius: 8px; font-size: 14px; font-weight: 700;
+    padding: 12px 24px; min-height: 44px;
+}
+QPushButton#btnSave:hover { background-color: #7C3AED; }
+QPushButton#btnCancel {
+    background-color: transparent; color: #64748B;
+    border: 1.5px solid #CBD5E1; border-radius: 8px;
+    font-size: 14px; padding: 12px 24px; min-height: 44px;
+}
+QPushButton#btnCancel:hover { background-color: #F1F5F9; }
+   </string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <property name="spacing"><number>16</number></property>
+   <property name="leftMargin"><number>20</number></property>
+   <property name="topMargin"><number>20</number></property>
+   <property name="rightMargin"><number>20</number></property>
+   <property name="bottomMargin"><number>20</number></property>
+
+   <!-- Title -->
+   <item>
+    <widget class="QLabel" name="lblTitle">
+     <property name="text"><string>Nouvelle Evaluation</string></property>
+     <property name="alignment"><set>Qt::AlignCenter</set></property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 18px; font-weight: 700; color: #8B5CF6; margin-bottom: 4px;</string>
+     </property>
+    </widget>
+   </item>
+
+   <!-- Info Group -->
+   <item>
+    <widget class="QGroupBox" name="groupBoxInfo">
+     <property name="title"><string>Informations</string></property>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="horizontalSpacing"><number>16</number></property>
+      <property name="verticalSpacing"><number>12</number></property>
+
+      <!-- Article (replaces soumission spinbox) -->
+      <item row="0" column="0">
+       <widget class="QLabel" name="lblArticle">
+        <property name="text"><string>Article a evaluer:</string></property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="comboBoxArticle">
+        <property name="toolTip"><string>Selectionnez l'article a evaluer</string></property>
+       </widget>
+      </item>
+
+      <!-- Relecteur -->
+      <item row="1" column="0">
+       <widget class="QLabel" name="lblReviewer">
+        <property name="text"><string>Relecteur:</string></property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="comboBoxReviewer">
+        <property name="toolTip"><string>Utilisateurs avec le role Relecteur</string></property>
+       </widget>
+      </item>
+
+      <!-- Note -->
+      <item row="2" column="0">
+       <widget class="QLabel" name="lblNote">
+        <property name="text"><string>Note (1-10):</string></property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="noteLayout">
+        <item>
+         <widget class="QSpinBox" name="spinBoxNote">
+          <property name="minimum"><number>1</number></property>
+          <property name="maximum"><number>10</number></property>
+          <property name="value"><number>5</number></property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblNoteValue">
+          <property name="text"><string>5/10</string></property>
+          <property name="styleSheet">
+           <string notr="true">font-weight: 700; font-size: 16px; color: #F59E0B;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+
+      <!-- Date -->
+      <item row="3" column="0">
+       <widget class="QLabel" name="lblDateEval">
+        <property name="text"><string>Date:</string></property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QDateEdit" name="dateEditEval">
+        <property name="calendarPopup"><bool>true</bool></property>
+        <property name="displayFormat"><string>dd/MM/yyyy</string></property>
+       </widget>
+      </item>
+
+     </layout>
+    </widget>
+   </item>
+
+   <!-- Comments Group -->
+   <item>
+    <widget class="QGroupBox" name="groupBoxComments">
+     <property name="title"><string>Commentaires</string></property>
+     <layout class="QVBoxLayout" name="commLayout">
+      <item>
+       <widget class="QTextEdit" name="textEditCommentaires">
+        <property name="placeholderText"><string>Entrez votre avis sur cet article...</string></property>
+        <property name="minimumSize"><size><width>0</width><height>80</height></size></property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+
+   <!-- Status -->
+   <item>
+    <widget class="QGroupBox" name="groupBoxStatus">
+     <property name="title"><string>Statut</string></property>
+     <layout class="QHBoxLayout" name="statusLayout">
+      <item>
+       <widget class="QRadioButton" name="radioEnCours">
+        <property name="text"><string>En cours</string></property>
+        <property name="checked"><bool>true</bool></property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioTerminee">
+        <property name="text"><string>Terminee</string></property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+
+   <!-- Buttons -->
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <item>
+      <widget class="QPushButton" name="btnCancel">
+       <property name="text"><string>Annuler</string></property>
+       <property name="minimumWidth"><number>130</number></property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="btnSpacer">
+       <property name="orientation"><enum>Qt::Horizontal</enum></property>
+       <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnSave">
+       <property name="text"><string>Enregistrer l'evaluation</string></property>
+       <property name="minimumWidth"><number>200</number></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

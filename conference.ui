@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Conference</class>
+ <widget class="QWidget" name="Conference">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QWidget#Conference {
+    background-color: #F5F7FA;
+}
+
+QTabWidget::pane {
+    border: 1px solid #E2E8F0;
+    background-color: white;
+    border-radius: 10px;
+}
+
+QTabBar::tab {
+    background-color: #F8FAFC;
+    color: #64748B;
+    padding: 12px 28px;
+    margin-right: 4px;
+    border: 1px solid #E2E8F0;
+    border-bottom: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+QTabBar::tab:selected {
+    background-color: #8B5CF6;
+    color: white;
+    border-color: #8B5CF6;
+}
+
+QTabBar::tab:hover:!selected {
+    background-color: #EDE9FE;
+    color: #8B5CF6;
+}
+
+QTableWidget {
+    background-color: white;
+    border: none;
+    gridline-color: #F1F5F9;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+}
+
+QTableWidget::item {
+    padding: 10px 12px;
+    color: #374151;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+QTableWidget::item:selected {
+    background-color: #EDE9FE;
+    color: #7C3AED;
+}
+
+QHeaderView::section {
+    background-color: #F8FAFC;
+    color: #6B7280;
+    padding: 12px 16px;
+    border: none;
+    border-bottom: 2px solid #E2E8F0;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+QLineEdit, QTextEdit, QDateEdit, QSpinBox, QDoubleSpinBox {
+    padding: 10px 14px;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    background-color: white;
+    color: #1E293B;
+    font-size: 14px;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 20px;
+}
+
+QLineEdit:focus, QTextEdit:focus, QDateEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus {
+    border: 2px solid #8B5CF6;
+    background-color: #FEFCFF;
+}
+
+QComboBox {
+    padding: 10px 14px;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    background-color: white;
+    color: #1E293B;
+    font-size: 14px;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 20px;
+}
+
+QComboBox:focus {
+    border: 2px solid #8B5CF6;
+}
+
+QComboBox::drop-down {
+    border: none;
+    padding-right: 12px;
+}
+
+QComboBox::down-arrow {
+    image: none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #6B7280;
+}
+
+QLabel {
+    color: #374151;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+QPushButton {
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 20px;
+    min-height: 40px;
+    cursor: pointer;
+}
+
+QPushButton#ajouterListeButton {
+    color: #10B981;
+    border: 2px solid #10B981;
+    background-color: transparent;
+}
+QPushButton#ajouterListeButton:hover {
+    background-color: #10B981;
+    color: white;
+}
+
+QPushButton#modifierButton {
+    color: #3B82F6;
+    border: 2px solid #3B82F6;
+    background-color: transparent;
+}
+QPushButton#modifierButton:hover {
+    background-color: #3B82F6;
+    color: white;
+}
+
+QPushButton#supprimerButton {
+    color: #EF4444;
+    border: 2px solid #EF4444;
+    background-color: transparent;
+}
+QPushButton#supprimerButton:hover {
+    background-color: #EF4444;
+    color: white;
+}
+
+QPushButton#trierButton {
+    color: #8B5CF6;
+    border: 2px solid #8B5CF6;
+    background-color: transparent;
+}
+QPushButton#trierButton:hover {
+    background-color: #8B5CF6;
+    color: white;
+}
+
+QPushButton#exporterPDFButton {
+    color: #F59E0B;
+    border: 2px solid #F59E0B;
+    background-color: transparent;
+}
+QPushButton#exporterPDFButton:hover {
+    background-color: #F59E0B;
+    color: white;
+}
+
+QPushButton#rechercherButton {
+    color: #3B82F6;
+    border: 2px solid #3B82F6;
+    background-color: transparent;
+}
+QPushButton#rechercherButton:hover {
+    background-color: #3B82F6;
+    color: white;
+}
+
+QPushButton#clearSearchButton {
+    color: #64748B;
+    border: 2px solid #E2E8F0;
+    background-color: transparent;
+}
+QPushButton#clearSearchButton:hover {
+    background-color: #64748B;
+    color: white;
+}
+
+QPushButton#submitConferenceButton {
+    background-color: #8B5CF6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 30px;
+    min-height: 50px;
+}
+QPushButton#submitConferenceButton:hover {
+    background-color: #7C3AED;
+}
+QPushButton#submitConferenceButton:pressed {
+    background-color: #6D28D9;
+}
+
+QPushButton#resetFormButton {
+    background-color: transparent;
+    color: #64748B;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 14px 24px;
+    min-height: 50px;
+}
+QPushButton#resetFormButton:hover {
+    background-color: #F1F5F9;
+    border-color: #94A3B8;
+}
+   </string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+
+     <!-- ============ TAB 1: LISTE ============ -->
+     <widget class="QWidget" name="listeTab">
+      <attribute name="title">
+       <string>Liste des Conférences</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="listeLayout">
+       <property name="spacing">
+        <number>12</number>
+       </property>
+       <property name="leftMargin">
+        <number>16</number>
+       </property>
+       <property name="topMargin">
+        <number>16</number>
+       </property>
+       <property name="rightMargin">
+        <number>16</number>
+       </property>
+       <property name="bottomMargin">
+        <number>16</number>
+       </property>
+
+       <!-- Toolbar -->
+       <item>
+        <layout class="QHBoxLayout" name="toolbarLayout">
+         <property name="spacing">
+          <number>8</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="ajouterListeButton">
+           <property name="text">
+            <string>+ Ajouter</string>
+           </property>
+           <property name="minimumWidth">
+            <number>110</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="modifierButton">
+           <property name="text">
+            <string>Modifier</string>
+           </property>
+           <property name="minimumWidth">
+            <number>100</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="supprimerButton">
+           <property name="text">
+            <string>Supprimer</string>
+           </property>
+           <property name="minimumWidth">
+            <number>110</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="trierButton">
+           <property name="text">
+            <string>Trier</string>
+           </property>
+           <property name="minimumWidth">
+            <number>90</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="exporterPDFButton">
+           <property name="text">
+            <string>Exporter PDF</string>
+           </property>
+           <property name="minimumWidth">
+            <number>130</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="toolbarSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+
+       <!-- Search bar -->
+       <item>
+        <layout class="QHBoxLayout" name="searchLayout">
+         <property name="spacing">
+          <number>8</number>
+         </property>
+         <item>
+          <widget class="QComboBox" name="searchComboBox">
+           <property name="minimumWidth">
+            <number>180</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Rechercher par Nom</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rechercher par Lieu</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rechercher par Theme</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="searchLineEdit">
+           <property name="placeholderText">
+            <string>Rechercher une conference...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="rechercherButton">
+           <property name="text">
+            <string>Rechercher</string>
+           </property>
+           <property name="minimumWidth">
+            <number>110</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="clearSearchButton">
+           <property name="text">
+            <string>Effacer</string>
+           </property>
+           <property name="minimumWidth">
+            <number>80</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+
+       <!-- Table -->
+       <item>
+        <widget class="QTableWidget" name="conferencesTable">
+         <property name="columnCount">
+          <number>8</number>
+         </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>ID</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Nom</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Lieu</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Date Debut</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Date Fin</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Frais (DT)</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Etat</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Theme</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+
+     <!-- ============ TAB 2: AJOUTER ============ -->
+     <widget class="QWidget" name="ajouterTab">
+      <attribute name="title">
+       <string>Ajouter une Conference</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="ajouterOuterLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <widget class="QWidget" name="scrollContents">
+          <layout class="QVBoxLayout" name="scrollLayout">
+           <property name="spacing">
+            <number>20</number>
+           </property>
+           <property name="leftMargin">
+            <number>40</number>
+           </property>
+           <property name="topMargin">
+            <number>30</number>
+           </property>
+           <property name="rightMargin">
+            <number>40</number>
+           </property>
+           <property name="bottomMargin">
+            <number>30</number>
+           </property>
+
+           <!-- Form title -->
+           <item>
+            <widget class="QLabel" name="formTitleLabel">
+             <property name="text">
+              <string>Nouvelle Conference</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font-size: 20px; font-weight: 700; color: #1E293B; margin-bottom: 8px;</string>
+             </property>
+            </widget>
+           </item>
+
+           <!-- Form grid -->
+           <item>
+            <widget class="QWidget" name="formCard">
+             <property name="styleSheet">
+              <string notr="true">
+QWidget#formCard {
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+}
+              </string>
+             </property>
+             <layout class="QGridLayout" name="formGrid">
+              <property name="spacing">
+               <number>16</number>
+              </property>
+              <property name="leftMargin">
+               <number>30</number>
+              </property>
+              <property name="topMargin">
+               <number>24</number>
+              </property>
+              <property name="rightMargin">
+               <number>30</number>
+              </property>
+              <property name="bottomMargin">
+               <number>24</number>
+              </property>
+
+              <!-- Nom -->
+              <item row="0" column="0">
+               <widget class="QLabel" name="nomLabel">
+                <property name="text">
+                 <string>Nom de la Conference</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="nomLineEdit">
+                <property name="placeholderText">
+                 <string>Ex: International Conference on AI 2025</string>
+                </property>
+               </widget>
+              </item>
+
+              <!-- Lieu -->
+              <item row="1" column="0">
+               <widget class="QLabel" name="lieuLabel">
+                <property name="text">
+                 <string>Lieu</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="lieuLineEdit">
+                <property name="placeholderText">
+                 <string>Ex: Tunis, Centre des Congres</string>
+                </property>
+               </widget>
+              </item>
+
+              <!-- Date debut -->
+              <item row="2" column="0">
+               <widget class="QLabel" name="dateDebutLabel">
+                <property name="text">
+                 <string>Date de Debut</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QDateEdit" name="dateDebutEdit">
+                <property name="calendarPopup">
+                 <bool>true</bool>
+                </property>
+                <property name="displayFormat">
+                 <string>dd/MM/yyyy</string>
+                </property>
+               </widget>
+              </item>
+
+              <!-- Date fin -->
+              <item row="3" column="0">
+               <widget class="QLabel" name="dateFinLabel">
+                <property name="text">
+                 <string>Date de Fin</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QDateEdit" name="dateFinEdit">
+                <property name="calendarPopup">
+                 <bool>true</bool>
+                </property>
+                <property name="displayFormat">
+                 <string>dd/MM/yyyy</string>
+                </property>
+               </widget>
+              </item>
+
+              <!-- Frais -->
+              <item row="4" column="0">
+               <widget class="QLabel" name="fraisLabel">
+                <property name="text">
+                 <string>Frais d'Inscription (DT)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QDoubleSpinBox" name="fraisSpinBox">
+                <property name="maximum">
+                 <double>999999.990000000000000</double>
+                </property>
+                <property name="suffix">
+                 <string> DT</string>
+                </property>
+               </widget>
+              </item>
+
+              <!-- Etat -->
+              <item row="5" column="0">
+               <widget class="QLabel" name="etatLabel">
+                <property name="text">
+                 <string>Etat</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QComboBox" name="etatComboBox">
+                <item>
+                 <property name="text">
+                  <string>Ouverte</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Fermee</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>En cours</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Terminee</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+
+              <!-- Theme -->
+              <item row="6" column="0">
+               <widget class="QLabel" name="themeLabel">
+                <property name="text">
+                 <string>Theme</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QComboBox" name="themeComboBox">
+                <item>
+                 <property name="text">
+                  <string>Intelligence Artificielle</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Cybersecurite</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Big Data</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Cloud Computing</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>IoT</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Blockchain</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Reseaux</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Developpement Logiciel</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Autre</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+
+             </layout>
+            </widget>
+           </item>
+
+           <!-- Action buttons -->
+           <item>
+            <layout class="QHBoxLayout" name="actionButtonsLayout">
+             <property name="spacing">
+              <number>12</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="resetFormButton">
+               <property name="text">
+                <string>Reinitialiser</string>
+               </property>
+               <property name="minimumWidth">
+                <number>150</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="btnSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="ajouterButton">
+               <property name="text">
+                <string>Ajouter la Conference</string>
+               </property>
+               <property name="minimumWidth">
+                <number>220</number>
+               </property>
+               <property name="objectName">
+                <string>submitConferenceButton</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+
+           <!-- Vertical spacer at bottom -->
+           <item>
+            <spacer name="bottomSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

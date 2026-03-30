@@ -1,0 +1,7 @@
+build/
+.qtcreator/
+*.user
+<<<<<<< HEAD
+=======
+*.autosave
+>>>>>>> ff49bbca4d68dc752fc4552e64b5ef7536ded790
