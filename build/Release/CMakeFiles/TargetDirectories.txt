@@ -1,0 +1,9 @@
+C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Release/CMakeFiles/ResearchManagementSystem.dir
+C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Release/CMakeFiles/edit_cache.dir
+C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Release/CMakeFiles/rebuild_cache.dir
+C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Release/CMakeFiles/list_install_components.dir
+C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Release/CMakeFiles/install.dir
+C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Release/CMakeFiles/install/local.dir
+C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Release/CMakeFiles/install/strip.dir
+C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Release/CMakeFiles/ResearchManagementSystem_autogen_timestamp_deps.dir
+C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Release/CMakeFiles/ResearchManagementSystem_autogen.dir

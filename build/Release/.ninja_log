@@ -1,0 +1,19 @@
+# ninja log v6
+54	303	7938882160463583	ResearchManagementSystem_autogen/timestamp	6be3e5c5913f2920
+299	623	7938881527711680	C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Release/ResearchManagementSystem_autogen/EWIEGA46WW/qrc_SpyBot.cpp	58610eec9cc8850
+54	303	7938882160463583	ResearchManagementSystem_autogen/mocs_compilation.cpp	6be3e5c5913f2920
+54	303	7938882160463583	C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Release/ResearchManagementSystem_autogen/mocs_compilation.cpp	6be3e5c5913f2920
+54	303	7938882160463583	C:/Users/safab/OneDrive/Desktop/Smart_Reaseach_Publication_Management-main/build/Release/ResearchManagementSystem_autogen/timestamp	6be3e5c5913f2920
+299	623	7938881527711680	ResearchManagementSystem_autogen/EWIEGA46WW/qrc_SpyBot.cpp	58610eec9cc8850
+629	4598	7938881528094081	CMakeFiles/ResearchManagementSystem.dir/main.cpp.obj	663058b7856af223
+326	4346	7938882163201215	CMakeFiles/ResearchManagementSystem.dir/login.cpp.obj	f39f2579a92185d9
+816	5239	7938881874099837	CMakeFiles/ResearchManagementSystem.dir/ResearchManagementSystem_autogen/mocs_compilation.cpp.obj	fa2bf2927fdcde29
+304	4828	7938882162981575	CMakeFiles/ResearchManagementSystem.dir/mainwindow.cpp.obj	3fad28d4414ca3db
+311	5009	7938882163061503	CMakeFiles/ResearchManagementSystem.dir/users.cpp.obj	cad6437b941ab85f
+307	5663	7938882163021669	CMakeFiles/ResearchManagementSystem.dir/publicationspage.cpp.obj	16f5f4164a157d35
+321	5621	7938882163156453	CMakeFiles/ResearchManagementSystem.dir/conferencemanager.cpp.obj	bc146868434eeb2e
+316	5871	7938882163106569	CMakeFiles/ResearchManagementSystem.dir/conference.cpp.obj	ff8453cc451a52ba
+672	15109	7938881528536180	CMakeFiles/ResearchManagementSystem.dir/ResearchManagementSystem_autogen/EWIEGA46WW/qrc_SpyBot.cpp.obj	422774cbc6ee278a
+5871	6190	7938882218654070	ResearchManagementSystem.exe	ba8f9676dbb318e7
+10	57	7938966424941489	CMakeFiles/clean.additional	321391b2684b2653
+57	72	7938966425447254	clean	577b940aee94fbd7
