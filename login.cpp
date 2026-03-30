@@ -76,9 +76,10 @@ void Login::setupConnections()
 
 void Login::on_loginBtn_clicked()
 {
-    QString email = ui->emailEdit->text().trimmed();
+    QString email    = ui->emailEdit->text().trimmed();
     QString password = ui->passwordEdit->text().trimmed();
 
+    // ── 1. Validation rapide des champs obligatoires ──
     if (email.isEmpty() || password.isEmpty()) {
         QMessageBox::warning(this, "Champs requis",
                              "Veuillez entrer votre email et votre mot de passe.");
@@ -87,29 +88,35 @@ void Login::on_loginBtn_clicked()
 
     bool loginSuccess = false;
 
-    // 1. Try real database verification
-    if (Connection::createInstance().getDb().isOpen()) {
-        if (verifyUserInDatabase(email, password)) {
-            loginSuccess = true;
-        }
+    // ── 2. Mode développement : identifiant admin/admin (uniquement en mode Debug) ──
+#ifdef QT_DEBUG
+    if (email.compare("admin", Qt::CaseInsensitive) == 0 && password == "admin") {
+        qDebug() << "✅ Login ADMIN (mode debug)";
+        loginSuccess = true;
     }
+#endif
 
-    // 2. Fallback: admin / admin (development mode)
+    // ── 3. Vérification réelle en base de données ──
     if (!loginSuccess) {
-        if (email == "admin" && password == "admin") {
-            loginSuccess = true;
+        Connection &conn = Connection::createInstance();
+
+        if (conn.getDb().isOpen()) {
+            if (verifyUserInDatabase(email, password)) {
+                loginSuccess = true;
+                qDebug() << "✅ Login réussi via base Oracle pour :" << email;
+            }
+        } else {
+            qWarning() << "⚠️ Base de données non ouverte lors de la connexion";
         }
     }
 
+    // ── 4. Résultat final ──
     if (loginSuccess) {
         emit loginSuccessful();
         this->close();
-    }
-    else {
+    } else {
         QMessageBox::warning(this, "Échec de connexion",
-                             "Email ou mot de passe incorrect.\n\n"
-                             "• Mode test : admin / admin\n"
-                             "• Ou vérifiez vos identifiants dans Oracle");
+                             "Email ou mot de passe incorrect.");
 
         ui->passwordEdit->clear();
         ui->passwordEdit->setFocus();

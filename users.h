@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QSqlQuery>
-#include <QSqlDatabase>
 #include <QLineEdit>
 #include <QComboBox>
 #include <QLabel>
@@ -40,26 +39,36 @@ private:
     void setupTable();
     void setupMenus();
     void setupConnections();
-    void setupPrototypeUser();
+
     bool ajouter();
 
     // Helper methods
     void getFormData();
     void clearForm();
-    void loadUserToTable();
-    void showAddUserForm();
-    void hideAddUserForm();
     void uploadPhoto();
 
+    void showAddUserForm();
+    void hideAddUserForm();
 
+    // === Surcharges pour loadUserToTable ===
+    void loadUserToTable();                                           // Sans paramètre
+    void loadUserToTable(const QString &searchText,
+                         const QString &searchType);                  // Avec recherche
+    void loadUserToTable(const QString &searchText,
+                         const QString &searchType,
+                         const QString &sortColumn);                  // Avec recherche + tri
 
 private slots:
     void onModifyUser();
     void onDeleteUser();
     void updateUser();
-    void loadUserDataForEdit(int);
+    void loadUserDataForEdit(int userId);
     void resetToAddMode();
-
+    void searchUsers();
+    void sortUsers(QAction *action);   // ← MODIFIÉ : prend QAction*
+    void exportUsers();
+    void statsUsers();
+    void on_btnTogglePassword_clicked();
 
 };
 
