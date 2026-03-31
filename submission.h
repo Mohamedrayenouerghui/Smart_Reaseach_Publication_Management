@@ -2,6 +2,8 @@
 #define SUBMISSION_H
 
 #include <QWidget>
+#include <QSqlQuery>
+#include <QSqlError>
 
 namespace Ui {
 class Submission;
@@ -15,23 +17,40 @@ public:
     explicit Submission(QWidget *parent = nullptr);
     ~Submission();
 
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
 private slots:
-    // Empty slots - no functionality
-    void onAddSubmission() {}
-    void onUpdateSubmission() {}
-    void onDeleteSubmission() {}
-    void onTableSelectionChanged() {}
-    void onSortClicked() {}
-    void onSearchClicked() {}
-    void onExportClicked() {}
-    void onStatisticsClicked() {}
-    void clearForm() {}
+    void onAddSubmission();
+    void onDeleteSubmission();
+    void onTableSelectionChanged();
+    void onSearchClicked();
+    void onSearchTextChanged(const QString &text);
+    void onExportClicked();
+    void onStatisticsClicked();
+    void onChooseReviewer();
+    void onAutoAssignReviewer();
+    void onSelectArticle();
+    void onEditRowClicked();
+    void onDeleteRowClicked();
+    void onSortTriggered();
+    void clearForm();
 
 private:
     void loadSubmissions();
-    
+    void loadSubmissionsFromDB();
+    void loadRelecteurs();
+    void setupTable();
+    void setupMenus();
+    void setupConnections();
+    void addButtonsToRow(int row, int id);
+    void populateFormFromRow(int row);
+    bool validateForm();
+
     Ui::Submission *ui;
     int selectedRow;
+    int selectedId;
+    bool isEditMode;
 };
 
 #endif // SUBMISSION_H
