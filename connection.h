@@ -2,18 +2,27 @@
 #define CONNECTION_H
 
 #include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
+#include <QObject>
 
-class Connection
+class Connection : public QObject
 {
+    Q_OBJECT
+
 public:
-    Connection();
+    static Connection& createInstance();   // Singleton access
     bool createConnection();
-    QSqlDatabase getDatabase();
-    
+    QSqlDatabase& getDb();                 // Fixed: consistent naming
+
 private:
+    explicit Connection(QObject *parent = nullptr);
+    ~Connection() = default;
+
     QSqlDatabase db;
+    static Connection* instance;
+
+    // Disable copy
+    Connection(const Connection&) = delete;
+    Connection& operator=(const Connection&) = delete;
 };
 
 #endif // CONNECTION_H

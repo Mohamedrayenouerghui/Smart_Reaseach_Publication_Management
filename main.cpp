@@ -1,39 +1,55 @@
+// main.cpp - Clean & Professional Version
+
 #include "mainwindow.h"
 #include "login.h"
 #include "connection.h"
 
 #include <QApplication>
 #include <QMessageBox>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    
-    // Test de connexion à la base de données
-    Connection c;
-    bool dbConnected = c.createConnection();
-    
+
+    // ====================== DATABASE CONNECTION (Singleton) ======================
+    Connection &conn = Connection::createInstance();
+
+    bool dbConnected = conn.createConnection();
+
     if (dbConnected) {
-        QMessageBox::information(nullptr, QObject::tr("Connexion Réussie"),
-                    QObject::tr("Connexion à la base de données réussie!\n"
-                                "Cliquez OK pour continuer."), QMessageBox::Ok);
+        qDebug() << "✅ Database connection successful";
     } else {
-        QMessageBox::critical(nullptr, QObject::tr("Erreur de Connexion"),
-                    QObject::tr("Échec de connexion à la base de données.\n"
-                                "Vérifiez vos paramètres ODBC.\n"
-                                "Cliquez OK pour continuer quand même."), QMessageBox::Ok);
+        qDebug() << "⚠️ Database connection failed - using fallback mode";
+
+        QMessageBox::warning(nullptr, "Connexion Base de Données",
+                             "Impossible de se connecter à Oracle.\n\n"
+                             "L'application continuera en mode test (admin/admin).\n"
+                             "Vérifiez vos paramètres ODBC et le service Oracle XE.",
+                             QMessageBox::Ok);
     }
-    
-    MainWindow w;
-    Login l;
-    
-    // Connect the Login signal to the MainWindow show slot
-    QObject::connect(&l, &Login::loginSuccessful, [&](){
-        w.show();
+
+    // ====================== CREATE WINDOWS ======================
+    Login loginWindow;
+    MainWindow mainWindow;
+
+    // ====================== SIGNAL/SLOT CONNECTION ======================
+    // When login is successful → show MainWindow and close Login
+    QObject::connect(&loginWindow, &Login::loginSuccessful,
+                     [&mainWindow, &loginWindow]() {
+                         loginWindow.close();
+                         mainWindow.show();
+                     });
+
+    // Optional: Close the entire application if Login is closed without success
+    QObject::connect(&loginWindow, &Login::destroyed, [&]() {
+        if (!mainWindow.isVisible()) {
+            qDebug() << "Login closed without successful authentication";
+        }
     });
 
-    // Show only the Login window initially
-    l.show();
+    // ====================== START APPLICATION ======================
+    loginWindow.show();   // Show Login first (MainWindow stays hidden)
 
     return a.exec();
 }

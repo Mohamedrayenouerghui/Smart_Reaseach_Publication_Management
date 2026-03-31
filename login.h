@@ -27,6 +27,7 @@ private:
     Ui::Login *ui;
     void setupConnections();
     void setupIcons();
+    bool verifyUserInDatabase(const QString &email, const QString &password);  // ← ADD THIS LINE
 
 };
 
