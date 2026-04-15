@@ -2,3 +2,6 @@ build/
 .qtcreator/
 *.user
 *.autosave
+build/
+.qtcreator/
+*.user
