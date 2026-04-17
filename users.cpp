@@ -1,6 +1,8 @@
 #include "users.h"
 #include "ui_users.h"
 #include "connection.h"
+#include "FaceCaptureDialog.h"
+
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFileInfo>
@@ -87,6 +89,8 @@ void Users::setupConnections()
     connect(ui->clearButtonUser, &QToolButton::clicked, ui->searchInputUser, &QLineEdit::clear);
     // === NOUVEAU : Bouton Recherche ===
     connect(ui->searchButtonUser, &QToolButton::clicked, this, &Users::searchUsers);
+    connect(ui->registerFaceButton, &QPushButton::clicked, this, &Users::onRegisterFaceClicked);
+
 }
 
 void Users::getFormData()
@@ -215,6 +219,36 @@ bool Users::ajouter()
     clearForm();
     hideAddUserForm();
     return true;
+}
+
+void Users::onRegisterFaceClicked()
+{
+    // Guard: require an email to be entered first
+    QString email = ui->emailInput->text().trimmed();
+    if (email.isEmpty()) {
+        QMessageBox::warning(this, "Email requis",
+                             "Veuillez d'abord saisir l'adresse email de l'utilisateur\n"
+                             "avant d'enregistrer son visage.");
+        ui->emailInput->setFocus();
+        return;
+    }
+
+    // Disable button to prevent double-click
+    ui->registerFaceButton->setEnabled(false);
+    ui->faceStatusLabel->setText("⏳ Ouverture de la caméra…");
+
+    FaceCaptureDialog dlg(email, this);
+    if (dlg.exec() == QDialog::Accepted) {
+        ui->faceStatusLabel->setText("✅ Visage enregistré avec succès !");
+        ui->faceStatusLabel->setStyleSheet(
+            "font-size:12px; color:#10B981; font-weight:600; background:transparent;");
+    } else {
+        ui->faceStatusLabel->setText("⚠️ Enregistrement annulé");
+        ui->faceStatusLabel->setStyleSheet(
+            "font-size:12px; color:#F59E0B; background:transparent;");
+    }
+
+    ui->registerFaceButton->setEnabled(true);
 }
 
 void Users::uploadPhoto()

@@ -9,8 +9,15 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# ==================== Qt ====================
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql PrintSupport Charts Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql PrintSupport Charts Network)
+
+# ==================== OpenCV 4.5.5 MinGW ====================
+set(OpenCV_DIR "C:/Users/Azzabi Alaedinne/Desktop/Projet QT/S9/OpenCV-MinGW-Build-OpenCV-4.5.5-x64")
+find_package(OpenCV REQUIRED)
+
+# ==================== Project Sources ====================
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
@@ -22,6 +29,10 @@ set(PROJECT_SOURCES
         article.cpp
         users.cpp
         login.cpp
+        facecapturedialog.cpp
+        faceauthdialog.cpp
+        faceauthdialog.h
+        facecapturedialog.h
         mainwindow.h
         publicationspage.h
         submission.h
@@ -44,19 +55,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(ResearchManagementSystem
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        SpyBot.qrc
+        SpyBot.qrc 
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET SmartResearchManagement APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
         add_library(ResearchManagementSystem SHARED
             ${PROJECT_SOURCES}
         )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(ResearchManagementSystem
             ${PROJECT_SOURCES}
@@ -64,11 +69,31 @@ else()
     endif()
 endif()
 
-target_link_libraries(ResearchManagementSystem PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::Charts Qt${QT_VERSION_MAJOR}::Network)
+# ==================== Linking ====================
+target_link_libraries(ResearchManagementSystem PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Sql
+    Qt${QT_VERSION_MAJOR}::PrintSupport
+    Qt${QT_VERSION_MAJOR}::Charts
+    Qt${QT_VERSION_MAJOR}::Network
+    ${OpenCV_LIBS}
+)
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
+# ==================== Include Dirs ====================
+target_include_directories(ResearchManagementSystem PRIVATE
+    ${OpenCV_INCLUDE_DIRS}
+)
+
+# ==================== Windows: Copy OpenCV DLLs after build ====================
+if(WIN32)
+    add_custom_command(TARGET ResearchManagementSystem POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "C:/Users/Azzabi Alaedinne/Desktop/Projet QT/S9/OpenCV-MinGW-Build-OpenCV-4.5.5-x64/x64/mingw/bin"
+            $<TARGET_FILE_DIR:ResearchManagementSystem>
+    )
+endif()
+
+# ==================== Target Properties ====================
 if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.research.ResearchManagementSystem)
 endif()
@@ -90,3 +115,8 @@ install(TARGETS ResearchManagementSystem
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(ResearchManagementSystem)
 endif()
+
+# ==================== Debug Info ====================
+message(STATUS "OpenCV version: ${OpenCV_VERSION}")
+message(STATUS "OpenCV include dirs: ${OpenCV_INCLUDE_DIRS}")
+message(STATUS "OpenCV libs: ${OpenCV_LIBS}")

@@ -69,6 +69,7 @@ private slots:
     void exportUsers();
     void statsUsers();
     void on_btnTogglePassword_clicked();
+    void onRegisterFaceClicked();
 
 };
 

@@ -1,6 +1,7 @@
 #include "login.h"
 #include "connection.h"
 #include "ui_login.h"
+#include "FaceAuthDialog.h"
 
 #include <QMessageBox>
 #include <QSqlQuery>      // ← Fixed: was causing "incomplete type"
@@ -63,9 +64,25 @@ void Login::setupConnections()
 {
     connect(ui->loginBtn, &QPushButton::clicked, this, &Login::on_loginBtn_clicked);
 
-    // FaceID button
+    // FaceID button → Open FaceAuthDialog
     connect(ui->facialAuthBtn, &QToolButton::clicked, this, [this]() {
-        QMessageBox::information(this, "Authentification Faciale", "Reconnaissance faciale à implémenter");
+        FaceAuthDialog dlg(this);
+
+        if (dlg.exec() == QDialog::Accepted) {
+            QString matchedEmail = dlg.matchedEmail();
+
+            if (!matchedEmail.isEmpty()) {
+                qDebug() << "✅ Login réussi via reconnaissance faciale pour :" << matchedEmail;
+
+                // Success → same flow as normal login
+                emit loginSuccessful();
+                this->close();
+            } else {
+                QMessageBox::warning(this, "Authentification Faciale",
+                                     "Aucun visage correspondant n'a été reconnu.");
+            }
+        }
+        // If user cancels (Rejected) → do nothing
     });
 
     // Forgotten password button

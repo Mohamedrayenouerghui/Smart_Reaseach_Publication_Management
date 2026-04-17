@@ -4,7 +4,6 @@
 #include "conference.h"
 #include "laboratoire.h"
 #include "users.h"
-#include "login.h"
 #include "ui_mainwindow.h"
 #include <QFile>
 #include <QIcon>
@@ -20,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     , laboratoirePage(nullptr)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(0);
     initUserPage();
     loadStyleSheet();
     setupConnections();
