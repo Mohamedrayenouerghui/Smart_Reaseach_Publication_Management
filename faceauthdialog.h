@@ -38,7 +38,7 @@ class FaceAuthDialog : public QDialog
 
 public:
     // How similar the face must be (0.0 – 1.0).  Raise to reduce false positives.
-    static constexpr double THRESHOLD   = 0.72;
+    static constexpr double THRESHOLD   = 0.62;
     static constexpr int    PREVIEW_FPS = 20;
 
     explicit FaceAuthDialog(QWidget* parent = nullptr);

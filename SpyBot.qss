@@ -1,13 +1,13 @@
 /*
 Ultra-Smooth Professional Research Management System
-Clean, minimal design with subtle animations and professional aesthetics
+Clean, minimal design with professional aesthetics
 */
 
 /*-----QWidget-----*/
 QWidget
 {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
-    stop:0 #f8fafc, stop:1 #f1f5f9);
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                stop:0 #f8fafc, stop:1 #f1f5f9);
     color: #2c3e50;
     font-family: "Segoe UI", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
     font-weight: 400;
@@ -16,8 +16,8 @@ QWidget
 /*-----QMainWindow-----*/
 QMainWindow
 {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
-    stop:0 #ffffff, stop:1 #f8fafc);
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                stop:0 #ffffff, stop:1 #f8fafc);
 }
 
 /*-----QLabel-----*/
@@ -40,29 +40,19 @@ QPushButton
     border-radius: 8px;
     padding: 12px 24px;
     min-height: 40px;
-    transition: all 0.3s ease;
 }
-
 QPushButton:hover
 {
     background-color: #5a67d8;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
-
 QPushButton:pressed
 {
     background-color: #4c51bf;
-    transform: translateY(0px);
-    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.4);
 }
-
 QPushButton:disabled
 {
     background-color: #e2e8f0;
     color: #a0aec0;
-    transform: none;
-    box-shadow: none;
 }
 
 /*-----QLineEdit-----*/
@@ -76,21 +66,15 @@ QLineEdit
     border-radius: 8px;
     padding: 12px 16px;
     selection-background-color: #667eea;
-    transition: all 0.2s ease;
 }
-
 QLineEdit:focus
 {
     border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    outline: none;
 }
-
 QLineEdit:hover
 {
     border-color: #cbd5e0;
 }
-
 QLineEdit:disabled
 {
     background-color: #f7fafc;
@@ -111,25 +95,21 @@ QTableView, QTableWidget
     alternate-background-color: #f7fafc;
     font-weight: 400;
 }
-
 QTableView::item, QTableWidget::item
 {
     padding: 12px 16px;
     border: none;
     border-bottom: 1px solid #f7fafc;
 }
-
 QTableView::item:hover, QTableWidget::item:hover
 {
     background-color: rgba(102, 126, 234, 0.05);
 }
-
 QTableView::item:selected, QTableWidget::item:selected
 {
     background-color: rgba(102, 126, 234, 0.1);
     color: #667eea;
 }
-
 QTableCornerButton::section
 {
     background-color: #f7fafc;
@@ -150,12 +130,10 @@ QHeaderView::section
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
 QHeaderView::section:hover
 {
     background-color: #edf2f7;
 }
-
 QHeaderView::section:pressed
 {
     background-color: #e2e8f0;
@@ -169,19 +147,16 @@ QScrollBar:horizontal
     margin: 0px;
     border-radius: 4px;
 }
-
 QScrollBar::handle:horizontal
 {
     background-color: #cbd5e0;
     border-radius: 4px;
     min-width: 20px;
 }
-
 QScrollBar::handle:horizontal:hover
 {
     background-color: #a0aec0;
 }
-
 QScrollBar::add-line:horizontal,
 QScrollBar::sub-line:horizontal
 {
@@ -195,19 +170,16 @@ QScrollBar:vertical
     margin: 0px;
     border-radius: 4px;
 }
-
 QScrollBar::handle:vertical
 {
     background-color: #cbd5e0;
     border-radius: 4px;
     min-height: 20px;
 }
-
 QScrollBar::handle:vertical:hover
 {
     background-color: #a0aec0;
 }
-
 QScrollBar::add-line:vertical,
 QScrollBar::sub-line:vertical
 {
@@ -223,7 +195,6 @@ QCheckBox
     font-weight: 400;
     spacing: 8px;
 }
-
 QCheckBox::indicator
 {
     width: 18px;
@@ -232,13 +203,11 @@ QCheckBox::indicator
     border-radius: 4px;
     background-color: white;
 }
-
 QCheckBox::indicator:checked
 {
     background-color: #667eea;
     border-color: #667eea;
 }
-
 QCheckBox::indicator:hover
 {
     border-color: #667eea;
@@ -256,24 +225,19 @@ QComboBox
     color: #2d3748;
     min-width: 120px;
 }
-
 QComboBox:hover
 {
     border-color: #cbd5e0;
 }
-
 QComboBox:focus
 {
     border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
-
 QComboBox::drop-down
 {
     border: none;
     width: 20px;
 }
-
 QComboBox QAbstractItemView
 {
     background-color: white;
@@ -285,39 +249,20 @@ QComboBox QAbstractItemView
 }
 
 /* ===== PUBLICATIONS PAGE STYLES ===== */
+QWidget#publicationsPage      { background-color: #F5F7FA; }
+QWidget#publicationsToolbar   { background-color: #FFFFFF; border-bottom: 1px solid #E0E0E0; }
+QWidget#publicationsSearchBar { background-color: #FFFFFF; border-bottom: 1px solid #E0E0E0; }
+QWidget#publicationsContent   { background-color: #F5F7FA; }
 
-/* Publications Page Background */
-QWidget#publicationsPage
-{
-    background-color: #F5F7FA;
-}
-
-/* Toolbar */
-QWidget#publicationsToolbar
-{
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #E0E0E0;
-}
-
-/* Search Bar */
-QWidget#publicationsSearchBar
-{
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #E0E0E0;
-}
-
-/* Content Area */
-QWidget#publicationsContent
-{
-    background-color: #F5F7FA;
-}
-
-/* Add Button - Green */
-QToolButton#addButton
+/* ToolButtons */
+QToolButton#addButton,
+QToolButton#searchButton,
+QToolButton#sortButton,
+QToolButton#exportButton,
+QToolButton#statsButton
 {
     background-color: transparent;
-    color: #10B981;
-    border: 2px solid #10B981;
+    border: 2px solid;
     border-radius: 8px;
     font-family: 'Segoe UI', sans-serif;
     font-size: 14px;
@@ -325,122 +270,17 @@ QToolButton#addButton
     padding: 0px 16px;
 }
 
-QToolButton#addButton:hover
-{
-    background-color: #10B981;
-    color: white;
-    border-color: #10B981;
-}
+QToolButton#addButton    { color: #10B981; border-color: #10B981; }
+QToolButton#searchButton { color: #3B82F6; border-color: #3B82F6; }
+QToolButton#sortButton   { color: #8B5CF6; border-color: #8B5CF6; }
+QToolButton#exportButton { color: #F59E0B; border-color: #F59E0B; }
+QToolButton#statsButton  { color: #14B8A6; border-color: #14B8A6; }
 
-QToolButton#addButton:pressed
-{
-    background-color: #059669;
-    border-color: #059669;
-}
-
-/* Search Button - Blue */
-QToolButton#searchButton
-{
-    background-color: transparent;
-    color: #3B82F6;
-    border: 2px solid #3B82F6;
-    border-radius: 8px;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 0px 12px;
-}
-
-QToolButton#searchButton:hover
-{
-    background-color: #3B82F6;
-    color: white;
-    border-color: #3B82F6;
-}
-
-QToolButton#searchButton:pressed
-{
-    background-color: #2563EB;
-    border-color: #2563EB;
-}
-
-/* Sort Button - Purple */
-QToolButton#sortButton
-{
-    background-color: transparent;
-    color: #8B5CF6;
-    border: 2px solid #8B5CF6;
-    border-radius: 8px;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 0px 12px;
-}
-
-QToolButton#sortButton:hover
-{
-    background-color: #8B5CF6;
-    color: white;
-    border-color: #8B5CF6;
-}
-
-QToolButton#sortButton:pressed
-{
-    background-color: #7C3AED;
-    border-color: #7C3AED;
-}
-
-/* Export Button - Orange */
-QToolButton#exportButton
-{
-    background-color: transparent;
-    color: #F59E0B;
-    border: 2px solid #F59E0B;
-    border-radius: 8px;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 0px 12px;
-}
-
-QToolButton#exportButton:hover
-{
-    background-color: #F59E0B;
-    color: white;
-    border-color: #F59E0B;
-}
-
-QToolButton#exportButton:pressed
-{
-    background-color: #D97706;
-    border-color: #D97706;
-}
-
-/* Statistics Button - Teal */
-QToolButton#statsButton
-{
-    background-color: transparent;
-    color: #14B8A6;
-    border: 2px solid #14B8A6;
-    border-radius: 8px;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 0px 12px;
-}
-
-QToolButton#statsButton:hover
-{
-    background-color: #14B8A6;
-    color: white;
-    border-color: #14B8A6;
-}
-
-QToolButton#statsButton:pressed
-{
-    background-color: #0D9488;
-    border-color: #0D9488;
-}
+QToolButton#addButton:hover    { background-color: #10B981; color: white; }
+QToolButton#searchButton:hover { background-color: #3B82F6; color: white; }
+QToolButton#sortButton:hover   { background-color: #8B5CF6; color: white; }
+QToolButton#exportButton:hover { background-color: #F59E0B; color: white; }
+QToolButton#statsButton:hover  { background-color: #14B8A6; color: white; }
 
 /* Search Input */
 QLineEdit#searchInput
@@ -453,40 +293,8 @@ QLineEdit#searchInput
     font-size: 14px;
     color: #475569;
 }
-
-QLineEdit#searchInput:hover
-{
-    border-color: #C7D2FE;
-}
-
-QLineEdit#searchInput:focus
-{
-    border-color: #6366F1;
-    background-color: #FAFBFF;
-}
-
-/* Search Type Combo */
-QComboBox#searchTypeCombo
-{
-    border: 1.5px solid #E2E8F0;
-    border-radius: 8px;
-    padding: 8px 12px;
-    background: #FFFFFF;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 13px;
-    color: #475569;
-}
-
-QComboBox#searchTypeCombo:hover
-{
-    border-color: #C7D2FE;
-}
-
-QComboBox#searchTypeCombo:focus
-{
-    border-color: #6366F1;
-    background-color: #FAFBFF;
-}
+QLineEdit#searchInput:hover  { border-color: #C7D2FE; }
+QLineEdit#searchInput:focus  { border-color: #6366F1; background-color: #FAFBFF; }
 
 /* Clear Button */
 QToolButton#clearButton
@@ -498,7 +306,6 @@ QToolButton#clearButton
     font-size: 16px;
     font-weight: bold;
 }
-
 QToolButton#clearButton:hover
 {
     background-color: #EF4444;
@@ -514,7 +321,6 @@ QTableWidget#publicationsTable
     gridline-color: #F1F5F9;
     font-family: 'Segoe UI', 'Roboto', sans-serif;
 }
-
 QTableWidget#publicationsTable::item
 {
     padding: 14px;
@@ -522,13 +328,11 @@ QTableWidget#publicationsTable::item
     color: #475569;
     font-size: 13px;
 }
-
 QTableWidget#publicationsTable::item:selected
 {
     background-color: #F1F5F9;
     color: #1E293B;
 }
-
 QTableWidget#publicationsTable QHeaderView::section
 {
     background-color: #F8FAFC;
@@ -554,11 +358,7 @@ QToolButton#editButton
     font-size: 11px;
     font-weight: 600;
 }
-
-QToolButton#editButton:hover
-{
-    background-color: #4F46E5;
-}
+QToolButton#editButton:hover { background-color: #4F46E5; }
 
 QToolButton#deleteButton
 {
@@ -569,11 +369,7 @@ QToolButton#deleteButton
     font-size: 11px;
     font-weight: 600;
 }
-
-QToolButton#deleteButton:hover
-{
-    background-color: #DC2626;
-}
+QToolButton#deleteButton:hover { background-color: #DC2626; }
 
 /* Menu Styles */
 QMenu
@@ -583,7 +379,6 @@ QMenu
     border-radius: 8px;
     padding: 8px;
 }
-
 QMenu::item
 {
     padding: 10px 24px;
@@ -591,7 +386,6 @@ QMenu::item
     color: #475569;
     border-radius: 6px;
 }
-
 QMenu::item:selected
 {
     background-color: #F1F5F9;

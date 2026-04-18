@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>1100</width>
-    <height>820</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1000</width>
-    <height>720</height>
+    <height>650</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -599,19 +599,19 @@ QHeaderView::section { background-color: #F8FAFC; color: #64748B; padding: 16px;
          </attribute>
          <layout class="QVBoxLayout" name="addTabLayout">
           <property name="spacing">
-           <number>12</number>
+           <number>10</number>
           </property>
           <property name="leftMargin">
            <number>30</number>
           </property>
           <property name="topMargin">
-           <number>20</number>
+           <number>15</number>
           </property>
           <property name="rightMargin">
            <number>30</number>
           </property>
           <property name="bottomMargin">
-           <number>20</number>
+           <number>15</number>
           </property>
           <item>
            <widget class="QLabel" name="formTitleLabelUser">
@@ -627,7 +627,7 @@ QHeaderView::section { background-color: #F8FAFC; color: #64748B; padding: 16px;
            <widget class="QWidget" name="formWidgetUser" native="true">
             <layout class="QVBoxLayout" name="formLayoutUser">
              <property name="spacing">
-              <number>10</number>
+              <number>8</number>
              </property>
              <property name="leftMargin">
               <number>0</number>
@@ -780,14 +780,18 @@ QHeaderView::section { background-color: #F8FAFC; color: #64748B; padding: 16px;
                </item>
               </widget>
              </item>
-
-             <!-- ================= NEW HORIZONTAL ROW: Face (left) | Photo (middle) | Buttons (right) ================= -->
              <item>
               <widget class="QWidget" name="mediaAndActionsRow" native="true">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>180</height>
+                 <height>115</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>115</height>
                 </size>
                </property>
                <property name="styleSheet">
@@ -795,7 +799,7 @@ QHeaderView::section { background-color: #F8FAFC; color: #64748B; padding: 16px;
                </property>
                <layout class="QHBoxLayout" name="mediaActionsLayout">
                 <property name="spacing">
-                 <number>16</number>
+                 <number>12</number>
                 </property>
                 <property name="leftMargin">
                  <number>0</number>
@@ -809,14 +813,12 @@ QHeaderView::section { background-color: #F8FAFC; color: #64748B; padding: 16px;
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
-
-                <!-- 1. Face Registration Widget (LEFT) -->
                 <item>
                  <widget class="QWidget" name="faceRegistrationWidget" native="true">
                   <property name="minimumSize">
                    <size>
                     <width>300</width>
-                    <height>160</height>
+                    <height>125</height>
                    </size>
                   </property>
                   <property name="styleSheet">
@@ -828,19 +830,19 @@ QHeaderView::section { background-color: #F8FAFC; color: #64748B; padding: 16px;
                   </property>
                   <layout class="QVBoxLayout" name="faceRegistrationLayout">
                    <property name="spacing">
-                    <number>12</number>
+                    <number>8</number>
                    </property>
                    <property name="leftMargin">
-                    <number>20</number>
+                    <number>15</number>
                    </property>
                    <property name="topMargin">
-                    <number>20</number>
+                    <number>10</number>
                    </property>
                    <property name="rightMargin">
-                    <number>20</number>
+                    <number>15</number>
                    </property>
                    <property name="bottomMargin">
-                    <number>20</number>
+                    <number>10</number>
                    </property>
                    <item>
                     <widget class="QLabel" name="faceSectionTitle">
@@ -875,13 +877,13 @@ QHeaderView::section { background-color: #F8FAFC; color: #64748B; padding: 16px;
                        <property name="minimumSize">
                         <size>
                          <width>180</width>
-                         <height>40</height>
+                         <height>36</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>220</width>
-                         <height>40</height>
+                         <height>36</height>
                         </size>
                        </property>
                        <property name="cursor">
@@ -896,7 +898,7 @@ QHeaderView::section { background-color: #F8FAFC; color: #64748B; padding: 16px;
     font-family: 'Segoe UI', sans-serif;
     font-size: 13px;
     font-weight: 600;
-    padding: 10px 20px;
+    padding: 8px 16px;
 }
 QPushButton:hover {
     background-color: #0284C7;
@@ -942,83 +944,15 @@ QPushButton:disabled {
                      </property>
                     </widget>
                    </item>
-                   <item>
-                    <layout class="QHBoxLayout" name="checkboxLayout">
-                     <item>
-                      <spacer name="leftCheckboxSpacer">
-                       <property name="orientation">
-                        <enum>Qt::Orientation::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QCheckBox" name="faceRegisteredCheckBox">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">QCheckBox {
-    font-size: 13px;
-    color: #64748B;
-    background: transparent;
-    spacing: 8px;
-}
-QCheckBox::indicator {
-    width: 18px;
-    height: 18px;
-}
-QCheckBox::indicator:unchecked {
-    border: 2px solid #E2E8F0;
-    background-color: #FFFFFF;
-}
-QCheckBox::indicator:checked {
-    border: 2px solid #10B981;
-    background-color: #10B981;
-}
-QCheckBox:disabled {
-    color: #94A3B8;
-}</string>
-                       </property>
-                       <property name="text">
-                        <string>Face ID enregistré</string>
-                       </property>
-                       <property name="checked">
-                        <bool>false</bool>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="rightCheckboxSpacer">
-                       <property name="orientation">
-                        <enum>Qt::Orientation::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                    </layout>
-                   </item>
                   </layout>
                  </widget>
                 </item>
-
-                <!-- 2. Photo Upload Widget (MIDDLE) -->
                 <item>
                  <widget class="QWidget" name="photoUploadWidget" native="true">
                   <property name="minimumSize">
                    <size>
                     <width>320</width>
-                    <height>160</height>
+                    <height>125</height>
                    </size>
                   </property>
                   <property name="styleSheet">
@@ -1030,19 +964,19 @@ QCheckBox:disabled {
                   </property>
                   <layout class="QVBoxLayout" name="photoUploadLayout">
                    <property name="spacing">
-                    <number>12</number>
+                    <number>8</number>
                    </property>
                    <property name="leftMargin">
-                    <number>20</number>
+                    <number>15</number>
                    </property>
                    <property name="topMargin">
-                    <number>20</number>
+                    <number>10</number>
                    </property>
                    <property name="rightMargin">
-                    <number>20</number>
+                    <number>15</number>
                    </property>
                    <property name="bottomMargin">
-                    <number>20</number>
+                    <number>10</number>
                    </property>
                    <item>
                     <widget class="QLabel" name="photoSectionTitle">
@@ -1077,13 +1011,13 @@ QCheckBox:disabled {
                        <property name="minimumSize">
                         <size>
                          <width>160</width>
-                         <height>40</height>
+                         <height>36</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>200</width>
-                         <height>40</height>
+                         <height>36</height>
                         </size>
                        </property>
                        <property name="cursor">
@@ -1098,7 +1032,7 @@ QCheckBox:disabled {
     font-family: 'Segoe UI', sans-serif;
     font-size: 13px;
     font-weight: 600;
-    padding: 10px 16px;
+    padding: 8px 16px;
 }
 QPushButton:hover {
     background-color: #5568d3;
@@ -1143,8 +1077,6 @@ QPushButton:pressed {
                   </layout>
                  </widget>
                 </item>
-
-                <!-- 3. Button Widget (RIGHT) - now with vertical layout -->
                 <item>
                  <widget class="QWidget" name="buttonWidgetUser" native="true">
                   <property name="minimumSize">
@@ -1161,30 +1093,17 @@ QPushButton:pressed {
                     <number>12</number>
                    </property>
                    <property name="leftMargin">
-                    <number>10</number>
+                    <number>0</number>
                    </property>
                    <property name="topMargin">
-                    <number>10</number>
+                    <number>0</number>
                    </property>
                    <property name="rightMargin">
-                    <number>10</number>
+                    <number>0</number>
                    </property>
                    <property name="bottomMargin">
-                    <number>10</number>
+                    <number>0</number>
                    </property>
-                   <item>
-                    <spacer name="topButtonSpacer">
-                     <property name="orientation">
-                      <enum>Qt::Orientation::Vertical</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>20</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
                    <item>
                     <widget class="QPushButton" name="cancelButtonUser">
                      <property name="minimumSize">
@@ -1254,27 +1173,12 @@ QPushButton:pressed {
                      </property>
                     </widget>
                    </item>
-                   <item>
-                    <spacer name="bottomButtonSpacer">
-                     <property name="orientation">
-                      <enum>Qt::Orientation::Vertical</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>20</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
                   </layout>
                  </widget>
                 </item>
                </layout>
               </widget>
              </item>
-             <!-- ================= END NEW ROW ================= -->
-
             </layout>
            </widget>
           </item>
