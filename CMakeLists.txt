@@ -10,8 +10,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # ==================== Qt ====================
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql PrintSupport Charts Network)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql PrintSupport Charts Network)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql PrintSupport Charts Network SerialPort)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql PrintSupport Charts Network SerialPort)
 
 # ==================== OpenCV 4.5.5 MinGW ====================
 set(OpenCV_DIR "C:/Users/Azzabi Alaedinne/Desktop/Projet QT/S9/OpenCV-MinGW-Build-OpenCV-4.5.5-x64")
@@ -31,6 +31,7 @@ set(PROJECT_SOURCES
         login.cpp
         facecapturedialog.cpp
         faceauthdialog.cpp
+        arduino.cpp           # ← NEW
         faceauthdialog.h
         facecapturedialog.h
         mainwindow.h
@@ -42,6 +43,7 @@ set(PROJECT_SOURCES
         article.h
         users.h
         login.h
+        arduino.h             # ← NEW
         mainwindow.ui
         publicationspage.ui
         submission.ui
@@ -55,7 +57,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(ResearchManagementSystem
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        SpyBot.qrc 
+        SpyBot.qrc
     )
 else()
     if(ANDROID)
@@ -76,6 +78,7 @@ target_link_libraries(ResearchManagementSystem PRIVATE
     Qt${QT_VERSION_MAJOR}::PrintSupport
     Qt${QT_VERSION_MAJOR}::Charts
     Qt${QT_VERSION_MAJOR}::Network
+    Qt${QT_VERSION_MAJOR}::SerialPort   # ← NEW
     ${OpenCV_LIBS}
 )
 

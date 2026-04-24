@@ -23,11 +23,16 @@
 #include <QDesktopServices>
 #include <QDir>
 #include <QFileInfo>
-// === QtCharts includes (REQUIRED for statsUsers) ===
+
+// QtCharts
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QPieSlice>
 #include <QtCharts/QChart>
 #include <QtCharts/QChartView>
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  Constructor / Destructor
+// ═════════════════════════════════════════════════════════════════════════════
 
 Users::Users(QWidget *parent)
     : QWidget(parent)
@@ -35,12 +40,10 @@ Users::Users(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Nettoyage propre des anciennes connexions
     if (QSqlDatabase::contains("qt_sql_default_connection")) {
         QSqlDatabase::removeDatabase("qt_sql_default_connection");
     }
 
-    // Connexion Oracle
     Connection &conn = Connection::createInstance();
     if (!conn.createConnection()) {
         QMessageBox::critical(this, "Erreur Connexion",
@@ -51,139 +54,150 @@ Users::Users(QWidget *parent)
 
     setupTable();
     setupConnections();
-    setupMenus();        // ← Important pour le bouton Trier
+    setupMenus();
     loadUserToTable();
 
     ui->usersTabWidget->setCurrentIndex(0);
+    // ── ADD THIS TO CONNECT ARDUINO ON STARTUP ────────────────────────────
+    arduino = new Arduino();
+    if (arduino->connect_arduino() == 0) {
+        qDebug() << "[SYSTEM] Arduino connected continuously for access control.";
+        connect(arduino->getserial(), &QSerialPort::readyRead,
+                this, &Users::onRfidDataReady);
+    } else {
+        qDebug() << "[SYSTEM] Arduino not found on startup.";
+    }
+    // ──────────────────────────────────────────────────────────────────────
 }
 
 Users::~Users()
 {
+    // Close Arduino serial port cleanly
+    if (arduino) {
+        arduino->close_arduino();
+        delete arduino;
+    }
     delete ui;
 }
 
+// ═════════════════════════════════════════════════════════════════════════════
+//  setupTable  –  Column 7 = RFID UID, Column 8 = Actions
+// ═════════════════════════════════════════════════════════════════════════════
+
 void Users::setupTable()
 {
-    QStringList headers = {"ID_User", "Nom", "Prénom", "Email", "MDP", "Photo", "Role", "Actions"};
+    // 9 columns: ID | Nom | Prénom | Email | MDP | Photo | Role | RFID UID | Actions
+    QStringList headers = {"ID_User", "Nom", "Prénom", "Email", "MDP",
+                           "Photo", "Role", "RFID UID", "Actions"};
     ui->usersTable->setColumnCount(headers.size());
     ui->usersTable->setHorizontalHeaderLabels(headers);
 
-    ui->usersTable->setColumnWidth(0, 100);
-    ui->usersTable->setColumnWidth(1, 120);
-    ui->usersTable->setColumnWidth(2, 120);
-    ui->usersTable->setColumnWidth(3, 220);
-    ui->usersTable->setColumnWidth(4, 100);
-    ui->usersTable->setColumnWidth(5, 150);
-    ui->usersTable->setColumnWidth(6, 120);
-    ui->usersTable->setColumnWidth(7, 280);
+    ui->usersTable->setColumnWidth(0, 80);
+    ui->usersTable->setColumnWidth(1, 110);
+    ui->usersTable->setColumnWidth(2, 110);
+    ui->usersTable->setColumnWidth(3, 200);
+    ui->usersTable->setColumnWidth(4, 90);
+    ui->usersTable->setColumnWidth(5, 130);
+    ui->usersTable->setColumnWidth(6, 110);
+    ui->usersTable->setColumnWidth(7, 130);   // RFID UID
+    ui->usersTable->setColumnWidth(8, 260);   // Actions
     ui->usersTable->verticalHeader()->setDefaultSectionSize(90);
     ui->usersTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
+// ═════════════════════════════════════════════════════════════════════════════
+//  setupConnections
+// ═════════════════════════════════════════════════════════════════════════════
+
 void Users::setupConnections()
 {
-    connect(ui->addButtonUser, &QToolButton::clicked, this, &Users::showAddUserForm);
-    connect(ui->submitButtonUser, &QPushButton::clicked, this, &Users::ajouter);
-    connect(ui->cancelButtonUser, &QPushButton::clicked, this, &Users::clearForm);
-    connect(ui->uploadPhotoButton, &QPushButton::clicked, this, &Users::uploadPhoto);
-    connect(ui->clearButtonUser, &QToolButton::clicked, ui->searchInputUser, &QLineEdit::clear);
-    // === NOUVEAU : Bouton Recherche ===
-    connect(ui->searchButtonUser, &QToolButton::clicked, this, &Users::searchUsers);
-    connect(ui->registerFaceButton, &QPushButton::clicked, this, &Users::onRegisterFaceClicked);
+    connect(ui->addButtonUser,      &QToolButton::clicked,  this, &Users::showAddUserForm);
+    connect(ui->submitButtonUser,   &QPushButton::clicked,  this, &Users::ajouter);
+    connect(ui->cancelButtonUser,   &QPushButton::clicked,  this, &Users::clearForm);
+    connect(ui->uploadPhotoButton,  &QPushButton::clicked,  this, &Users::uploadPhoto);
+    connect(ui->clearButtonUser,    &QToolButton::clicked,  ui->searchInputUser, &QLineEdit::clear);
+    connect(ui->searchButtonUser,   &QToolButton::clicked,  this, &Users::searchUsers);
+    connect(ui->registerFaceButton, &QPushButton::clicked,  this, &Users::onRegisterFaceClicked);
 
+    // ── RFID ─────────────────────────────────────────────────────────────────
+    connect(ui->registerRfidButton, &QPushButton::clicked,  this, &Users::onRegisterRfidClicked);
 }
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  getFormData  –  reads all inputs including rfidUid (already stored)
+// ═════════════════════════════════════════════════════════════════════════════
 
 void Users::getFormData()
 {
-    nom = ui->nomInput->text().trimmed();
-    prenom = ui->prenomInput->text().trimmed();
-    email = ui->emailInput->text().trimmed();
+    nom      = ui->nomInput->text().trimmed();
+    prenom   = ui->prenomInput->text().trimmed();
+    email    = ui->emailInput->text().trimmed();
     password = ui->mdpInput->text();
-    role = ui->roleCombo->currentText();        // conservé en mémoire (colonne ROLE inexistante dans DB)
-    // photoPath est géré séparément
+    role     = ui->roleCombo->currentText();
+    // rfidUid is populated by onRfidDataReady() – no UI widget to read
 }
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  ajouter  –  INSERT with RFID_UID
+// ═════════════════════════════════════════════════════════════════════════════
 
 bool Users::ajouter()
 {
     getFormData();
     QString roleValue = ui->roleCombo->currentText();
 
-
-    // ==================== CONTRÔLES DE SAISIE ====================
-
-    // 1. Vérification des champs obligatoires
-    if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || password.isEmpty() || roleValue=="Sélectionnez un rôle...") {
+    // ── Validation ────────────────────────────────────────────────────────────
+    if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() ||
+        password.isEmpty() || roleValue == "Sélectionnez un rôle...") {
         QMessageBox::warning(this, "Validation",
                              "Tous les champs suivants sont obligatoires :\n"
-                             "- Nom\n- Prénom\n- Email\n- Mot de passe");
+                             "- Nom\n- Prénom\n- Email\n- Mot de passe\n- Rôle");
         return false;
     }
 
-    // 2. Contrôle du Nom
     if (nom.length() < 2 || nom.length() > 50) {
         QMessageBox::warning(this, "Validation Nom",
                              "Le nom doit contenir entre 2 et 50 caractères.");
-        ui->nomInput->setFocus();
-        return false;
+        ui->nomInput->setFocus(); return false;
     }
     if (!nom.contains(QRegularExpression("^[a-zA-ZÀ-ÿ\\s\\-']+$"))) {
         QMessageBox::warning(this, "Validation Nom",
                              "Le nom ne doit contenir que des lettres, espaces, tirets et apostrophes.");
-        ui->nomInput->setFocus();
-        return false;
+        ui->nomInput->setFocus(); return false;
     }
 
-    // 3. Contrôle du Prénom
     if (prenom.length() < 2 || prenom.length() > 50) {
         QMessageBox::warning(this, "Validation Prénom",
                              "Le prénom doit contenir entre 2 et 50 caractères.");
-        ui->prenomInput->setFocus();
-        return false;
+        ui->prenomInput->setFocus(); return false;
     }
     if (!prenom.contains(QRegularExpression("^[a-zA-ZÀ-ÿ\\s\\-']+$"))) {
         QMessageBox::warning(this, "Validation Prénom",
                              "Le prénom ne doit contenir que des lettres, espaces, tirets et apostrophes.");
-        ui->prenomInput->setFocus();
-        return false;
+        ui->prenomInput->setFocus(); return false;
     }
 
-    // 4. Contrôle de l'Email (format basique mais efficace)
     QRegularExpression emailRegex(R"((^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$))");
     if (!emailRegex.match(email).hasMatch()) {
         QMessageBox::warning(this, "Validation Email",
-                             "Veuillez entrer une adresse email valide (ex: exemple@domaine.com).");
-        ui->emailInput->setFocus();
-        return false;
+                             "Veuillez entrer une adresse email valide.");
+        ui->emailInput->setFocus(); return false;
     }
 
-    // 5. Contrôle du Mot de passe
-    if (password.length() < 6) {
+    if (password.length() < 6 || password.length() > 100) {
         QMessageBox::warning(this, "Validation Mot de passe",
-                             "Le mot de passe doit contenir au moins 6 caractères.");
-        ui->mdpInput->setFocus();
-        return false;
+                             "Le mot de passe doit contenir entre 6 et 100 caractères.");
+        ui->mdpInput->setFocus(); return false;
     }
-    if (password.length() > 100) {
-        QMessageBox::warning(this, "Validation Mot de passe",
-                             "Le mot de passe est trop long (maximum 100 caractères).");
-        ui->mdpInput->setFocus();
-        return false;
-    }
-
-    // Optionnel : Exiger au moins une lettre et un chiffre
     if (!password.contains(QRegularExpression("[a-zA-Z]")) ||
         !password.contains(QRegularExpression("[0-9]"))) {
         QMessageBox::warning(this, "Validation Mot de passe",
                              "Le mot de passe doit contenir au moins une lettre et un chiffre.");
-        ui->mdpInput->setFocus();
-        return false;
+        ui->mdpInput->setFocus(); return false;
     }
 
-    // ==================== INSERTION EN BASE ====================
-
+    // ── Generate ID ───────────────────────────────────────────────────────────
     QSqlQuery query;
-
-    // Génération ID
     query.exec("SELECT NVL(MAX(ID_USER), 0) + 1 FROM USERS");
     if (query.next()) {
         id = query.value(0).toInt();
@@ -192,21 +206,24 @@ bool Users::ajouter()
         return false;
     }
 
-    //
+    // ── INSERT  (includes RFID_UID) ────────────────────────────────────────────
     query.prepare(
-        "INSERT INTO USERS (ID_USER, NOM, PRENOM, EMAIL, MDP, PHOTO, ROLE) "
-        "VALUES (:id, :nom, :prenom, :email, :mdp, :photo, :role)"
+        "INSERT INTO USERS (ID_USER, NOM, PRENOM, EMAIL, MDP, PHOTO, ROLE, RFID_UID) "
+        "VALUES (:id, :nom, :prenom, :email, :mdp, :photo, :role, :rfid)"
         );
 
-    query.bindValue(":id",    id);
-    query.bindValue(":nom",   nom);
-    query.bindValue(":prenom",prenom);
-    query.bindValue(":email", email);
-    query.bindValue(":mdp",   password);
-    query.bindValue(":photo", photoPath.isEmpty()
+    query.bindValue(":id",     id);
+    query.bindValue(":nom",    nom);
+    query.bindValue(":prenom", prenom);
+    query.bindValue(":email",  email);
+    query.bindValue(":mdp",    password);
+    query.bindValue(":photo",  photoPath.isEmpty()
                                   ? QVariant(QMetaType(QMetaType::QString))
                                   : QVariant(photoPath));
-    query.bindValue(":role",  roleValue);
+    query.bindValue(":role",   roleValue);
+    query.bindValue(":rfid",   rfidUid.isEmpty()
+                                 ? QVariant(QMetaType(QMetaType::QString))
+                                 : QVariant(rfidUid));
 
     if (!query.exec()) {
         qDebug() << "Erreur SQL :" << query.lastError().text();
@@ -221,9 +238,167 @@ bool Users::ajouter()
     return true;
 }
 
+// ═════════════════════════════════════════════════════════════════════════════
+//  clearForm
+// ═════════════════════════════════════════════════════════════════════════════
+
+void Users::clearForm()
+{
+    ui->nomInput->clear();
+    ui->prenomInput->clear();
+    ui->emailInput->clear();
+    ui->mdpInput->clear();
+    ui->roleCombo->setCurrentIndex(0);
+    ui->photoFileNameLabel->setText("Aucun fichier sélectionné");
+    photoPath.clear();
+
+    // Reset RFID state
+    rfidUid.clear();
+    ui->rfidStatusLabel->setText("🔷 Carte : non enregistrée");
+    ui->rfidStatusLabel->setStyleSheet(
+        "font-size:12px; color:#64748B; background:transparent;");
+    ui->registerRfidButton->setEnabled(true);
+
+    if (isEditMode) {
+        resetToAddMode();
+    }
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  RFID  –  onRegisterRfidClicked()
+//  Opens the Arduino serial connection and hooks readyRead so the next card
+//  scan is captured and stored in rfidUid.
+// ═════════════════════════════════════════════════════════════════════════════
+
+void Users::onRegisterRfidClicked()
+{
+    // If Arduino disconnected for some reason, try to reconnect
+    if (!arduino || !arduino->getserial()->isOpen()) {
+        if (arduino->connect_arduino() != 0) {
+            QMessageBox::warning(this, "Arduino introuvable",
+                                 "Impossible de se connecter à l'Arduino.");
+            return;
+        }
+        connect(arduino->getserial(), &QSerialPort::readyRead,
+                this, &Users::onRfidDataReady);
+    }
+
+    // Set the flag! The next read in onRfidDataReady will be used for UI.
+    isRegistrationMode = true;
+
+    // Update UI
+    ui->registerRfidButton->setEnabled(false);
+    ui->rfidStatusLabel->setText("⏳ Approchez votre carte RFID du lecteur…");
+    ui->rfidStatusLabel->setStyleSheet(
+        "font-size:12px; color:#F59E0B; font-weight:600; background:transparent;");
+}
+
+//═════════════════════════════════════════════════════════════════════════════
+//  checkUidInDatabase()
+//  Returns true if the given RFID UID exists in the USERS table.
+//  Optionally fills *outUserId with the matching ID_USER.
+// ═════════════════════════════════════════════════════════════════════════════
+bool Users::checkUidInDatabase(const QString &uid, int *outUserId)
+{
+    if (uid.isEmpty()) return false;
+
+    QSqlQuery query;
+    query.prepare("SELECT ID_USER FROM USERS WHERE RFID_UID = :uid");
+    query.bindValue(":uid", uid);
+
+    if (!query.exec()) {
+        qDebug() << "[RFID] DB query failed:" << query.lastError().text();
+        return false;
+    }
+
+    if (query.next()) {
+        if (outUserId)
+            *outUserId = query.value(0).toInt();
+        return true;
+    }
+
+    return false;   // UID not found
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  RFID  –  onRfidDataReady()
+//  Called each time the Arduino sends data.  We look for the line
+//  "UID (DEC): XXX.XX.XX.XX" and extract the UID from it.
+// ═════════════════════════════════════════════════════════════════════════════
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  onRfidDataReady()  –  with database UID validation
+// ═════════════════════════════════════════════════════════════════════════════
+void Users::onRfidDataReady()
+{
+    if (!arduino || !arduino->getserial()->isOpen()) return;
+
+    while (arduino->getserial()->canReadLine()) {
+        QString line = QString::fromUtf8(arduino->getserial()->readLine()).trimmed();
+
+        // Ignore noise, only look for the UID line sent by the Arduino code
+        if (!line.contains("UID (DEC):")) continue;
+
+        // 1. Extract the raw UID
+        QString scannedUid = line.section(':', 1).trimmed();
+        qDebug() << "[RFID] Scanned UID:" << scannedUid;
+
+        // 2. Check Database
+        int matchedUserId = -1;
+        bool uidExists = checkUidInDatabase(scannedUid, &matchedUserId);
+
+        // ──────────────────────────────────────────────────────────────────
+        // SCENARIO A: ADMINISTRATOR IS REGISTERING A NEW USER
+        // ──────────────────────────────────────────────────────────────────
+        if (isRegistrationMode) {
+            if (uidExists) {
+                // Allow re-assigning to the *same* user being edited
+                if (isEditMode && matchedUserId == currentEditingId) {
+                    rfidUid = scannedUid;
+                    ui->rfidStatusLabel->setText(QString("✅ Carte enregistrée : %1").arg(rfidUid));
+                    ui->rfidStatusLabel->setStyleSheet("font-size:12px; color:#10B981; font-weight:600; background:transparent;");
+                } else {
+                    QMessageBox::warning(this, "UID déjà enregistré",
+                                         QString("⚠️ Cette carte RFID est déjà assignée à l'utilisateur ID %1.").arg(matchedUserId));
+                    ui->rfidStatusLabel->setText("⚠️ Carte déjà utilisée — réessayez");
+                    ui->rfidStatusLabel->setStyleSheet("font-size:12px; color:#EF4444; font-weight:600; background:transparent;");
+                }
+            } else {
+                // UID is new and valid
+                rfidUid = scannedUid;
+                ui->rfidStatusLabel->setText(QString("✅ Carte enregistrée : %1").arg(rfidUid));
+                ui->rfidStatusLabel->setStyleSheet("font-size:12px; color:#10B981; font-weight:600; background:transparent;");
+            }
+
+            // Reset UI state
+            ui->registerRfidButton->setEnabled(true);
+            ui->registerRfidButton->setText("🔄 Changer la carte");
+
+            // Turn off registration mode. The next scan goes back to Gate Control.
+            isRegistrationMode = false;
+        }
+
+        // ──────────────────────────────────────────────────────────────────
+        // SCENARIO B: NORMAL GATE ACCESS CONTROL (BACKGROUND OPERATION)
+        // ──────────────────────────────────────────────────────────────────
+        else {
+            if (uidExists) {
+                qDebug() << "[ACCESS GRANTED] User ID:" << matchedUserId;
+                arduino->write_to_arduino("O"); // Send 'Open' command to Arduino
+            } else {
+                qDebug() << "[ACCESS DENIED] Unknown card.";
+                arduino->write_to_arduino("D"); // Send 'Deny' command to Arduino
+            }
+        }
+    }
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  onRegisterFaceClicked  (unchanged)
+// ═════════════════════════════════════════════════════════════════════════════
+
 void Users::onRegisterFaceClicked()
 {
-    // Guard: require an email to be entered first
     QString email = ui->emailInput->text().trimmed();
     if (email.isEmpty()) {
         QMessageBox::warning(this, "Email requis",
@@ -233,7 +408,6 @@ void Users::onRegisterFaceClicked()
         return;
     }
 
-    // Disable button to prevent double-click
     ui->registerFaceButton->setEnabled(false);
     ui->faceStatusLabel->setText("⏳ Ouverture de la caméra…");
 
@@ -251,33 +425,24 @@ void Users::onRegisterFaceClicked()
     ui->registerFaceButton->setEnabled(true);
 }
 
+// ═════════════════════════════════════════════════════════════════════════════
+//  uploadPhoto  (unchanged)
+// ═════════════════════════════════════════════════════════════════════════════
+
 void Users::uploadPhoto()
 {
     QString filePath = QFileDialog::getOpenFileName(this,
                                                     "Choisir une photo", "",
                                                     "Images (*.png *.jpg *.jpeg *.bmp *.gif)");
-
     if (!filePath.isEmpty()) {
         photoPath = filePath;
         ui->photoFileNameLabel->setText(QFileInfo(filePath).fileName());
     }
 }
 
-void Users::clearForm()
-{
-    ui->nomInput->clear();
-    ui->prenomInput->clear();
-    ui->emailInput->clear();
-    ui->mdpInput->clear();
-    ui->roleCombo->setCurrentIndex(0);
-    ui->photoFileNameLabel->setText("Aucun fichier sélectionné");
-    photoPath.clear();
-
-    // If we were in edit mode, reset it
-    if (isEditMode) {
-        resetToAddMode();
-    }
-}
+// ═════════════════════════════════════════════════════════════════════════════
+//  Delete / Modify
+// ═════════════════════════════════════════════════════════════════════════════
 
 void Users::onDeleteUser()
 {
@@ -286,12 +451,10 @@ void Users::onDeleteUser()
 
     int userId = btn->property("userId").toInt();
 
-    QMessageBox::StandardButton reply = QMessageBox::question(this, "Confirmation",
-                                                              QString("Voulez-vous vraiment supprimer l'utilisateur ID %1 ?").arg(userId),
-                                                              QMessageBox::Yes | QMessageBox::No);
-
-    if (reply == QMessageBox::No)
-        return;
+    auto reply = QMessageBox::question(this, "Confirmation",
+                                       QString("Voulez-vous vraiment supprimer l'utilisateur ID %1 ?").arg(userId),
+                                       QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::No) return;
 
     QSqlQuery query;
     query.prepare("DELETE FROM USERS WHERE ID_USER = :id");
@@ -299,10 +462,10 @@ void Users::onDeleteUser()
 
     if (query.exec()) {
         QMessageBox::information(this, "Succès", "Utilisateur supprimé avec succès.");
-        loadUserToTable();   // Refresh table
+        loadUserToTable();
     } else {
-        QMessageBox::critical(this, "Erreur", "Impossible de supprimer l'utilisateur :\n"
-                                                  + query.lastError().text());
+        QMessageBox::critical(this, "Erreur",
+                              "Impossible de supprimer l'utilisateur :\n" + query.lastError().text());
     }
 }
 
@@ -318,30 +481,35 @@ void Users::onModifyUser()
     isEditMode = true;
 
     loadUserDataForEdit(userId);
-    showAddUserForm();  // Switch to the form tab
+    showAddUserForm();
 
-    // Change button text and behavior for edit mode
     ui->submitButtonUser->setText("Modifier");
-    ui->submitButtonUser->disconnect();  // Remove old connection
+    ui->submitButtonUser->disconnect();
     connect(ui->submitButtonUser, &QPushButton::clicked, this, &Users::updateUser);
 }
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  loadUserDataForEdit  –  includes RFID_UID
+// ═════════════════════════════════════════════════════════════════════════════
 
 void Users::loadUserDataForEdit(int userId)
 {
     QSqlQuery query;
-    query.prepare("SELECT NOM, PRENOM, EMAIL, MDP, PHOTO, ROLE FROM USERS WHERE ID_USER = :id");
+    query.prepare(
+        "SELECT NOM, PRENOM, EMAIL, MDP, PHOTO, ROLE, RFID_UID "
+        "FROM USERS WHERE ID_USER = :id");
     query.bindValue(":id", userId);
 
     if (!query.exec() || !query.next()) {
-        QMessageBox::critical(this, "Erreur", "Impossible de charger les données de l'utilisateur.");
+        QMessageBox::critical(this, "Erreur",
+                              "Impossible de charger les données de l'utilisateur.");
         return;
     }
 
-    // Fill the form with existing data
     ui->nomInput->setText(query.value(0).toString());
     ui->prenomInput->setText(query.value(1).toString());
     ui->emailInput->setText(query.value(2).toString());
-    ui->mdpInput->setText(query.value(3).toString());  // Note: In production, never show real password in plain text!
+    ui->mdpInput->setText(query.value(3).toString());
 
     QString photo = query.value(4).toString();
     if (!photo.isEmpty()) {
@@ -352,15 +520,29 @@ void Users::loadUserDataForEdit(int userId)
         ui->photoFileNameLabel->setText("Aucun fichier sélectionné");
     }
 
-    // Set role in combo box
     QString roleStr = query.value(5).toString();
-    int index = ui->roleCombo->findText(roleStr);
-    if (index >= 0) {
-        ui->roleCombo->setCurrentIndex(index);
+    int idx = ui->roleCombo->findText(roleStr);
+    if (idx >= 0) ui->roleCombo->setCurrentIndex(idx);
+    else           ui->roleCombo->setCurrentText(roleStr);
+
+    // Restore RFID UID
+    rfidUid = query.value(6).toString();
+    if (!rfidUid.isEmpty()) {
+        ui->rfidStatusLabel->setText(QString("✅ Carte : %1").arg(rfidUid));
+        ui->rfidStatusLabel->setStyleSheet(
+            "font-size:12px; color:#10B981; font-weight:600; background:transparent;");
+        ui->registerRfidButton->setText("🔄 Changer la carte");
     } else {
-        ui->roleCombo->setCurrentText(roleStr);
+        ui->rfidStatusLabel->setText("🔷 Carte : non enregistrée");
+        ui->rfidStatusLabel->setStyleSheet(
+            "font-size:12px; color:#64748B; background:transparent;");
+        ui->registerRfidButton->setText("🔷 Enregistrer carte RFID");
     }
 }
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  updateUser  –  UPDATE with RFID_UID
+// ═════════════════════════════════════════════════════════════════════════════
 
 void Users::updateUser()
 {
@@ -372,35 +554,36 @@ void Users::updateUser()
         return;
     }
 
-    // Password is optional during update (keep old one if empty)
     QString finalPassword = password;
-    if (finalPassword.isEmpty()) {
-        // Keep existing password - we'll handle this in the query
-        finalPassword = "KEEP_EXISTING";  // Special flag
-    }
+    bool keepPassword = finalPassword.isEmpty();
 
     QSqlQuery query;
     QString sql;
 
-    if (finalPassword == "KEEP_EXISTING") {
+    if (keepPassword) {
         sql = "UPDATE USERS SET NOM = :nom, PRENOM = :prenom, EMAIL = :email, "
-              "PHOTO = :photo, ROLE = :role WHERE ID_USER = :id";
+              "PHOTO = :photo, ROLE = :role, RFID_UID = :rfid "
+              "WHERE ID_USER = :id";
     } else {
         sql = "UPDATE USERS SET NOM = :nom, PRENOM = :prenom, EMAIL = :email, "
-              "MDP = :mdp, PHOTO = :photo, ROLE = :role WHERE ID_USER = :id";
+              "MDP = :mdp, PHOTO = :photo, ROLE = :role, RFID_UID = :rfid "
+              "WHERE ID_USER = :id";
     }
 
     query.prepare(sql);
-    query.bindValue(":id",    currentEditingId);
-    query.bindValue(":nom",   nom);
-    query.bindValue(":prenom",prenom);
-    query.bindValue(":email", email);
-    query.bindValue(":photo", photoPath.isEmpty()
+    query.bindValue(":id",     currentEditingId);
+    query.bindValue(":nom",    nom);
+    query.bindValue(":prenom", prenom);
+    query.bindValue(":email",  email);
+    query.bindValue(":photo",  photoPath.isEmpty()
                                   ? QVariant(QMetaType(QMetaType::QString))
                                   : QVariant(photoPath));
-    query.bindValue(":role",  ui->roleCombo->currentText());
+    query.bindValue(":role",   ui->roleCombo->currentText());
+    query.bindValue(":rfid",   rfidUid.isEmpty()
+                                 ? QVariant(QMetaType(QMetaType::QString))
+                                 : QVariant(rfidUid));
 
-    if (finalPassword != "KEEP_EXISTING") {
+    if (!keepPassword) {
         query.bindValue(":mdp", finalPassword);
     }
 
@@ -411,70 +594,68 @@ void Users::updateUser()
     }
 
     QMessageBox::information(this, "Succès", "Utilisateur modifié avec succès !");
-
-    // Reset to add mode
     resetToAddMode();
-
-    loadUserToTable();        // Refresh the table
-    hideAddUserForm();        // Go back to list
+    loadUserToTable();
+    hideAddUserForm();
 }
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  resetToAddMode
+// ═════════════════════════════════════════════════════════════════════════════
 
 void Users::resetToAddMode()
 {
-    isEditMode = false;
+    isEditMode       = false;
     currentEditingId = -1;
-    ui->submitButtonUser->setText("Ajouter");
+    ui->submitButtonUser->setText("Ajouter Utilisateur");
 
-    // Reconnect to the original ajouter() slot
     ui->submitButtonUser->disconnect();
     connect(ui->submitButtonUser, &QPushButton::clicked, this, &Users::ajouter);
 
     clearForm();
 }
 
-// Surcharge sans paramètre (appelée par le constructeur, ajouter, supprimer, etc.)
+// ═════════════════════════════════════════════════════════════════════════════
+//  loadUserToTable  overloads  –  SELECT includes RFID_UID
+// ═════════════════════════════════════════════════════════════════════════════
+
 void Users::loadUserToTable()
 {
     loadUserToTable("", "", "ID_USER");
 }
 
-// Surcharge avec recherche (appelée par searchUsers())
 void Users::loadUserToTable(const QString &searchText, const QString &searchType)
 {
     loadUserToTable(searchText, searchType, "ID_USER");
 }
 
-// Fonction principale avec tri
-void Users::loadUserToTable(const QString &searchText, const QString &searchType, const QString &sortColumn)
+void Users::loadUserToTable(const QString &searchText,
+                            const QString &searchType,
+                            const QString &sortColumn)
 {
     ui->usersTable->setRowCount(0);
 
-    QString sql = "SELECT ID_USER, NOM, PRENOM, EMAIL, MDP, PHOTO, ROLE FROM USERS";
+    // Columns: ID | NOM | PRENOM | EMAIL | MDP | PHOTO | ROLE | RFID_UID
+    QString sql = "SELECT ID_USER, NOM, PRENOM, EMAIL, MDP, PHOTO, ROLE, RFID_UID FROM USERS";
 
     bool hasFilter = !searchText.isEmpty();
     QString filterColumn;
 
     if (hasFilter) {
-        if (searchType == "Par Nom") {
-            filterColumn = "NOM";
-        } else if (searchType == "Par Email") {
-            filterColumn = "EMAIL";
-        } else if (searchType == "Par Role") {
-            filterColumn = "ROLE";
-        } else {
-            hasFilter = false;
-        }
+        if      (searchType == "Par Nom")   filterColumn = "NOM";
+        else if (searchType == "Par Email") filterColumn = "EMAIL";
+        else if (searchType == "Par Role")  filterColumn = "ROLE";
+        else                                hasFilter    = false;
     }
 
     if (hasFilter) {
         sql += " WHERE UPPER(" + filterColumn + ") LIKE UPPER(:search)";
     }
 
-    sql += " ORDER BY " + sortColumn;   // ← TRI DYNAMIQUE
+    sql += " ORDER BY " + sortColumn;
 
     QSqlQuery query;
     query.prepare(sql);
-
     if (hasFilter) {
         query.bindValue(":search", "%" + searchText + "%");
     }
@@ -489,29 +670,42 @@ void Users::loadUserToTable(const QString &searchText, const QString &searchType
     while (query.next()) {
         ui->usersTable->insertRow(row);
 
-        ui->usersTable->setItem(row, 0, new QTableWidgetItem(query.value(0).toString()));
-        ui->usersTable->setItem(row, 1, new QTableWidgetItem(query.value(1).toString()));
-        ui->usersTable->setItem(row, 2, new QTableWidgetItem(query.value(2).toString()));
-        ui->usersTable->setItem(row, 3, new QTableWidgetItem(query.value(3).toString()));
+        ui->usersTable->setItem(row, 0, new QTableWidgetItem(query.value(0).toString())); // ID
+        ui->usersTable->setItem(row, 1, new QTableWidgetItem(query.value(1).toString())); // NOM
+        ui->usersTable->setItem(row, 2, new QTableWidgetItem(query.value(2).toString())); // PRENOM
+        ui->usersTable->setItem(row, 3, new QTableWidgetItem(query.value(3).toString())); // EMAIL
         ui->usersTable->setItem(row, 4, new QTableWidgetItem(query.value(4).toString())); // MDP
         ui->usersTable->setItem(row, 5, new QTableWidgetItem(query.value(5).toString())); // PHOTO
         ui->usersTable->setItem(row, 6, new QTableWidgetItem(query.value(6).toString())); // ROLE
 
-        // === Actions (code inchangé) ===
-        QWidget *actionWidget = new QWidget();
-        QHBoxLayout *layout = new QHBoxLayout(actionWidget);
+        // RFID UID  – show a friendly indicator when set
+        QString uid = query.value(7).toString();
+        QTableWidgetItem *rfidItem = new QTableWidgetItem(uid.isEmpty() ? "—" : uid);
+        if (!uid.isEmpty()) {
+            rfidItem->setForeground(QBrush(QColor("#10B981")));
+            rfidItem->setFont(QFont("Segoe UI", 9, QFont::Bold));
+        }
+        ui->usersTable->setItem(row, 7, rfidItem);
+
+        // ── Action buttons ────────────────────────────────────────────────────
+        QWidget    *actionWidget = new QWidget();
+        QHBoxLayout *layout     = new QHBoxLayout(actionWidget);
         layout->setContentsMargins(4, 2, 4, 2);
         layout->setSpacing(10);
 
         QPushButton *modifyBtn = new QPushButton("✏️ Modify");
-        modifyBtn->setFixedSize(120, 60);
-        modifyBtn->setStyleSheet("QPushButton { background-color: #4CAF50; color: white; border: none; border-radius: 10px; font-weight: bold; }"
-                                 "QPushButton:hover { background-color: #45a049; }");
+        modifyBtn->setFixedSize(110, 60);
+        modifyBtn->setStyleSheet(
+            "QPushButton { background-color:#4CAF50; color:white; border:none; "
+            "border-radius:10px; font-weight:bold; }"
+            "QPushButton:hover { background-color:#45a049; }");
 
         QPushButton *deleteBtn = new QPushButton("🗑️ Delete");
-        deleteBtn->setFixedSize(120, 60);
-        deleteBtn->setStyleSheet("QPushButton { background-color: #f44336; color: white; border: none; border-radius: 10px; font-weight: bold; }"
-                                 "QPushButton:hover { background-color: #da190b; }");
+        deleteBtn->setFixedSize(110, 60);
+        deleteBtn->setStyleSheet(
+            "QPushButton { background-color:#f44336; color:white; border:none; "
+            "border-radius:10px; font-weight:bold; }"
+            "QPushButton:hover { background-color:#da190b; }");
 
         layout->addWidget(modifyBtn);
         layout->addWidget(deleteBtn);
@@ -522,169 +716,54 @@ void Users::loadUserToTable(const QString &searchText, const QString &searchType
         connect(modifyBtn, &QPushButton::clicked, this, &Users::onModifyUser);
         connect(deleteBtn, &QPushButton::clicked, this, &Users::onDeleteUser);
 
-        ui->usersTable->setCellWidget(row, 7, actionWidget);
+        ui->usersTable->setCellWidget(row, 8, actionWidget); // column 8 = Actions
         row++;
     }
 }
 
+// ═════════════════════════════════════════════════════════════════════════════
+//  searchUsers
+// ═════════════════════════════════════════════════════════════════════════════
+
 void Users::searchUsers()
 {
-    QString searchText = ui->searchInputUser->text().trimmed();
-    QString searchType = ui->searchTypeComboUser->currentText();
-
-    loadUserToTable(searchText, searchType);
+    loadUserToTable(ui->searchInputUser->text().trimmed(),
+                    ui->searchTypeComboUser->currentText());
 }
 
-// Méthodes demandées dans users.h
+// ═════════════════════════════════════════════════════════════════════════════
+//  showAddUserForm / hideAddUserForm
+// ═════════════════════════════════════════════════════════════════════════════
+
 void Users::showAddUserForm() { ui->usersTabWidget->setCurrentIndex(1); }
 void Users::hideAddUserForm() { ui->usersTabWidget->setCurrentIndex(0); }
 
+// ═════════════════════════════════════════════════════════════════════════════
+//  setupMenus  (unchanged logic, kept intact)
+// ═════════════════════════════════════════════════════════════════════════════
+
 void Users::setupMenus()
 {
-    // Sort menu (existing)
     QMenu *sortMenu = new QMenu(ui->sortButtonUser);
-    // ... your existing style and actions for sortMenu ...
-
     sortMenu->addAction("Par ID");
     sortMenu->addAction("Par Nom");
     sortMenu->addAction("Par Prénom");
     sortMenu->addAction("Par Email");
     sortMenu->addAction("Par Role");
-
     ui->sortButtonUser->setMenu(sortMenu);
 
-    // Export menu (existing)
     QMenu *exportMenu = new QMenu(ui->exportButtonUser);
-    // ... your existing style ...
-
     exportMenu->addAction("Exporter en PDF");
     ui->exportButtonUser->setMenu(exportMenu);
 
-    // Stats menu - Simple button instead of menu if there's only one option
     connect(ui->statsButtonUser, &QToolButton::clicked, this, &Users::statsUsers);
-
-    // Connect menus
-    connect(sortMenu, &QMenu::triggered, this, &Users::sortUsers);
-    connect(exportMenu, &QMenu::triggered, this, &Users::exportUsers);
+    connect(sortMenu,            &QMenu::triggered,     this, &Users::sortUsers);
+    connect(exportMenu,          &QMenu::triggered,     this, &Users::exportUsers);
 }
 
-void Users::statsUsers()
-{
-    QDialog *statsDialog = new QDialog(this);
-    statsDialog->setWindowTitle("Statistiques des Utilisateurs");
-    statsDialog->resize(950, 720);
-    statsDialog->setStyleSheet("QDialog { background-color: #F8FAFC; }");
-
-    QVBoxLayout *mainLayout = new QVBoxLayout(statsDialog);
-    mainLayout->setContentsMargins(20, 20, 20, 20);
-    mainLayout->setSpacing(15);
-
-    // Title
-    QLabel *titleLabel = new QLabel("📊 Statistiques des Utilisateurs par Rôle");
-    titleLabel->setAlignment(Qt::AlignCenter);
-    titleLabel->setStyleSheet("font-size: 24px; font-weight: bold; color: #8B5CF6; padding: 10px;");
-    mainLayout->addWidget(titleLabel);
-
-    QSqlQuery query;
-    query.prepare("SELECT ROLE, COUNT(*) as count FROM USERS GROUP BY ROLE ORDER BY count DESC");
-
-    if (!query.exec()) {
-        QMessageBox::warning(this, "Erreur", "Impossible de charger les statistiques :\n" + query.lastError().text());
-        statsDialog->deleteLater();
-        return;
-    }
-
-    int totalUsers = 0;
-    QList<QPair<QString, int>> data;
-
-    while (query.next()) {
-        QString role = query.value(0).toString().trimmed();
-        if (role.isEmpty()) role = "Non défini";
-
-        int count = query.value(1).toInt();
-        data.append(qMakePair(role, count));
-        totalUsers += count;
-    }
-
-    if (totalUsers == 0) {
-        QLabel *noData = new QLabel("Aucune donnée utilisateur disponible pour le moment.");
-        noData->setAlignment(Qt::AlignCenter);
-        noData->setStyleSheet("font-size: 18px; color: #64748B; padding: 80px;");
-        mainLayout->addWidget(noData);
-    }
-    else {
-        // === CORRECTION 1 : Leak de 'series' supprimé ===
-        // Création du series UNIQUEMENT dans le bloc else + parentage correct
-        QPieSeries *series = new QPieSeries();
-
-        // === CORRECTION 2 : QColor avec valeurs RGB (plus rapide) ===
-        QList<QColor> colors = {
-            QColor(139, 92, 246),   // #8B5CF6
-            QColor(59, 130, 246),   // #3B82F6
-            QColor(16, 185, 129),   // #10B981
-            QColor(245, 158, 11),   // #F59E0B
-            QColor(239, 68, 68),    // #EF4444
-            QColor(236, 72, 153),   // #EC4899
-            QColor(99, 102, 241),   // #6366F1
-            QColor(20, 184, 166)    // #14B8A6
-        };
-
-        int colorIndex = 0;
-
-        for (const auto &item : data) {
-            QPieSlice *slice = series->append(item.first, item.second);
-            slice->setLabelVisible(true);
-
-            // === CORRECTION 3 : multi-arg .arg() au lieu du chaînage ===
-            double percentage = 100.0 * item.second / totalUsers;
-            slice->setLabel(QString("%1: %2 (%3%)")
-                                .arg(item.first)
-                                .arg(item.second)
-                                .arg(percentage, 0, 'f', 1));
-
-            slice->setBrush(colors[colorIndex % colors.size()]);
-            colorIndex++;
-
-            slice->setExplodeDistanceFactor(0.05);
-            connect(slice, &QPieSlice::hovered, [slice](bool show) {
-                slice->setExploded(show);
-            });
-        }
-
-        QChart *chart = new QChart();
-        chart->addSeries(series);
-        series->setParent(chart);          // Propriété transférée → plus de leak
-
-        chart->setTitle(QString("Répartition par Rôle (%1 utilisateurs)").arg(totalUsers));
-        chart->setAnimationOptions(QChart::SeriesAnimations);
-        chart->legend()->setAlignment(Qt::AlignRight);
-        chart->setBackgroundBrush(QBrush(QColor("#FFFFFF")));
-
-        QFont titleFont;
-        titleFont.setPixelSize(20);
-        titleFont.setBold(true);
-        chart->setTitleFont(titleFont);
-
-        QChartView *chartView = new QChartView(chart);
-        chartView->setRenderHint(QPainter::Antialiasing);
-        chartView->setMinimumHeight(480);
-
-        mainLayout->addWidget(chartView);
-    }
-
-    // Close button
-    QPushButton *closeBtn = new QPushButton("Fermer");
-    closeBtn->setStyleSheet("QPushButton { background-color: #8B5CF6; color: white; "
-                            "border: none; border-radius: 8px; padding: 12px 40px; "
-                            "font-size: 15px; font-weight: bold; } "
-                            "QPushButton:hover { background-color: #7C3AED; }");
-
-    mainLayout->addWidget(closeBtn, 0, Qt::AlignCenter);
-    connect(closeBtn, &QPushButton::clicked, statsDialog, &QDialog::accept);
-
-    statsDialog->exec();
-    delete statsDialog;   // Nettoyage complet (chart + series via parentage Qt)
-}
+// ═════════════════════════════════════════════════════════════════════════════
+//  sortUsers
+// ═════════════════════════════════════════════════════════════════════════════
 
 void Users::sortUsers(QAction *action)
 {
@@ -693,22 +772,39 @@ void Users::sortUsers(QAction *action)
     QString sortColumn;
     QString text = action->text();
 
-    if (text == "Par ID")          sortColumn = "ID_USER";
-    else if (text == "Par Nom")    sortColumn = "NOM";
-    else if (text == "Par Prénom") sortColumn = "PRENOM";
-    else if (text == "Par Email")  sortColumn = "EMAIL";
-    else if (text == "Par Role")   sortColumn = "ROLE";
+    if      (text == "Par ID")      sortColumn = "ID_USER";
+    else if (text == "Par Nom")     sortColumn = "NOM";
+    else if (text == "Par Prénom")  sortColumn = "PRENOM";
+    else if (text == "Par Email")   sortColumn = "EMAIL";
+    else if (text == "Par Role")    sortColumn = "ROLE";
     else return;
 
-    // On garde le filtre de recherche actif (s'il y en a un)
-    QString searchText = ui->searchInputUser->text().trimmed();
-    QString searchType = ui->searchTypeComboUser->currentText();
-
-    loadUserToTable(searchText, searchType, sortColumn);
+    loadUserToTable(ui->searchInputUser->text().trimmed(),
+                    ui->searchTypeComboUser->currentText(),
+                    sortColumn);
 }
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  on_btnTogglePassword_clicked
+// ═════════════════════════════════════════════════════════════════════════════
+
+void Users::on_btnTogglePassword_clicked()
+{
+    if (ui->mdpInput->echoMode() == QLineEdit::Password) {
+        ui->mdpInput->setEchoMode(QLineEdit::Normal);
+        ui->btnTogglePassword->setText("👁️‍🗨️");
+    } else {
+        ui->mdpInput->setEchoMode(QLineEdit::Password);
+        ui->btnTogglePassword->setText("👁️");
+    }
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
+//  exportUsers  (unchanged – only PDF column count/widths stay at 7 data cols)
+// ═════════════════════════════════════════════════════════════════════════════
+
 void Users::exportUsers()
 {
-    // 1. Choix du fichier
     QString defaultPath = QDir::homePath() + "/Liste_Utilisateurs_"
                           + QDate::currentDate().toString("yyyy-MM-dd") + ".pdf";
 
@@ -716,16 +812,14 @@ void Users::exportUsers()
                                                     "Exporter la liste des utilisateurs en PDF",
                                                     defaultPath,
                                                     "Fichiers PDF (*.pdf)");
-
     if (fileName.isEmpty()) return;
+    if (!fileName.endsWith(".pdf", Qt::CaseInsensitive)) fileName += ".pdf";
 
-    if (!fileName.endsWith(".pdf", Qt::CaseInsensitive))
-        fileName += ".pdf";
-
-    // 2. Récupération des données
+    // Fetch all users including RFID_UID
     QSqlQuery query;
-    query.prepare("SELECT ID_USER, NOM, PRENOM, EMAIL, MDP, PHOTO, ROLE "
-                  "FROM USERS ORDER BY ID_USER ASC");
+    query.prepare(
+        "SELECT ID_USER, NOM, PRENOM, EMAIL, MDP, PHOTO, ROLE, RFID_UID "
+        "FROM USERS ORDER BY ID_USER ASC");
 
     if (!query.exec()) {
         QMessageBox::critical(this, "Erreur Export",
@@ -736,7 +830,7 @@ void Users::exportUsers()
     QList<QStringList> usersData;
     while (query.next()) {
         QStringList row;
-        for (int i = 0; i < 7; ++i)
+        for (int i = 0; i < 8; ++i)
             row << query.value(i).toString();
         usersData << row;
     }
@@ -746,12 +840,11 @@ void Users::exportUsers()
         return;
     }
 
-    // ==================== CRÉATION DU PDF ====================
     QPrinter printer(QPrinter::ScreenResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName(fileName);
     printer.setPageSize(QPageSize(QPageSize::A4));
-    printer.setPageOrientation(QPageLayout::Portrait);
+    printer.setPageOrientation(QPageLayout::Landscape);   // landscape fits 8 cols better
 
     QPainter painter;
     if (!painter.begin(&printer)) {
@@ -765,118 +858,182 @@ void Users::exportUsers()
     QColor primary(139, 92, 246);
     QColor textColor(30, 41, 59);
     QColor gridColor(148, 163, 184);
-    QColor lightRow(248, 250, 252);   // fond très clair pour alternance
+    QColor lightRow(248, 250, 252);
 
-    // ==================== TITRE ====================
+    // Title
     painter.setPen(primary);
-    painter.setFont(QFont("Segoe UI", 28, QFont::Bold));
-    painter.drawText(0, 80, pageWidth, 60, Qt::AlignCenter, "Liste des Utilisateurs");
+    painter.setFont(QFont("Segoe UI", 24, QFont::Bold));
+    painter.drawText(0, 60, pageWidth, 50, Qt::AlignCenter, "Liste des Utilisateurs");
 
     painter.setPen(textColor);
-    painter.setFont(QFont("Segoe UI", 12));
-    QString dateStr = QDate::currentDate().toString("dddd dd MMMM yyyy");
-    painter.drawText(0, 140, pageWidth, 30, Qt::AlignCenter,
-                     QString("Export complet • Base Oracle • %1").arg(dateStr));
+    painter.setFont(QFont("Segoe UI", 11));
+    painter.drawText(0, 110, pageWidth, 25, Qt::AlignCenter,
+                     QString("Export • Base Oracle • %1")
+                         .arg(QDate::currentDate().toString("dddd dd MMMM yyyy")));
 
-    // ==================== TABLEAU ====================
-    int marginLeft = 40;
-    int tableWidth = pageWidth - 80;
-    int rowHeight  = 42;
-
-    int colWidths[7] = { 55, 95, 95, 170, 85, 110, 90 };
-    int colPos[8] = { marginLeft };
-    for (int i = 0; i < 7; ++i)
+    // Table layout – 8 data columns
+    int marginLeft = 30;
+    int rowHeight  = 38;
+    int colWidths[8] = { 45, 85, 85, 150, 80, 100, 85, 110 };
+    int colPos[9] = { marginLeft };
+    for (int i = 0; i < 8; ++i)
         colPos[i + 1] = colPos[i] + colWidths[i];
 
-    int y = 200;
+    int y = 160;
 
-    QStringList headers = {"ID User", "Nom", "Prénom", "Email", "Mot de passe", "Photo", "Rôle"};
+    QStringList headers = {"ID", "Nom", "Prénom", "Email", "MDP", "Photo", "Rôle", "RFID UID"};
 
-    // En-tête
-    painter.setFont(QFont("Segoe UI", 13, QFont::Bold));
+    painter.setFont(QFont("Segoe UI", 11, QFont::Bold));
     painter.setPen(textColor);
-    for (int i = 0; i < 7; ++i) {
+    for (int i = 0; i < 8; ++i) {
         QRect rect(colPos[i], y, colWidths[i], rowHeight);
         painter.drawText(rect, Qt::AlignCenter | Qt::TextWordWrap, headers[i]);
     }
+    painter.setPen(QPen(primary, 3));
+    painter.drawLine(colPos[0], y + rowHeight + 3, colPos[8], y + rowHeight + 3);
+    y += rowHeight + 12;
 
-    painter.setPen(QPen(primary, 4));
-    painter.drawLine(colPos[0], y + rowHeight + 4, colPos[7], y + rowHeight + 4);
-
-    y += rowHeight + 15;
-
-    // Données avec correction de couleur + alternance de lignes
-    painter.setFont(QFont("Segoe UI", 10));
+    painter.setFont(QFont("Segoe UI", 9));
 
     for (int rowIndex = 0; rowIndex < usersData.size(); ++rowIndex) {
-        const QStringList& rowData = usersData[rowIndex];
-
-        // Nouvelle page si nécessaire
-        if (y + rowHeight > pageHeight - 80) {
+        if (y + rowHeight > pageHeight - 60) {
             if (!printer.newPage()) break;
-            y = 80;
+            y = 60;
         }
 
-        // Alternance de couleur de fond (très léger)
-        if (rowIndex % 2 == 1) {
-            painter.fillRect(marginLeft, y, tableWidth, rowHeight, lightRow);
-        }
+        if (rowIndex % 2 == 1)
+            painter.fillRect(marginLeft, y, colPos[8] - marginLeft, rowHeight, lightRow);
 
-        // IMPORTANT : on remet la couleur du texte à chaque ligne
         painter.setPen(textColor);
+        const QStringList &rowData = usersData[rowIndex];
 
-        // Texte des colonnes
-        for (int i = 0; i < 7; ++i) {
+        for (int i = 0; i < 8; ++i) {
             QString txt = rowData[i];
-            if (i == 5) {  // Photo
-                txt = QFileInfo(txt).fileName();
-                if (txt.isEmpty()) txt = "—";
-            }
+            if (i == 5) { txt = QFileInfo(txt).fileName(); if (txt.isEmpty()) txt = "—"; }
+            if (i == 7 && txt.isEmpty()) txt = "—";
 
             QRect rect(colPos[i], y, colWidths[i], rowHeight);
             painter.drawText(rect, Qt::AlignLeft | Qt::AlignVCenter | Qt::TextWordWrap, txt);
         }
 
-        // Lignes du tableau
         painter.setPen(QPen(gridColor, 1));
-        painter.drawLine(colPos[0], y + rowHeight, colPos[7], y + rowHeight);   // horizontale
-
-        for (int i = 0; i <= 7; ++i) {
-            painter.drawLine(colPos[i], y, colPos[i], y + rowHeight);          // verticales
-        }
+        painter.drawLine(colPos[0], y + rowHeight, colPos[8], y + rowHeight);
+        for (int i = 0; i <= 8; ++i)
+            painter.drawLine(colPos[i], y, colPos[i], y + rowHeight);
 
         y += rowHeight;
     }
 
     painter.end();
 
-    // ==================== MESSAGE DE SUCCÈS ====================
     QFileInfo fi(fileName);
-    QString msg = QString(
-                      "✅ PDF créé avec succès !\n\n"
-                      "Nom du fichier : %1\n"
-                      "Chemin : %2\n\n"
-                      "Utilisateurs exportés : %3")
-                      .arg(fi.fileName())
-                      .arg(fi.absolutePath())
-                      .arg(usersData.size());
-
-    QMessageBox::information(this, "Export PDF Terminé", msg);
+    QMessageBox::information(this, "Export PDF Terminé",
+                             QString("✅ PDF créé avec succès !\n\nFichier : %1\nChemin : %2\n"
+                                     "Utilisateurs exportés : %3")
+                                 .arg(fi.fileName())
+                                 .arg(fi.absolutePath())
+                                 .arg(usersData.size()));
 
     QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
 }
 
-void Users::on_btnTogglePassword_clicked()
+// ═════════════════════════════════════════════════════════════════════════════
+//  statsUsers  (unchanged)
+// ═════════════════════════════════════════════════════════════════════════════
+
+void Users::statsUsers()
 {
-    // Check the current echo mode of the password input [cite: 200]
-    if (ui->mdpInput->echoMode() == QLineEdit::Password) {
-        // Show the actual text
-        ui->mdpInput->setEchoMode(QLineEdit::Normal);
-        // Optional: Update the icon/text to indicate "hide"
-        ui->btnTogglePassword->setText("👁️‍🗨️");
-    } else {
-        // Hide the text with dots again [cite: 200]
-        ui->mdpInput->setEchoMode(QLineEdit::Password);
-        ui->btnTogglePassword->setText("👁️");
+    QDialog *statsDialog = new QDialog(this);
+    statsDialog->setWindowTitle("Statistiques des Utilisateurs");
+    statsDialog->resize(950, 720);
+    statsDialog->setStyleSheet("QDialog { background-color: #F8FAFC; }");
+
+    QVBoxLayout *mainLayout = new QVBoxLayout(statsDialog);
+    mainLayout->setContentsMargins(20, 20, 20, 20);
+    mainLayout->setSpacing(15);
+
+    QLabel *titleLabel = new QLabel("📊 Statistiques des Utilisateurs par Rôle");
+    titleLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setStyleSheet("font-size:24px; font-weight:bold; color:#8B5CF6; padding:10px;");
+    mainLayout->addWidget(titleLabel);
+
+    QSqlQuery query;
+    query.prepare("SELECT ROLE, COUNT(*) as count FROM USERS GROUP BY ROLE ORDER BY count DESC");
+
+    if (!query.exec()) {
+        QMessageBox::warning(this, "Erreur",
+                             "Impossible de charger les statistiques :\n" + query.lastError().text());
+        statsDialog->deleteLater();
+        return;
     }
+
+    int totalUsers = 0;
+    QList<QPair<QString, int>> data;
+
+    while (query.next()) {
+        QString role = query.value(0).toString().trimmed();
+        if (role.isEmpty()) role = "Non défini";
+        int count = query.value(1).toInt();
+        data.append(qMakePair(role, count));
+        totalUsers += count;
+    }
+
+    if (totalUsers == 0) {
+        QLabel *noData = new QLabel("Aucune donnée utilisateur disponible.");
+        noData->setAlignment(Qt::AlignCenter);
+        noData->setStyleSheet("font-size:18px; color:#64748B; padding:80px;");
+        mainLayout->addWidget(noData);
+    } else {
+        QPieSeries *series = new QPieSeries();
+
+        QList<QColor> colors = {
+            QColor(139,92,246), QColor(59,130,246), QColor(16,185,129),
+            QColor(245,158,11), QColor(239,68,68),  QColor(236,72,153),
+            QColor(99,102,241), QColor(20,184,166)
+        };
+
+        int colorIndex = 0;
+        for (const auto &item : data) {
+            QPieSlice *slice = series->append(item.first, item.second);
+            slice->setLabelVisible(true);
+            double pct = 100.0 * item.second / totalUsers;
+            slice->setLabel(QString("%1: %2 (%3%)")
+                                .arg(item.first).arg(item.second)
+                                .arg(pct, 0, 'f', 1));
+            slice->setBrush(colors[colorIndex++ % colors.size()]);
+            slice->setExplodeDistanceFactor(0.05);
+            connect(slice, &QPieSlice::hovered, [slice](bool show) {
+                slice->setExploded(show);
+            });
+        }
+
+        QChart *chart = new QChart();
+        chart->addSeries(series);
+        series->setParent(chart);
+        chart->setTitle(QString("Répartition par Rôle (%1 utilisateurs)").arg(totalUsers));
+        chart->setAnimationOptions(QChart::SeriesAnimations);
+        chart->legend()->setAlignment(Qt::AlignRight);
+        chart->setBackgroundBrush(QBrush(QColor("#FFFFFF")));
+
+        QFont titleFont;
+        titleFont.setPixelSize(20);
+        titleFont.setBold(true);
+        chart->setTitleFont(titleFont);
+
+        QChartView *chartView = new QChartView(chart);
+        chartView->setRenderHint(QPainter::Antialiasing);
+        chartView->setMinimumHeight(480);
+        mainLayout->addWidget(chartView);
+    }
+
+    QPushButton *closeBtn = new QPushButton("Fermer");
+    closeBtn->setStyleSheet(
+        "QPushButton { background-color:#8B5CF6; color:white; border:none; "
+        "border-radius:8px; padding:12px 40px; font-size:15px; font-weight:bold; }"
+        "QPushButton:hover { background-color:#7C3AED; }");
+    mainLayout->addWidget(closeBtn, 0, Qt::AlignCenter);
+    connect(closeBtn, &QPushButton::clicked, statsDialog, &QDialog::accept);
+
+    statsDialog->exec();
+    delete statsDialog;
 }

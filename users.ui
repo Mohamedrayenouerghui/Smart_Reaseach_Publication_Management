@@ -947,6 +947,142 @@ QPushButton:disabled {
                   </layout>
                  </widget>
                 </item>
+                <!-- ═══ PASTE THIS BLOCK IN users.ui ═══════════════════════════════════════ -->
+                <item>
+                 <widget class="QWidget" name="rfidRegistrationWidget" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>300</width>
+                    <height>125</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QWidget#rfidRegistrationWidget {
+                    background-color: #F0FDF4;
+                    border: 2px solid #6EE7B7;
+                    border-radius: 12px;
+                }</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="rfidRegistrationLayout">
+                   <property name="spacing">
+                    <number>8</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>15</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>10</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>15</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>10</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="rfidSectionTitle">
+                     <property name="styleSheet">
+                      <string notr="true">font-size: 14px; font-weight: 600; color: #064E3B; background: transparent;</string>
+                     </property>
+                     <property name="text">
+                      <string>🔷 Carte RFID</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignmentFlag::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="rfidButtonLayout">
+                     <item>
+                      <spacer name="leftRfidSpacer">
+                       <property name="orientation">
+                        <enum>Qt::Orientation::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="registerRfidButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>190</width>
+                         <height>36</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>230</width>
+                         <height>36</height>
+                        </size>
+                       </property>
+                       <property name="cursor">
+                        <cursorShape>PointingHandCursor</cursorShape>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton {
+                    background-color: #10B981;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-family: 'Segoe UI', sans-serif;
+                    font-size: 13px;
+                    font-weight: 600;
+                    padding: 8px 16px;
+                }
+                QPushButton:hover {
+                    background-color: #059669;
+                }
+                QPushButton:pressed {
+                    background-color: #047857;
+                }
+                QPushButton:disabled {
+                    background-color: #6EE7B7;
+                    color: #D1FAE5;
+                }</string>
+                       </property>
+                       <property name="text">
+                        <string>🔷 Enregistrer carte RFID</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="rightRfidSpacer">
+                       <property name="orientation">
+                        <enum>Qt::Orientation::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="rfidStatusLabel">
+                     <property name="styleSheet">
+                      <string notr="true">font-size: 12px; color: #64748B; background: transparent;</string>
+                     </property>
+                     <property name="text">
+                      <string>🔷 Carte : non enregistrée</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignmentFlag::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <!-- ═══ END OF PASTE BLOCK ══════════════════════════════════════════════════ -->
                 <item>
                  <widget class="QWidget" name="photoUploadWidget" native="true">
                   <property name="minimumSize">

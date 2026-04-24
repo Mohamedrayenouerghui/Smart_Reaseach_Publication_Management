@@ -8,6 +8,9 @@
 #include <QLabel>
 #include <QTableWidget>
 #include <QDebug>
+#include <QTimer>
+
+#include "arduino.h"   // ← RFID / Arduino integration
 
 namespace Ui {
 class Users;
@@ -24,25 +27,30 @@ public:
 private:
     Ui::Users *ui;
 
-    // Member variables for user data
-    int id;
+    // ── User form data ───────────────────────────────────────────────────────
+    int     id;
     QString nom;
     QString prenom;
     QString email;
     QString password;
     QString role;
     QString photoPath;
-    int currentEditingId = -1;   // -1 means we're in "Add" mode
-    bool isEditMode = false;
+    QString rfidUid;          // ← holds the scanned RFID UID during registration
 
-    // Private methods
+    int  currentEditingId = -1;
+    bool isEditMode       = false;
+    bool isRegistrationMode = false;
+
+    // ── Arduino / RFID ──────────────────────────────────────────────────────
+    Arduino *arduino = nullptr;   // lazily created when needed
+
+    // ── Private helpers ─────────────────────────────────────────────────────
     void setupTable();
     void setupMenus();
     void setupConnections();
 
     bool ajouter();
 
-    // Helper methods
     void getFormData();
     void clearForm();
     void uploadPhoto();
@@ -50,13 +58,15 @@ private:
     void showAddUserForm();
     void hideAddUserForm();
 
-    // === Surcharges pour loadUserToTable ===
-    void loadUserToTable();                                           // Sans paramètre
+    // loadUserToTable overloads
+    void loadUserToTable();
     void loadUserToTable(const QString &searchText,
-                         const QString &searchType);                  // Avec recherche
+                         const QString &searchType);
     void loadUserToTable(const QString &searchText,
                          const QString &searchType,
-                         const QString &sortColumn);                  // Avec recherche + tri
+                         const QString &sortColumn);
+
+    bool    checkUidInDatabase(const QString &uid, int *outUserId = nullptr);
 
 private slots:
     void onModifyUser();
@@ -65,12 +75,15 @@ private slots:
     void loadUserDataForEdit(int userId);
     void resetToAddMode();
     void searchUsers();
-    void sortUsers(QAction *action);   // ← MODIFIÉ : prend QAction*
+    void sortUsers(QAction *action);
     void exportUsers();
     void statsUsers();
     void on_btnTogglePassword_clicked();
     void onRegisterFaceClicked();
 
+    // ── RFID slots ──────────────────────────────────────────────────────────
+    void onRegisterRfidClicked();   // button handler – starts listening
+    void onRfidDataReady();         // called when serial data arrives
 };
 
 #endif // USERS_H
