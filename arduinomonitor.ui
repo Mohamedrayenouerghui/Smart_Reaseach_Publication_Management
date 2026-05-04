@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ArduinoMonitor</class>
+ <widget class="QWidget" name="ArduinoMonitor">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>1200</width><height>800</height></rect>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QWidget#ArduinoMonitor { background-color: #0F172A; }
+QLabel#titleLabel { color: #38BDF8; font-size: 20px; font-weight: bold; }
+QLabel#statusLabel { font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 6px; }
+QGroupBox { color: #94A3B8; font-size: 13px; font-weight: 600; border: 1px solid #334155; border-radius: 8px; margin-top: 8px; padding-top: 8px; }
+QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 4px; }
+QLabel { color: #CBD5E1; font-size: 13px; }
+QComboBox, QSpinBox { background-color: #1E293B; color: #E2E8F0; border: 1px solid #334155; border-radius: 6px; padding: 6px 10px; font-size: 13px; }
+QComboBox::drop-down { border: none; }
+QPushButton { border-radius: 6px; font-size: 13px; font-weight: 600; padding: 8px 18px; min-height: 36px; }
+QPushButton#connectBtn { background-color: #10B981; color: white; border: none; }
+QPushButton#connectBtn:hover { background-color: #059669; }
+QPushButton#disconnectBtn { background-color: #EF4444; color: white; border: none; }
+QPushButton#disconnectBtn:hover { background-color: #DC2626; }
+QPushButton#clearBtn { background-color: #475569; color: white; border: none; }
+QPushButton#clearBtn:hover { background-color: #334155; }
+QPushButton#exportBtn { background-color: #8B5CF6; color: white; border: none; }
+QPushButton#exportBtn:hover { background-color: #7C3AED; }
+QPushButton#refreshBtn { background-color: #0EA5E9; color: white; border: none; }
+QPushButton#refreshBtn:hover { background-color: #0284C7; }
+QTableWidget { background-color: #1E293B; color: #E2E8F0; border: 1px solid #334155; border-radius: 8px; gridline-color: #334155; font-size: 12px; }
+QTableWidget::item { padding: 6px; }
+QTableWidget::item:selected { background-color: #334155; }
+QHeaderView::section { background-color: #0F172A; color: #94A3B8; padding: 8px; border: none; border-bottom: 1px solid #334155; font-weight: 600; font-size: 12px; }
+QTextEdit { background-color: #1E293B; color: #94A3B8; border: 1px solid #334155; border-radius: 6px; font-family: Consolas, monospace; font-size: 12px; }
+   </string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <property name="spacing"><number>12</number></property>
+   <property name="leftMargin"><number>16</number></property>
+   <property name="topMargin"><number>16</number></property>
+   <property name="rightMargin"><number>16</number></property>
+   <property name="bottomMargin"><number>16</number></property>
+
+   <!-- Header -->
+   <item>
+    <layout class="QHBoxLayout">
+     <item><widget class="QLabel" name="titleLabel"><property name="text"><string>🌡 Moniteur Arduino - Détecteur de Flamme DHT11</string></property></widget></item>
+     <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
+     <item><widget class="QLabel" name="statusLabel"><property name="text"><string>● Déconnecté</string></property><property name="styleSheet"><string>background:#1E293B; color:#EF4444;</string></property></widget></item>
+    </layout>
+   </item>
+
+   <!-- Connection bar -->
+   <item>
+    <widget class="QGroupBox" name="connGroupBox">
+     <property name="title"><string>Connexion Port Série</string></property>
+     <layout class="QHBoxLayout">
+      <item><widget class="QLabel"><property name="text"><string>Port :</string></property></widget></item>
+      <item><widget class="QComboBox" name="portComboBox"><property name="minimumWidth"><number>120</number></property></widget></item>
+      <item><widget class="QLabel"><property name="text"><string>Baud :</string></property></widget></item>
+      <item>
+       <widget class="QComboBox" name="baudComboBox">
+        <item><property name="text"><string>9600</string></property></item>
+        <item><property name="text"><string>115200</string></property></item>
+        <item><property name="text"><string>57600</string></property></item>
+       </widget>
+      </item>
+      <item><widget class="QPushButton" name="refreshBtn"><property name="text"><string>🔄 Rafraîchir</string></property></widget></item>
+      <item><widget class="QPushButton" name="connectBtn"><property name="text"><string>🔌 Connecter</string></property></widget></item>
+      <item><widget class="QPushButton" name="disconnectBtn"><property name="text"><string>⏹ Déconnecter</string></property></widget></item>
+      <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
+      <item><widget class="QPushButton" name="clearBtn"><property name="text"><string>🗑 Effacer</string></property></widget></item>
+      <item><widget class="QPushButton" name="exportBtn"><property name="text"><string>📄 Exporter PDF</string></property></widget></item>
+     </layout>
+    </widget>
+   </item>
+
+   <!-- Live cards -->
+   <item>
+    <layout class="QHBoxLayout" name="cardsLayout">
+     <!-- Temperature card -->
+     <item>
+      <widget class="QGroupBox" name="tempGroup">
+       <property name="title"><string>Température</string></property>
+       <layout class="QVBoxLayout">
+        <item><widget class="QLabel" name="tempValueLabel"><property name="text"><string>-- °C</string></property><property name="styleSheet"><string>color:#38BDF8; font-size:36px; font-weight:bold;</string></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget></item>
+       </layout>
+      </widget>
+     </item>
+     <!-- Humidity card -->
+     <item>
+      <widget class="QGroupBox" name="humGroup">
+       <property name="title"><string>Humidité</string></property>
+       <layout class="QVBoxLayout">
+        <item><widget class="QLabel" name="humValueLabel"><property name="text"><string>-- %</string></property><property name="styleSheet"><string>color:#34D399; font-size:36px; font-weight:bold;</string></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget></item>
+       </layout>
+      </widget>
+     </item>
+     <!-- Variation card -->
+     <item>
+      <widget class="QGroupBox" name="varGroup">
+       <property name="title"><string>Variation</string></property>
+       <layout class="QVBoxLayout">
+        <item><widget class="QLabel" name="varValueLabel"><property name="text"><string>-- °C</string></property><property name="styleSheet"><string>color:#FBBF24; font-size:36px; font-weight:bold;</string></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget></item>
+       </layout>
+      </widget>
+     </item>
+     <!-- Status card -->
+     <item>
+      <widget class="QGroupBox" name="etatGroup">
+       <property name="title"><string>État</string></property>
+       <layout class="QVBoxLayout">
+        <item><widget class="QLabel" name="etatValueLabel"><property name="text"><string>Normal</string></property><property name="styleSheet"><string>color:#34D399; font-size:28px; font-weight:bold;</string></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget></item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <!-- Table + Console -->
+   <item>
+    <layout class="QHBoxLayout">
+     <!-- History table -->
+     <item>
+      <widget class="QGroupBox" name="histGroup">
+       <property name="title"><string>Historique des lectures (Base de données Oracle)</string></property>
+       <layout class="QVBoxLayout">
+        <item>
+         <widget class="QTableWidget" name="historyTable">
+          <property name="columnCount"><number>5</number></property>
+          <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
+          <column><property name="text"><string>Date/Heure</string></property></column>
+          <column><property name="text"><string>Temp (°C)</string></property></column>
+          <column><property name="text"><string>Humidité (%)</string></property></column>
+          <column><property name="text"><string>Variation (°C)</string></property></column>
+          <column><property name="text"><string>État</string></property></column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <!-- Serial console -->
+     <item>
+      <widget class="QGroupBox" name="consoleGroup">
+       <property name="title"><string>Console Série</string></property>
+       <property name="maximumWidth"><number>350</number></property>
+       <layout class="QVBoxLayout">
+        <item><widget class="QTextEdit" name="consoleTextEdit"><property name="readOnly"><bool>true</bool></property></widget></item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

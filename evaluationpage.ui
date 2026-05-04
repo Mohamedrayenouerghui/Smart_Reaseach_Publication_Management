@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EvaluationPage</class>
+ <widget class="QWidget" name="EvaluationPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>650</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <property name="leftMargin"><number>0</number></property>
+   <property name="topMargin"><number>0</number></property>
+   <property name="rightMargin"><number>0</number></property>
+   <property name="bottomMargin"><number>0</number></property>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex"><number>0</number></property>
+
+     <!-- ═══════════════ TAB 1: Liste ═══════════════ -->
+     <widget class="QWidget" name="tabList">
+      <attribute name="title"><string>📋 Liste des Évaluations</string></attribute>
+      <layout class="QVBoxLayout" name="listLayout">
+       <property name="spacing"><number>10</number></property>
+       <property name="leftMargin"><number>16</number></property>
+       <property name="topMargin"><number>16</number></property>
+       <property name="rightMargin"><number>16</number></property>
+       <property name="bottomMargin"><number>16</number></property>
+
+       <!-- Search + Filter bar -->
+       <item>
+        <layout class="QHBoxLayout" name="searchLayout">
+         <item>
+          <widget class="QLabel" name="lblSearch">
+           <property name="text"><string>🔍 Recherche:</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEditSearch">
+           <property name="placeholderText"><string>Rechercher une évaluation...</string></property>
+           <property name="minimumSize"><size><width>200</width><height>32</height></size></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lblFilter">
+           <property name="text"><string>Filtrer:</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBoxFilter">
+           <property name="minimumSize"><size><width>120</width><height>32</height></size></property>
+           <item><property name="text"><string>Tous</string></property></item>
+           <item><property name="text"><string>En cours</string></property></item>
+           <item><property name="text"><string>Terminée</string></property></item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+
+       <!-- Sort buttons -->
+       <item>
+        <layout class="QHBoxLayout" name="sortLayout">
+         <item>
+          <widget class="QPushButton" name="btnSortDate">
+           <property name="text"><string>Trier par Date</string></property>
+           <property name="minimumSize"><size><width>0</width><height>32</height></size></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnSortNote">
+           <property name="text"><string>Trier par Note</string></property>
+           <property name="minimumSize"><size><width>0</width><height>32</height></size></property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="sortSpacer">
+           <property name="orientation"><enum>Qt::Horizontal</enum></property>
+           <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnRefreshList">
+           <property name="text"><string>Actualiser</string></property>
+           <property name="minimumSize"><size><width>0</width><height>32</height></size></property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+
+       <!-- Table -->
+       <item>
+        <widget class="QTableView" name="tableViewEvaluations">
+         <property name="alternatingRowColors"><bool>true</bool></property>
+        </widget>
+       </item>
+
+       <!-- CRUD + Export buttons -->
+       <item>
+        <layout class="QHBoxLayout" name="crudLayout">
+         <item>
+          <widget class="QPushButton" name="btnCreate">
+           <property name="text"><string>✚ Créer</string></property>
+           <property name="minimumSize"><size><width>0</width><height>38</height></size></property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton { background-color: #9f7aea; color: white; border-radius: 6px; font-weight: 600; padding: 0 16px; }
+QPushButton:hover { background-color: #805ad5; }</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnEdit">
+           <property name="text"><string>✎ Modifier</string></property>
+           <property name="minimumSize"><size><width>0</width><height>38</height></size></property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton { background-color: #667eea; color: white; border-radius: 6px; font-weight: 600; padding: 0 16px; }
+QPushButton:hover { background-color: #5a67d8; }</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnDelete">
+           <property name="text"><string>✕ Supprimer</string></property>
+           <property name="minimumSize"><size><width>0</width><height>38</height></size></property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton { background-color: #e53e3e; color: white; border-radius: 6px; font-weight: 600; padding: 0 16px; }
+QPushButton:hover { background-color: #c53030; }</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="crudSpacer">
+           <property name="orientation"><enum>Qt::Horizontal</enum></property>
+           <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnExportPDF">
+           <property name="text"><string>📄 Export PDF</string></property>
+           <property name="minimumSize"><size><width>0</width><height>38</height></size></property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton { background-color: #38b2ac; color: white; border-radius: 6px; font-weight: 600; padding: 0 16px; }
+QPushButton:hover { background-color: #2c9f99; }</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+
+     <!-- ═══════════════ TAB 2: Statistiques ═══════════════ -->
+     <widget class="QWidget" name="tabStats">
+      <attribute name="title"><string>📊 Statistiques</string></attribute>
+      <layout class="QVBoxLayout" name="statsLayout">
+       <property name="spacing"><number>12</number></property>
+       <property name="leftMargin"><number>16</number></property>
+       <property name="topMargin"><number>16</number></property>
+       <property name="rightMargin"><number>16</number></property>
+       <property name="bottomMargin"><number>16</number></property>
+
+       <!-- Summary labels row -->
+       <item>
+        <layout class="QHBoxLayout" name="summaryLayout">
+         <item>
+          <widget class="QLabel" name="lblTotalEval">
+           <property name="text"><string>Total: 0</string></property>
+           <property name="font"><font><pointsize>13</pointsize><weight>75</weight><bold>true</bold></font></property>
+           <property name="styleSheet"><string notr="true">color: #2d3748;</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lblPendingEval">
+           <property name="text"><string>En cours: 0</string></property>
+           <property name="font"><font><pointsize>13</pointsize><weight>75</weight><bold>true</bold></font></property>
+           <property name="styleSheet"><string notr="true">color: #f39c12;</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lblCompletedEval">
+           <property name="text"><string>Terminées: 0</string></property>
+           <property name="font"><font><pointsize>13</pointsize><weight>75</weight><bold>true</bold></font></property>
+           <property name="styleSheet"><string notr="true">color: #27ae60;</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lblAvgNote">
+           <property name="text"><string>Moyenne: —</string></property>
+           <property name="font"><font><pointsize>13</pointsize><weight>75</weight><bold>true</bold></font></property>
+           <property name="styleSheet"><string notr="true">color: #9f7aea;</string></property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="statsSpacer">
+           <property name="orientation"><enum>Qt::Horizontal</enum></property>
+           <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnRefreshStats">
+           <property name="text"><string>Actualiser</string></property>
+           <property name="minimumSize"><size><width>0</width><height>32</height></size></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnExportStats">
+           <property name="text"><string>Exporter PDF</string></property>
+           <property name="minimumSize"><size><width>0</width><height>32</height></size></property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+
+       <!-- Charts -->
+       <item>
+        <widget class="QWidget" name="chartWidgetDistribution" native="true">
+         <property name="minimumSize"><size><width>0</width><height>280</height></size></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="chartWidgetTimeline" native="true">
+         <property name="minimumSize"><size><width>0</width><height>240</height></size></property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+
+      <!-- ═══════════════ TAB 3: Relecteurs ═══════════════ -->
+      <widget class="QWidget" name="tabReviewers">
+       <attribute name="title"><string>👤 Relecteurs</string></attribute>
+       <layout class="QVBoxLayout" name="reviewerLayout">
+        <property name="spacing"><number>10</number></property>
+        <property name="leftMargin"><number>16</number></property>
+        <property name="topMargin"><number>16</number></property>
+        <property name="rightMargin"><number>16</number></property>
+        <property name="bottomMargin"><number>16</number></property>
+
+        <!-- Top labels -->
+        <item>
+         <layout class="QHBoxLayout" name="reviewerHeaderLayout">
+          <item>
+           <widget class="QLabel" name="lblSelectedReviewer">
+            <property name="text"><string>Sélectionnez un relecteur</string></property>
+            <property name="font"><font><pointsize>12</pointsize><weight>75</weight><bold>true</bold></font></property>
+            <property name="styleSheet"><string notr="true">color: #9f7aea;</string></property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="reviewerHeaderSpacer">
+            <property name="orientation"><enum>Qt::Horizontal</enum></property>
+            <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblReviewerStats">
+            <property name="text"><string></string></property>
+            <property name="styleSheet"><string notr="true">color: #667eea; font-weight: 600;</string></property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <!-- Split: list on left, evaluations on right -->
+        <item>
+         <layout class="QHBoxLayout" name="reviewerSplitLayout">
+          <item>
+           <widget class="QListView" name="listViewReviewers">
+            <property name="maximumSize"><size><width>260</width><height>16777215</height></size></property>
+            <property name="alternatingRowColors"><bool>true</bool></property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTableView" name="tableViewReviewerEvals">
+            <property name="alternatingRowColors"><bool>true</bool></property>
+            <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
+            <property name="editTriggers"><set>QAbstractItemView::NoEditTriggers</set></property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <!-- Buttons -->
+        <item>
+         <layout class="QHBoxLayout" name="reviewerBtnLayout">
+          <item>
+           <widget class="QPushButton" name="btnAddReviewer">
+            <property name="text"><string>✚ Ajouter Relecteur</string></property>
+            <property name="minimumSize"><size><width>0</width><height>38</height></size></property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton { background-color: #9f7aea; color: white; border-radius: 6px; font-weight: 600; padding: 0 16px; }
+QPushButton:hover { background-color: #805ad5; }</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnRefreshReviewers">
+            <property name="text"><string>Actualiser</string></property>
+            <property name="minimumSize"><size><width>0</width><height>38</height></size></property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="reviewerBtnSpacer">
+            <property name="orientation"><enum>Qt::Horizontal</enum></property>
+            <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+
+       </layout>
+      </widget>
+
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <resources/>
+  <connections/>
+</ui>

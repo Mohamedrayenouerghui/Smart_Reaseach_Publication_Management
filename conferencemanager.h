@@ -24,7 +24,10 @@ class ConferenceManager : public QObject
     Q_OBJECT
 public:
     explicit ConferenceManager(QObject *parent = nullptr);
+    explicit ConferenceManager(const QSqlDatabase &database, QObject *parent = nullptr);
     ~ConferenceManager();
+
+    void setDatabase(const QSqlDatabase &database);
 
     // Connexion à la base de données
     bool connectToDatabase(const QString &host, const QString &user, 

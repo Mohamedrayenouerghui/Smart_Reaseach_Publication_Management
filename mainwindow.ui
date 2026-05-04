@@ -525,6 +525,11 @@ stop:0 #f0fdfa, stop:1 #f7fafc);</string>
 stop:0 #fff5f5, stop:1 #f7fafc);</string>
           </property>
          </widget>
+         <widget class="QWidget" name="arduinoPage">
+          <property name="styleSheet">
+           <string notr="true">background-color: #0F172A;</string>
+          </property>
+         </widget>
         </widget>
        </item>
       </layout>
