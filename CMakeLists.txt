@@ -9,20 +9,44 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql PrintSupport Charts Network SerialPort)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql PrintSupport Charts Network SerialPort)
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         publicationspage.cpp
+        submission.cpp
+        conference.cpp
+        conferencemodel.cpp
+        conferencemanager.cpp
+        arduinomonitor.cpp
+        smsservice.cpp
+        locationservice.cpp
+        laboratoire.cpp
+        connection.cpp
+        article.cpp
         users.cpp
         login.cpp
         mainwindow.h
         publicationspage.h
+        submission.h
+        conference.h
+        conferencemodel.h
+        conferencemanager.h
+        arduinomonitor.h
+        smsservice.h
+        locationservice.h
+        laboratoire.h
+        connection.h
+        article.h
         users.h
         login.h
         mainwindow.ui
         publicationspage.ui
+        submission.ui
+        conference.ui
+        laboratoire.ui
+        arduinomonitor.ui
         users.ui
         login.ui
 )
@@ -51,7 +75,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(ResearchManagementSystem PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(ResearchManagementSystem PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::Charts Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::SerialPort)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

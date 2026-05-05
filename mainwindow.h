@@ -4,12 +4,16 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { 
+namespace Ui {
     class MainWindow;
 }
 QT_END_NAMESPACE
 
 class PublicationsPage;
+class Submission;
+class Conference;
+class Laboratoire;
+class ArduinoMonitor;
 
 class MainWindow : public QMainWindow
 {
@@ -28,15 +32,24 @@ private slots:
     void onEvaluationsClicked();
     void onConferencesClicked();
     void onLaboratoiresClicked();
+    void onArduinoClicked();
 
 private:
     Ui::MainWindow *ui;
     PublicationsPage *publicationsPage;
-    
+    Submission       *submissionPage;
+    Conference       *conferencePage;
+    Laboratoire      *laboratoirePage;
+    ArduinoMonitor   *arduinoPage;
+
     void loadStyleSheet();
     void setupConnections();
     void setupIcons();
     void setupPublicationsPage();
+    void setupSubmissionPage();
+    void setupConferencePage();
+    void setupLaboratoirePage();
+    void setupArduinoPage();
     void updateTitleUnderline(const QString &color);
 };
 
