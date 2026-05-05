@@ -4,6 +4,9 @@
 #include <QWidget>
 #include "conferencemanager.h"
 
+class SMSService;
+class LocationService;
+
 namespace Ui {
 class Conference;
 }
@@ -17,31 +20,33 @@ public:
     ~Conference();
 
 private slots:
-    void onAddButtonClicked();
-    void onStatsButtonClicked();
-    void onClearButtonClicked();
-    void onSortMenuTriggered(QAction *action);
-    void onExportMenuTriggered(QAction *action);
-    void onSubmitButtonClicked();
-    void onCancelButtonClicked();
-    void onSearchButtonClicked();
-    void onTableRowDoubleClicked(int row, int column);
-    void onDeleteButtonClicked();
-    void onEditButtonClicked();
+    void onAjouterClicked();
+    void onAjouterFormClicked();
+    void onModifierClicked();
+    void onModifierFormClicked();
+    void onAnnulerModifClicked();
+    void onSupprimerClicked();
+    void onRechercherClicked();
+    void onTrierClicked();
+    void onExporterPDFClicked();
+    void onExporterWordClicked();
+    void onEnvoyerSMSClicked();
+    void onLocalisationClicked();
+    void onStatistiquesClicked();
+    void onClearSearchClicked();
+    void onArduinoConfClicked();
 
 private:
     Ui::Conference *ui;
-    ConferenceManager *conferenceManager;
-    ConferenceData currentEditingConference;
-    int selectedRowId;
-    
+    ConferenceManager manager;
+
+    SMSService     *smsService      = nullptr;
+    LocationService *locationService = nullptr;
+
     void setupConnections();
-    void setupMenus();
-    void setupTable();
-    void loadConferencesToTable();
-    void refreshTable();
-    void clearFormFields();
-    void displayConferenceInForm(const ConferenceData &conference);
+    void refreshTable(const QList<ConferenceData> &conferences);
+    ConferenceData readConferenceFromForm() const;
+    void populateModifierForm(const ConferenceData &conf);
 };
 
 #endif // CONFERENCE_H
