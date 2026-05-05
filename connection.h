@@ -11,6 +11,7 @@ class Connection : public QObject
 public:
     static Connection& createInstance();   // Singleton access
     bool createConnection();
+    void setCredentials(const QString &host, const QString &uid, const QString &pwd);
     QSqlDatabase& getDb();                 // Fixed: consistent naming
     static QSqlDatabase getDatabase();
 
@@ -20,6 +21,9 @@ private:
 
     QSqlDatabase db;
     static Connection* instance;
+    QString m_host = "localhost:1521/XE";
+    QString m_uid  = "MARWA";
+    QString m_pwd  = "1234";
 
     // Disable copy
     Connection(const Connection&) = delete;

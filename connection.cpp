@@ -18,17 +18,17 @@ Connection& Connection::createInstance()
 
 bool Connection::createConnection()
 {
-    // Remove any previous connection with same name to avoid conflicts
     if (QSqlDatabase::contains("qt_sql_default_connection")) {
         QSqlDatabase::removeDatabase("qt_sql_default_connection");
     }
 
     db = QSqlDatabase::addDatabase("QODBC", "qt_sql_default_connection");
 
-    QString connectionString = "DRIVER={Oracle in XE};"
-                               "DBQ=localhost:1521/XE;"
-                               "UID=MARWA;"
-                               "PWD=1234;";
+    QString connectionString = QString("DRIVER={Oracle in XE};"
+                                       "DBQ=%1;"
+                                       "UID=%2;"
+                                       "PWD=%3;")
+                                   .arg(m_host, m_uid, m_pwd);
 
     db.setDatabaseName(connectionString);
 
@@ -40,6 +40,13 @@ bool Connection::createConnection()
         qDebug() << "Error:" << db.lastError().text();
         return false;
     }
+}
+
+void Connection::setCredentials(const QString &host, const QString &uid, const QString &pwd)
+{
+    m_host = host;
+    m_uid  = uid;
+    m_pwd  = pwd;
 }
 
 QSqlDatabase& Connection::getDb()
